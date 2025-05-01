@@ -1,0 +1,105 @@
+class Solution {
+public:
+
+/*
+    int numberOfSubstrings(string s) {
+        // sliding window problem easy to understand 
+        // In this (my approach), i am just sliding the window
+        // But still time limit exceeeded.
+        // a Kind of Brute Force
+        int i=0;
+        int j=0;
+        int size=s.length();
+        vector<bool> visi(3,false);
+        int countNoOfSubs=0;
+
+
+
+        while(i<size-2 )
+        {
+            j=i;
+           
+            while(j<size )
+            {
+                         
+                if(s[j]=='a' && visi[0]!=true)
+                  {
+                    visi[0]=true;
+                  
+                  }
+                if (s[j]=='b'  && visi[1]!=true)
+                   {
+                    visi[1]=true;
+                 
+                  
+                   }
+                if(s[j]=='c' &&  visi[2]!=true)
+                   {
+                    visi[2]=true;
+               
+                  
+                   }
+
+              
+
+                   if(visi[0]==true && visi[1]==true && visi[2]==true)
+                    { 
+                         countNoOfSubs+= size-j;  // with the help of this all substrings are added, like "abcabc" (a,b,c get's true) j is now 2, total size is 6, we simply size - j => 4 which give all of the next sum
+
+                        break;
+                    }
+                    
+                j++;
+
+            }
+            visi[0]=false;
+            visi[1]=false;
+            visi[2]=false;
+            i++;
+
+        }
+           return countNoOfSubs;
+    }
+
+    */
+
+     /// code and approach by sir mik
+     // In this approach we are just simply doing
+     // like ex is "abcabc"
+     // i is at 'a' and j is also at 'a'
+     // j will be plus plus as 'a' , 'b', 'c' comes
+     // when all greater than zero
+     // simply first get next sum of all char like in the example up (i.e size-j)
+     // after that minus minus the val of 'a' in the arr we made and do i++
+
+
+
+
+       int numberOfSubstrings(string s)
+       {
+
+             int n=s.length();
+             int i=0;
+             int j=0;
+             int result=0;
+             vector<int> arr(3,0);
+             while(j<n)
+             {
+                char ch=s[j];
+                arr[ch-'a']++;
+
+                while( arr[0] > 0 && arr[1] > 0 && arr[2] > 0)
+                  {
+                    result+=(n-j); // same see in the code up
+                    arr[s[i]-'a']--;
+                    i++;
+
+                  }
+                  j++;
+
+             }
+
+             return result;
+
+       }
+};

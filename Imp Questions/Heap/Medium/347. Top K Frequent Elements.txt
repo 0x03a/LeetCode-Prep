@@ -1,0 +1,142 @@
+class Solution {
+public:
+// simple my approach
+// the problem was that we have to find k frquent elements
+// like for example elements like 1 with 3 occurences , 2 with 3, 3 with 2 , 4 with 1
+// now we have asked k so if k is 3, so we have to choose the the top 3 occurences and return the 3 numbers 
+// which have these top occurences
+
+
+// My approach
+// - it was like that i simply has done that first I have store the occurences of element using unordered_map bcz in question
+// any order was given.
+// After that I just assign the priority on the basis of their occurence and i then just store them in  priority queue 
+// and after that i just store the top k elements in vector as you can seen below in the code.
+
+
+// note: by default priority_queue is max heap.
+// both insertion and deletion takes O(LogN), where N is the number of elements in the heap.
+
+
+ // hash table + piroity queue
+/*
+    vector<int> topKFrequent(vector<int>& nums, int k) { // time complexity => O(NlogN), Space Complexity => O(N), done by me
+    // This is brute force
+     
+        unordered_map<int,int> map1;
+        priority_queue<pair<int,int>> pq;
+        vector<int> vec;
+        for( auto & val: nums){ // counting the frequencies of each element;
+            map1[val]++;
+        }
+
+        for(auto & val : map1){  // storing them in priority queue, but you can see i am  entering  their occurence first so the priority will be assigned based on their occurrences;
+             pq.push({val.second,val.first});  
+             
+
+        }
+
+ int temp=0;
+        while(k--){
+           temp=pq.top().second;
+            pq.pop();
+            vec.push_back(temp);
+        }
+
+        
+         return vec;
+
+    }
+    */
+
+
+
+    // sir mik  1st approach
+    /*
+     typedef pair<int,int> p;
+      vector<int> topKFrequent(vector<int>& nums, int k) { // time complexity => O(Nlogk), Space Complexity => O(N)
+      // it is O(Nlogk) bcz we are entering only k elements in priority queue
+     
+        unordered_map<int,int> map1;
+        priority_queue<p,vector<p>, greater<p>> pq;  // 1-min-heap
+        vector<int> vec;
+        for( auto & val: nums){ // 2-counting the frequencies of each element;
+            map1[val]++;
+        }
+
+
+        // 3- maintains size of k only
+        for(auto & val : map1){// n,   storing them in priority queue, but you can see i am  entering  their occurence first so the priority will be assigned based on their occurrences;
+             pq.push({val.second,val.first});  // val.second is frequency and val.first is value, logk
+             if(pq.size() > k)  // k times 
+             pq.pop();
+
+        }
+
+ int temp=0;
+
+    // 4 - res
+        while(k--){
+           temp=pq.top().second;
+            pq.pop();
+            vec.push_back(temp);
+        }
+
+        
+         return vec;
+
+    }
+
+*/
+
+// sir mik 2nd Approach 
+// Bucket Sort
+
+
+  vector<int> topKFrequent(vector<int>& nums, int k) { // TC is O(n), SC is O(n+m), n is no buckets, m is no of elements store in bucket
+
+     int size=nums.size();
+     unordered_map<int,int> map1;
+     vector<int> result;
+     for(auto & val: nums){
+       map1[val]++;
+     }
+
+     
+     vector<vector<int>> bucket(size+1);
+
+    
+     for(auto & val: map1){
+        
+        int value=val.first;
+        int freq=val.second;
+
+        bucket[freq].push_back(value); // inserting data in the bucket based on the frequency.
+     }
+
+
+// visiting all the elments atmost 1 time.
+     for(int i=size; i>=0 ;i--  )
+     {
+        if(bucket[i].size()==0)
+         continue;
+
+          while(bucket[i].size() > 0 && k > 0){
+            result.push_back(bucket[i].back()); // storing back first, as we are poping back first also this
+            bucket[i].pop_back();
+            k--;
+          }
+     }
+
+     return result;
+
+
+
+
+  }
+
+
+   
+
+    
+};

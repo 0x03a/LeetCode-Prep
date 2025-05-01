@@ -1,0 +1,21 @@
+class Solution {
+public:
+
+// hash table
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int,int> map1;
+
+        int size=nums.size();
+
+        for(int i=0; i< size;i++){
+            map1[nums[i]]++;
+        }
+
+        for(auto & val: map1){
+           if(  val.second > size/2 )
+                return val.first;
+        }
+
+        return 0;
+    }
+};

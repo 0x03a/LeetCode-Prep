@@ -1,0 +1,127 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+void recursiveBinaryTree(TreeNode * root, int & val){ // i can also done this with two parameters i don't need size but i have use it bcz if I consider my base condition preorder.size() == 0 then the built functiin will take more time result in more timeComplexity.
+      
+       
+                  if(root==NULL){
+                    root=new TreeNode;
+                    root-> val=val;
+                    root->left=NULL;
+                    root->right=NULL;
+                  }
+                  else {
+                    // for left part of tree
+
+                    if(val < root->val ){
+                          if(root->left==NULL){
+                            root->left=new TreeNode;
+                            root->left->val=val;
+                          }
+                          else{
+                            recursiveBinaryTree(root->left,val);
+                          }
+                    }
+                   else{ // for right part of tree
+                    
+                    
+                         if(root->right==NULL){
+                            root->right=new TreeNode;
+                            root->right->val=val;
+                          }
+                          else{
+                            recursiveBinaryTree(root->right,val);
+                          }
+                    }
+
+                   
+
+                  }
+
+
+}
+
+
+class Solution {
+public:
+    TreeNode* bstFromPreorder(vector<int>& preorder) { // code done by me
+        // simply write binary tree code 
+        int size=preorder.size();
+        TreeNode * root=NULL;
+          if(size==0)
+           return root; // if no value 
+        root=new TreeNode;
+        root->val=preorder.front();
+        preorder.erase(preorder.begin());
+        while(!preorder.empty()){
+        recursiveBinaryTree(root,preorder.front());
+         preorder.erase(preorder.begin());
+        }
+
+       
+/* error in this approach let's move towards recursive approach
+        while(!preorder.empty()){ // preordertor empty function returns 1 if it is empty
+                  if(root==NULL){
+                    root=new TreeNode;
+                    root-> val=preorder.front();
+                   
+                    preorder.erase(preorder.begin()); // removes the first element which was root
+                    root->left=NULL;
+                    root->right=NULL;
+                  }
+                  else {
+                    // for left part of tree
+
+                    if(preorder.front() < root->val ){
+                          if(root->left==NULL){
+                            root->left=new TreeNode;
+                            root->left->val=preorder.front();
+                            preorder.erase(preorder.begin());
+                            cout<<"root->left->val: "<<root->left->val<<endl;
+                          }
+                          else{
+                            TreeNode * temp=root;
+                            while(temp->left){
+                                temp=temp->left;
+                            }
+                            temp->left=new TreeNode;
+                            temp->left->val=preorder.front();
+                              cout<<"root->left->val: "<<preorder.front()<<endl;
+                            preorder.erase(preorder.begin());
+                          }
+                    }
+                   else{ // for right part of tree
+                       cout<<"root->right->val: "<<preorder.front()<<endl;
+                    
+                          if(root->right==NULL){
+                            root->right=new TreeNode;
+                            root->right->val=preorder.front();
+                            preorder.erase(preorder.begin());
+                          }
+                          else{
+                             TreeNode * temp=root;
+                            while(temp->right){
+                                temp=temp->right;
+                            }
+                            temp->right=new TreeNode;
+                            temp->right->val=preorder.front();
+                            preorder.erase(preorder.begin());
+                          }
+                    }
+
+                   
+
+                  }
+        }
+*/
+        return root;
+    }
+};

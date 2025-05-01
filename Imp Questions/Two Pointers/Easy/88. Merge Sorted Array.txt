@@ -1,0 +1,78 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) { // TC => O(n*(m+n)), SC(O(1))
+        // length of nums1 is m+n
+        // if n is 0 then result is m
+        // if m is 0 and n is 1 then also size of nums should be 1
+
+        // Ex if m=3, n=3
+
+        // nums1 is (m+n)
+        // so nums1 => [1,2,3,0,0,0]
+        // nums2 is (n)
+        // so nums2 => [2,5,6]
+
+        /*
+           // 3 Steps to follow:
+
+          - Simply just first mark the places where n elements will take place, i have marked it with INT_MIN
+          - After that just insert into the array (means that in btw m elements) do vec.insert(vec.begin()+i,nums2[j])) and then remove from back an Element it will obivously INT_MIN bcz we have'nt insert in the back, we have inserted in the middle
+          - let's say if i has reached INT_MIN then insert all the n elements squentially until j ends
+
+          */
+
+
+
+
+         for(int k=m+n-1;k>=0;k--){ // running n times means total no of elements in n 
+            if(nums1[k]== 0 && m <= k){ 
+                nums1[k]=INT_MIN;
+            }
+            else // if found non-zero
+            {
+                break;
+            }
+         }
+                
+         int i=0;
+         int j=0;
+
+
+       
+        while(i<(m+n) && j < n){
+             if(nums1.empty()){ // m=0
+                nums1=nums2;
+                break;
+             }    
+             else{
+                 if( nums1[i] >= nums2[j]) // 
+                 {
+                   
+                    nums1.insert(nums1.begin()+i,nums2[j]);
+                    nums1.pop_back();
+                    j++;
+                 }
+                 else if( nums1[i] == INT_MIN){
+                
+                   while(j<n){
+                 
+                    if(nums1[i]==INT_MIN){
+                       nums1[i]=nums2[j];
+                    }
+                    j++;
+                    i++;
+                   }
+                 }
+                 else{ // 1,2
+                    // do nothing
+                 }
+             }
+           
+             i++;
+        }
+
+
+
+      
+    }
+};

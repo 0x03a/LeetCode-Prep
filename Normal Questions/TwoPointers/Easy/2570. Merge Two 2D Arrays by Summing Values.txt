@@ -1,0 +1,114 @@
+class Solution {
+public:
+
+ // simple approach done by me using two pointers without sorting 
+ // Time complexity is O(m+n)
+ // not considering the result array so space complexity is O(1)
+  /*
+    vector<vector<int>> mergeArrays(vector<vector<int>>& nums1, vector<vector<int>>& nums2) {
+        vector<vector<int>> nums3;
+        int size1=nums1.size();
+        int size2=nums2.size();
+
+        int i=0;  // i pointer
+        int j=0;  // j pointer
+       
+        done by approach like this:
+                               
+         nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]
+                    i                             j
+        
+        both equal so inc both
+
+         nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]
+                         i                             j
+
+        both are not equal but nums1 id is less than nums2 so inc only i pointer
+
+         nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]
+                                i                      j
+
+         both are not equal but nums1 id is less than nums2 so inc only j pointer
+
+         nums1 = [[1,2],[2,3],[4,5]], nums2 = [[1,4],[3,2],[4,1]]
+                                i                            j
+
+         both equal so inc both 
+
+
+        while(i< size1 && j < size2)
+        {
+            if(nums1[i][0] == nums2[j][0])
+              { nums3.push_back({nums1[i][0],nums1[i][1]+nums2[j][1]});
+                i++;
+                j++;
+              }
+            else if(nums1[i][0]>nums2[j][0])
+                 {nums3.push_back({nums2[j][0],nums2[j][1]});
+                 j++;
+                 }
+                 else if(nums1[i][0]<nums2[j][0])
+                 {
+                    nums3.push_back({nums1[i][0],nums1[i][1]});
+                 i++;
+                 }
+
+        }
+
+        if (i< size1)
+        {
+              while(i< size1)
+              {
+                 nums3.push_back({nums1[i][0],nums1[i][1]});
+                 i++;
+              }
+        }
+        else
+           {
+            
+              while(j< size2)
+              {
+                 nums3.push_back({nums2[j][0],nums2[j][1]});
+                 j++;
+              }
+           }
+        return nums3;
+    }
+
+    */
+
+// using ordered_map (includes sorting) approach sir mik, but code done by me
+// Time complexity is O(m)+O(nlogn)+O(m+n)
+  vector<vector<int>> mergeArrays(vector<vector<int>>& nums1, vector<vector<int>>& nums2) { // nums1 is of m size and nums2 of n size.
+  
+  vector<vector<int>> nums3;
+  map<int,int> ordered_map;
+
+  for (const auto & val: nums1) //O(m)
+  {
+    ordered_map[val[0]]=val[1]; // storing nums1 values in sorted order
+  }
+
+  // in this if same id is in nums2 add the id value in the value of key present in the map else just store in the map
+  for(const auto & val: nums2) // O(nlogn)
+  {
+    auto it=ordered_map.find(val[0]); // takes O(logn)
+    if( it != ordered_map.end() )
+         it->second+=val[1];
+    else
+        ordered_map[val[0]]=val[1];
+    
+    
+        
+  }
+
+
+  for(const auto & [key,val]: ordered_map) // O(m+n)
+  {
+    nums3.push_back({key,val});
+  }
+
+   return nums3;
+  }
+
+};

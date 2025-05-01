@@ -1,0 +1,64 @@
+class Solution {
+public:
+ 
+// sir mik approach
+// now we have to find leftmost and rightmost index of element
+// array is 5,7,7,8,8,10
+// target is 8
+// mid comes 2
+// now first find leftmost 
+// let's say we find 8 
+// then we will not break, we will then go to left to see if their is more leftmost or not, if yes then we will get it otherwise we will return the index we get.
+// same for rightmost
+// if we get 8 then go towards the right to see if their is more rightmost index or not.
+
+
+   int leftmostBS(vector<int> & nums,int &tar){ // approach sir mik, code done by me.
+    
+    int st=0;
+    int ed=nums.size()-1;
+    int leftmost=INT_MAX;
+    while(st<=ed){
+        int mid=st+(ed-st)/2;
+
+        if(nums[mid]<tar)
+            st=mid+1;
+        else if(nums[mid]> tar)
+            ed=mid-1;
+        else{
+            leftmost=min(leftmost,mid);
+            ed=mid-1;
+        }
+    }
+      
+    return leftmost == INT_MAX ? -1 : leftmost;
+   }
+
+
+  int rightmostBS(vector<int> & nums,int &tar){
+    
+    int st=0;
+    int ed=nums.size()-1;
+    int rightmost=INT_MIN;
+    while(st<=ed){
+        int mid=st+(ed-st)/2;
+
+        if(nums[mid]<tar)
+            st=mid+1;
+        else if(nums[mid]> tar)
+            ed=mid-1;
+        else{
+            rightmost=max(rightmost,mid);
+            st=mid+1;
+        }
+    }
+      
+    return rightmost == INT_MIN ? -1 : rightmost;
+   }
+    vector<int> searchRange(vector<int>& nums, int target) {
+   
+     int leftmost=leftmostBS(nums,target);
+     int rightmost=rightmostBS(nums,target);
+        return {leftmost, rightmost};
+    }
+};

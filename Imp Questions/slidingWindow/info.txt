@@ -1,0 +1,5 @@
+* if Substring: // if kind of this then think about of sliding window first.
+    -> criteria
+    -> min
+    -> max
+ 

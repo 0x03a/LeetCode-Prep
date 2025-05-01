@@ -1,0 +1,74 @@
+// code done by me
+
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<stack>
+using namespace std;
+
+
+void DFS(unordered_map<int,vector<int>> ad, int src, vector<bool>& visited, stack<int>& s) {
+	visited[src] = true;
+	
+	for (const auto& v : ad[src]) {
+		  if (!visited[v])
+			DFS(ad, v, visited,s);
+		
+		  // when recursion comes back like it has traverse a path in depth
+		  // like 0->3->1->4, after it when it backtrack and comes at 0
+		  // then the flags of 3,1,4 are again set to 0.
+		//  for (const auto& v1 : visited) {
+		//	  cout <<v1 << ", it's src:" << src << ", ";
+		//  }
+		//  cout << endl;
+		 
+	}
+	s.push(src);
+}
+
+
+
+
+int main() {
+	vector<vector<int>> vec{
+		{0,3},
+		{0,2},
+		{2,1},
+		{2,3},
+		{3,1},
+		{5,1},
+		{5,4},
+		{1,4},
+	};
+	int size = vec.size();
+
+//	unordered_map<int, vector<int>> adj(size,0); // invalid, unordered_map<int, vector<int>> doesn’t take size in its constructor like vector does.
+	unordered_map<int, vector<int>> adj;// valid
+	for (const auto& val : vec) {
+		int u = val[0];
+		int v = val[1];
+		adj[u].push_back(v);
+	}
+	
+	stack<int> Ts;
+	vector<bool>visited(size, false);
+	for (int i = 0; i <= 5; i++) {
+	
+
+	//	if (!visited[i])
+	//		DFS(adj, i, visited);
+
+		if (!visited[i])
+			DFS(adj, i, visited,Ts);
+
+	}
+	cout << endl;
+	while (!Ts.empty()) {
+		cout << Ts.top()<<" ";
+		Ts.pop();
+
+	}
+
+
+
+}

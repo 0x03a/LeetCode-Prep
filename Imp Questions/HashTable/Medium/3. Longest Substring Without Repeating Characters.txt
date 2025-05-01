@@ -1,0 +1,104 @@
+class Solution {
+public:
+
+/*
+    int lengthOfLongestSubstring(string s) { // O(N^2)
+        // let's do a kind of a brute force approach with sliding window and hash table.
+        unordered_set<char> hash;
+        int i=0;
+        int j=0;
+        int size=s.length();
+        int res=INT_MIN;
+        while(i < size){
+            j=i;
+            while(j<size){
+                if(hash.count(s[j]))
+                   {
+                        res=max(res,j-i-1);
+                        hash.clear();
+                        break;
+                   }
+                   else{
+                      res=max(res,j-i+1);
+                   }
+               hash.insert(s[j]);
+
+             
+               j++;  
+            }
+
+            i++;
+        }
+
+        return res == INT_MIN? 0 : res;
+
+    }
+
+
+*/
+    // now let's do this question in O(n)
+    /*
+ int lengthOfLongestSubstring(string s) { // O(N), incorrct by me 
+    unordered_map<char, int> hash;
+    int i = 0;
+    int size = s.length();
+    int res = INT_MIN;
+    int j = 0;
+    int prev = -1;
+    while (i < size) {
+        if (hash.count(s[i]))
+        {
+            res = max(res, i - j);
+            j = hash[s[i]] + 1; // like it means giving val(index) to j
+
+
+            int count = 0;
+            for (auto it = hash.begin(); it != hash.end(); ) {
+                 if (it->first == s[i]){
+                       it = hash.erase(it); // safely remove and move to next
+                       
+                 }
+                  else
+                     it++;
+                  }
+             
+                
+
+            
+   
+        }
+        else
+        {
+            //cout << i - j + 1 << endl;
+            res = max(res, i - j + 1);
+        }
+
+        hash.insert({ s[i],i });
+       
+
+
+
+
+        i++;
+    }
+    return res == INT_MIN ? 0 : res;
+}*/
+int lengthOfLongestSubstring(string s) { // by sir Rahul Varma 
+        int n = s.length();
+        int maxLength = 0;
+        unordered_map<char, int> charMap;
+        int left = 0;
+        
+        for (int right = 0; right < n; right++) {
+            if (charMap.count(s[right]) == 0 || charMap[s[right]] < left) {
+                charMap[s[right]] = right;
+                maxLength = max(maxLength, right - left + 1);
+            } else {
+                left = charMap[s[right]] + 1;
+                charMap[s[right]] = right;
+            }
+        }
+        
+        return maxLength;
+    }
+};

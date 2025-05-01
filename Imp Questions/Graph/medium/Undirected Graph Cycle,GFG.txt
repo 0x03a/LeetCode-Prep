@@ -1,0 +1,118 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution {
+public:    
+    // Function to detect cycle in an undirected graph.
+    
+   /* bool DFS_detectingCycle(vector<vector<int>> &adj,int src,int parent,vector<bool> & isVisited)
+    {
+        
+       isVisited[src]=true;
+       
+       for(auto & v: adj[src])
+       {
+           if(v==parent)
+           {
+               continue;
+           }
+           if(isVisited[v]==true)
+             return true;
+             
+
+             if(DFS_detectingCycle(adj,v,src,isVisited))
+                 return true;
+            
+       }
+        
+        
+        return false;
+    }
+    
+    */
+    
+    bool BFS(vector<vector<int>> &adj, int src, vector<bool>& visited)
+{
+    queue<pair<int,int>> q;
+    q.push({ src,-1 }); // -1 is parent of src
+    visited[src] = true;
+   int parent=-1;
+
+    while (!q.empty())
+    {
+       pair<int,int> temp = q.front();
+        q.pop();
+        
+        int source=temp.first;
+         parent=temp.second;
+
+        for (auto& v : adj[source])
+        {
+
+            if (v == parent)
+                continue;
+
+            if (!visited[v])
+            {
+            
+                q.push({ v,source });
+                visited[v]=true;
+                
+            }
+            else
+                return true;
+
+        }
+        
+    }
+    return false;
+
+   
+}
+    
+    bool isCycle(vector<vector<int>>& adj) {
+        // Code here
+         int V=adj.size();
+     vector<bool> is  int src=0;
+     
+    
+     
+     for(int i=0;i<V;i++){
+     if(!isVisited[i] && BFS(adj,i,isVisited))// setting parent deafault as -1
+         return true;
+     }
+     
+    return false;    
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int V, E;
+        cin >> V >> E;
+        vector<vector<int>> adj(V);
+        for (int i = 0; i < E; i++) {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        Solution obj;
+        bool ans = obj.isCycle(adj);
+        if (ans)
+            cout << "1\n";
+        else
+            cout << "0\n";
+
+        cout << "~"
+             << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends

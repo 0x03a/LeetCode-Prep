@@ -1,0 +1,106 @@
+class Solution {
+public:
+string addBinary(string a, string b) {
+   vector<int> carry;
+    int sizeOfa = a.size();
+    int sizeOfb = b.size();
+    string res = "\0";
+    unsigned long long  res1 = 0;
+    sizeOfa = sizeOfa - 1;
+    int i = 0;
+    while ( sizeOfa >=0) {
+         res1+=static_cast<unsigned long long>(pow(2, i))* static_cast<unsigned long long>((a[sizeOfa] - '0'));
+         sizeOfa--;
+         i++;
+    }
+    cout << res1 << endl;
+    sizeOfb = sizeOfb-1;
+    i = 0;
+    while (sizeOfb >=0) {
+        res1+=static_cast<unsigned long long>(pow(2, i))* static_cast<unsigned long long>((a[sizeOfb] - '0'));
+        i++;
+        sizeOfb--;
+    }
+
+    cout << res1 << endl;
+    while (res1 != 0) {
+        res += to_string(res1 % 2);
+        res1 /= 2;
+    }
+    reverse(res.begin(), res.end());
+
+ 
+    return res.size() > 0 ? res: "0";
+}
+/*
+
+error bcz due overflow, 92 bits are in the test case and 
+ res1+=static_cast<unsigned long long>(pow(2, i))* static_cast<unsigned long long>((a[sizeOfb] - '0'));
+
+ pow(2,i) gives result in double, but we convert it into unsigned long long whose range is 2^64-1
+ but in this case as bits are 92, so 2^92-1 exceeds it so that's why i am getting error.
+
+ i have asked gpt about but it said that do 
+ if(a[sizeOfa]==1)
+   res1+=(ULL << 1); // left shift it, this is faster then my previous execution but the overflow error is same.
+*/
+
+  // Knowledge Center Approach 
+  /*
+  string result;
+  int i=a.length()-1;
+  int j=b.length()-1;
+
+  int carry=0;
+  while(i>=0 || j>=0){
+    int sum=carry;
+    if(i>=0) sum+=a[i--]-'0';
+    if(j>=0) sum+=b[j--]-'0';
+    carry=sum > 1? 1:0;
+    result+=to_string(sum%2);
+  }
+
+   if(carry)
+  result+=to_string(carry);
+reverse(result.begin(),result.end());
+   return result;
+}
+*/
+
+// approach 
+// sum= carry + c1 +c2
+
+/*
+ex
+1010
+1011
+
+remember it is binary so right to left
+
+0+0+1=>1, no carry, if odd then plus + 1 in string
+0+1+1=>2, carry, if even then plus + 0 in string
+1+0+0=>1, no carry, plus + 1 in string
+0+1+1=>, carry, plus 0 in string
+
+
+result=>1010
+
+
+at the end if carry then add one in the string
+in this case yes so
+string will be: 10101
+reverse it now: 10101
+
+if it was a=11, b=1
+then
+
+0+1+1=>2, 0,carry
+1+1+0=>2, 0,carry
+
+result=> 00
+as carry is also, so it will be => 001
+reverse it=> 100.
+
+*/
+
+};

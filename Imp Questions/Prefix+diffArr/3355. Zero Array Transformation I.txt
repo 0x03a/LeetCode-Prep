@@ -1,0 +1,50 @@
+class Solution {
+public:
+    bool isZeroArray(vector<int>& nums, vector<vector<int>>& queries) {  // Time Complexity O(n+q), SC O(n)
+        // using difference array with prefix sum
+
+        int size = nums.size();
+        vector<int> diffarr(size);
+
+        for (auto& val : queries) {
+            int start = val[0];
+            int end = val[1];
+           
+          
+            // now diff arr concept
+
+            diffarr[start] += 1;
+         
+            if (end + 1 < size)
+                diffarr[end+1] -= 1;
+
+        }
+      
+        int sum = 0;
+        for (int i = 0; i < size; i++) {
+            diffarr[i] += sum;  
+            sum = diffarr[i];
+        }
+       
+
+    //     for(int i = 1; i < size; i++)
+    //    {
+    //        diffArr[i] += diffArr[i - 1];
+    //    }
+    
+
+
+      
+        for (int i = 0; i < size; i++) {
+          
+              
+               
+                if (nums[i]-diffarr[i] > 0)
+                    return false;
+            
+        }
+
+        return true;
+    }
+};
+

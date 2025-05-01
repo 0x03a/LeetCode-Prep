@@ -1,0 +1,38 @@
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+  RETURN (
+
+
+-- SELECT salary   
+--    FROM employee 
+--    WHERE id = N
+--    ORDER BY SALARY 
+-- AND salary != (
+--   SELECT salary 
+-- FROM employee 
+-- WHERE id != N 
+-- )
+
+-- this query of mine is wrong a rank built in function of MYSQL will be used which will assign 
+-- unique rank (numbers) to row values like if there are amount 100 200 200 400 it will assign 1 to 100 and 2 to both 200 bcz it is
+-- assigning based on rank and 4 to 100 (1 gap, and this is the issue of rank)
+-- it's syntax is rank over(ORDER BY colname ASC|DESC) 
+-- In our scenario we have to avoid gaps so we will use DENSE_RANK this is same as but don't place a gap btw records
+-- like ex
+-- unique rank (numbers) to row values like if there are amount 100 200 200 400 it will assign 1 to 100 and 2 to both 200 bcz it is
+-- assigning based on rank and 3 to 100 (no gap)
+
+-- Every day data Science approach not mine.
+
+WITH cte AS (
+    (SELECT SALARY, DENSE_RANK() OVER(ORDER BY SALARY DESC)  as rnk 
+    FROM EMPLOYEE)
+) 
+
+SELECT DISTINCT SALARY
+ FROM cte
+ WHERE rnk = n
+
+  );
+END;
+-- in Amazon etc.

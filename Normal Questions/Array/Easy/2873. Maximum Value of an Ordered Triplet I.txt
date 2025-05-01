@@ -1,0 +1,109 @@
+class Solution {
+public:
+ // Phone interview Problem
+/*
+    long long maximumTripletValue(vector<int>& nums) { // My brute force approach, O(n^3)
+        // use pointers i,j,k
+
+        int i=0;
+        int j=0;
+        int k=0;
+        int size=nums.size();
+        long long tripletsSum=0;
+        while(i < size){
+           j=i+1;
+              while( j< size)
+              {
+                k=j+1;
+                if ( k >= size)
+                     break;
+                  while( k< size){
+                 //long long temp = (nums[i] - nums[j]) * nums[k]; causes overflow
+                  long long  temp=(nums[i]-nums[j]);
+                   temp*=nums[k];
+                         
+                    tripletsSum=max(tripletsSum,temp);
+                  
+                    k++;
+                  }
+                  j++;
+              }
+              i++;
+        }
+        return tripletsSum;
+        // note:
+        
+
+✅ temp *= nums[k]; is safe because nums[k] is promoted to long long before multiplication.
+
+⚠️ long long temp = (nums[i] - nums[j]) * nums[k]; can cause overflow because multiplication happens in int.
+
+🚀 To ensure correct calculations, always cast to long long before multiplication.
+
+      
+    }
+      */
+
+
+
+    // Another Approach
+    /*
+    long long maximumTripletValue(vector<int>& nums) { // sir mik approach , TC=O(n), SC=O(n)
+        // doing preomputation in this approach
+
+     
+        int size=nums.size();
+        vector<int> leftindexi(size,0); // intialized initally zero
+        vector<int> rightindexk(size,0);
+        long long tripletsSum=0;
+        // doing pre-Computation for i , L to R
+        for (int j=1;j< size;j++)
+        {
+           leftindexi[j]=max(leftindexi[j-1],nums[j-1]);
+        }
+        // doing pre-COmputation for k,R to L
+        for (int j=size-2;j>0;j--)
+        {
+           rightindexk[j]=max(rightindexk[j+1],nums[j+1]);
+        }
+
+        for (int j=1; j< size;j++)
+        {
+            long long temp=(leftindexi[j]-nums[j]);
+            temp*=rightindexk[j];
+            tripletsSum=max(tripletsSum,temp);
+        }
+
+        return tripletsSum;
+    }
+*/
+
+    // Another Approach  by sir mik TC= O(n) SC=O(1)
+
+     long long maximumTripletValue(vector<int>& nums) { // sir mik approach , TC=O(n), SC=O(n)
+        // doing preomputation in this approach
+
+     
+        int size=nums.size();
+        long long maxDiff=0;
+        long long maxi=0;
+        int k=0;
+        long long tripletsSum=0;
+        
+        for (int k=0;k< size;k++)
+        {
+          
+           
+            tripletsSum=max(tripletsSum,maxDiff *  nums[k]);
+            maxDiff= max(maxDiff,maxi-nums[k]);
+            maxi=max(maxi,(long long)nums[k]);
+            
+        }
+
+        return tripletsSum;
+    }
+
+
+
+    
+};

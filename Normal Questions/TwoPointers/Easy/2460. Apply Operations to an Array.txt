@@ -1,0 +1,168 @@
+class Solution {
+public:
+/*
+    vector<int> applyOperations(vector<int>& nums) {
+        // first my approach is
+        // make another vector array in which u store numbers
+        // count all the zeros which are in the array
+        // at the end push all the zeros in the vector array
+
+        int n=nums.size();
+        vector<int> num;
+        int count=0; // to count the number of zeros
+
+
+        for(int i=0; i< n;i++ )
+        {
+                 if(i+1 < n && nums[i] == nums[i+1])
+                          {
+                             nums[i]*=2;
+                             nums[i+1]=0;
+                             if(nums[i]!=0)
+                             num.push_back(nums[i]);
+                           
+                          }
+                else if(nums[i]!=0)
+                {
+                            num.push_back(nums[i]);
+
+                }
+
+               if(nums[i]==0)
+                   count++;
+                    
+
+        }
+
+        
+
+          while(count > 0)
+             { num.push_back(0);
+                count--;
+             }
+
+        return num;
+    }
+    */
+
+    // now as you have seen that i have use extra space now do inplace
+    // inplace means u have to do operations within the array you have given
+    // no extra space should be used.
+
+    // now let's understand the optimized approach 
+    // 1st use Two pointer's concept
+    // [1,2,2,1,1,0]
+    // This is the array you have been given
+    // set two pointers i and j initial
+    // i will be used to move forward and j will used to store non-zero elements
+    // This is my code:
+
+
+/*
+
+      vector<int> applyOperations(vector<int>& nums) { // more optimized approach done my me a little help by sir mik
+      // I have done it with 1pass ( means in a single loop and not used some extra loops)
+
+ int n=nums.size();
+ int j=0; // for non-zero elements
+        for(int i=0; i< n;i++ )
+        {
+            if(i+1 < n && nums[i]==nums[i+1])
+                {
+                    nums[i]*=2;
+                    nums[i+1]=0;
+                    if(i==j && nums[i]!=0)
+                       {
+                        nums[j]=nums[i];
+                        j++;
+                       }
+                    else if(nums[i]!=0)
+                       {
+                        swap(nums[j],nums[i]); // takes O(1)
+                        j++;
+
+                       }
+                }
+                else 
+                {
+                  
+                          if(nums[i] != 0)
+                     {     swap(nums[j],nums[i]); // takes O(1)
+                        j++;
+                     }
+
+                }
+                     
+        }
+        return nums;
+
+      }
+
+
+*/
+
+// sir mik code of this approach (2pass)
+/*
+   vector<int> applyOperations(vector<int>& nums) {
+      int n=nums.size();
+      for (int i=0; i< n-1;i++)
+      {
+        if(nums[i]==nums[i+1] && nums[i]!=0){
+           nums[i]*=2;
+           nums[i+1]=0;
+        }
+      }
+
+
+          int j=0;
+          for(int i=0; i< n;i++)
+          {
+            if(nums[i]!=0){
+              nums[j]=nums[i];
+              j++;
+            }
+          }
+
+
+          while (j< n)
+              {
+                nums[j]=0;
+                j++;
+              }
+
+              return nums;
+ 
+
+         }
+
+*/
+
+
+// sir mik code of this approach (1pass) same approach like me but more efficent code of sir
+   vector<int> applyOperations(vector<int>& nums) {
+    int n=nums.size();
+
+    int j=0;
+    for(int i=0; i< n ;i++)
+    {
+         if(i+1 < n && nums[i]==nums[i+1] && nums[i]!=0){
+           nums[i]*=2;
+           nums[i+1]=0;
+        }
+        if(nums[i]!=0)
+        {
+            if(i!=j)
+            {
+                swap(nums[i],nums[j]);
+            }
+            j++;
+        }
+
+    
+    }
+
+    return nums;
+
+   }
+    
+};
