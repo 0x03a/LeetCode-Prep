@@ -1,0 +1,127 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+
+class Solution {
+  public:
+  
+    void BFS(unordered_map<int,vector<int>> &adj,vector<int> & res,vector<int> &indeg,vector<bool> & visi ){
+        queue<int> q;
+        // push all the values with indegree 0 into the queue.
+        
+        int N=adj.size();
+    
+        for(int u=0; u<N;u++){
+            if(indeg[u] == 0)
+            q.push(u);
+        }
+        
+        while(!q.empty()){
+            
+            int first=q.front();
+            q.pop();
+            res.push_back(first);
+            visi[first]=true;
+            
+            for(auto & val: adj[first]){
+                if(!visi[val]){
+                    indeg[val]--;
+                }
+                 if(!visi[val] && indeg[val] == 0)
+                   q.push(val);
+            }
+        }
+    }
+  
+  
+  
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        // code here
+    
+        vector<bool> visited(V,false);
+        
+        vector<int> indegree(V,0); // size is N, intialized with zero.
+        vector<int> res;
+        
+        unordered_map<int,vector<int>> adj;
+        
+        for(auto & val: edges){  // directed graph
+             int u=val[0];
+             int v=val[1];
+             
+             adj[u].push_back(v);
+        }
+        
+        /*for(auto & val: adj)
+           cout<<val.first<<" ";*/
+           
+        
+        for(int u=0; u<V;u++){
+            for(int & val: adj[u]){
+                indegree[val]++;
+            }
+        }
+        
+        BFS(adj,res,indegree,visited);
+        
+        return res;
+        
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int check(int V, vector<int> &res, vector<vector<int>> adj) {
+
+    if (V != res.size())
+        return 0;
+
+    vector<int> map(V, -1);
+    for (int i = 0; i < V; i++) {
+        map[res[i]] = i;
+    }
+    for (int i = 0; i < V; i++) {
+        for (int v : adj[i]) {
+            if (map[i] > map[v])
+                return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T--) {
+        int V, E;
+        cin >> V >> E;
+
+        int x = V;
+        vector<vector<int>> adj(V);
+        vector<vector<int>> edges;
+
+        for (int i = 0; i < E; i++) {
+            int u, v;
+            cin >> u >> v;
+            adj[u].push_back(v);
+            edges.push_back({u, v});
+        }
+
+        Solution obj;
+        vector<int> res = obj.topoSort(V, edges);
+        bool ans = check(x, res, adj);
+        if (ans)
+            cout << "true\n";
+        else
+            cout << "false\n";
+        cout << "~"
+             << "\n";
+    }
+
+    return 0;
+}
+// } Driver Code Ends

@@ -1,0 +1,99 @@
+class Solution {
+public:
+
+// imp
+/*
+    int findJudge(int n, vector<vector<int>>& trust) { // time complexity is O(n+m), SC O(N)
+       // just use unordered map to do this
+       // ezpz
+       // like make an hashtable like an array of size an to mark
+       // in hashtable if all the person trust other plus plus in that index who trust others
+       // also checks that all the members of town should trust the judge (n-1) 
+       //  return the index whose val is 0 and trust is n-1;
+       // else -1
+
+
+       // Ex to understand
+       
+       
+       Input: n = 3, trust = [[1,3],[2,3]]
+Output: 3
+
+       1 trust 3, in hash at index 1 ++, similarly in trustOfjudge at index 3 ++
+       2 trust 3, in hash at index 2 ++, similarly in trustOfjudge at index 3 ++
+       now 3 trust no body.
+
+       so
+       judge trust no body condition1 true.  // outdegree should be 0 for judge.
+       every body (except the judge itself) trust on judge.  // like a kind of indegree should be n-1 for judge.
+
+
+
+       
+
+
+
+
+       vector<int> hashTable(n+1,0);
+       vector<int> trustOfjudge(n+1,0);
+       for(auto & val: trust){
+        if(val[0]!=val[1]){
+            hashTable[val[0]]++;   
+            trustOfjudge[val[1]]++; 
+        }
+       }
+       int res=-1;
+       for(int i=1; i<=n;i++){
+
+    ;
+         if(hashTable[i] == 0 && trustOfjudge[i] == n-1)
+            res=i;
+
+        
+       }
+
+       return res;
+    }
+    */
+
+     // sir mik approach using 1 extra array.
+    int findJudge(int n, vector<vector<int>>& trust) {  // code done by me. 
+     
+   // approach 
+
+   /*
+   
+
+      Input: n = 3, trust = [[1,3],[2,3]]
+Output: 3
+      
+         1 trust 3, in hash at index 1 --, similarly in hash at index 3 ++
+       2 trust 3, in hash at index 2 --, similarly in hash at index 3 ++
+       now 3 trust no body and it's size is equal to n-1.
+       return it.
+      => now simply in this approach we have to find the index whose val is equal to n-1.
+
+
+   */
+
+
+     vector<int> hashTable(n+1,0);
+
+     for(auto &val: trust){
+        if(val[0]!=val[1]){
+            hashTable[val[0]]--;
+            hashTable[val[1]]++;
+        }
+     }
+     int res=-1;
+     for(int i=1;i<=n;i++)
+        if(hashTable[i]==n-1)
+           res=i;
+
+    
+     return res;
+
+
+    }
+   
+};
