@@ -1,0 +1,16 @@
+class Solution {
+public:
+
+   // Note:
+   // If in exam question comes that tell me the that number is which is non-repeating, and the other numbers are repeating 
+   // simply use xor operator
+   // you have to simply perform xor as shown below in the code.
+    int singleNumber(vector<int>& nums) {
+        int res=0;
+        int size=nums.size();
+        for(int i=0; i < size;i++){
+            res^=nums[i];
+        }
+        return res;
+    }
+};
