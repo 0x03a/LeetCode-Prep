@@ -41,6 +41,7 @@ TreeNode* invertTree(TreeNode* root) {
     return root;
 }
 */
+/*
 TreeNode* invertTree(TreeNode* root) { // done by me using BFS O(n)
 // BFS
  queue<TreeNode*>q;
@@ -69,6 +70,37 @@ q.push(root);
 
 
 }
+*/
 
+// DFS 
+
+TreeNode* invertTree(TreeNode* root) { // done by me using DFS O(n)
+// BFS
+ stack<TreeNode*>s;
+ if(root==NULL)
+   return root;
+s.push(root);
+   while(!s.empty()){
+    TreeNode * curr=s.top();
+    s.pop();
+
+    // swaping nodes
+     TreeNode * t=curr->left;
+    curr->left=curr->right;
+    curr->right=t;
+
+
+     if(curr->left)
+    s.push(curr->left);
+      if(curr->right)
+    s.push(curr->right);
+
+    
+   }
+
+   return root;
+
+
+}
 
 };
