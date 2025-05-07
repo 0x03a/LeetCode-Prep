@@ -19,10 +19,11 @@ public:
            }
         }
 
-        if( st == end+1 )// return st if is equal to end+1
-            return st;
+        // if( st == end+1 )// return st if is equal to end+1
+        //     return st; 
 
-       return end; // if is equal to st-1 
+
+     return st;
     }
 
     int searchInsert(vector<int>& nums, int target) {

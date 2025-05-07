@@ -1,0 +1,64 @@
+class Solution {
+public:
+/*
+    vector<int> twoSum(vector<int>& nums, int target) { // Brute Force done by me
+        int i=0;
+        int j=0;
+        vector<int> tSum;
+        int size=nums.size();
+        while(i<size){
+            j=i+1;
+              while(j<size){
+                
+                
+                if(nums[i]+nums[j]==target){
+                    tSum.push_back(i);
+                    tSum.push_back(j);
+                     return tSum;
+                    
+                }
+             j++;
+              }
+              i++;
+        }
+         return tSum;
+    }
+
+*/
+// optimal Approach
+  vector<int> twoSum(vector<int>& nums, int target) {  // Time complexity O(n), SC O(n)
+
+    unordered_map<int,int> map1;
+    int size=nums.size();
+    int index1=0;
+    int index2=0;
+    for(int i=0; i< size;i++){
+         
+         if(map1.count(target-nums[i])){
+             index1=map1[target-nums[i]];
+             index2=i;
+             break;
+         }
+        
+             map1[nums[i]]=i;
+    }
+
+
+
+   return {index1,index2};
+
+
+  }
+
+  // Ex let's we example
+  // nums = [2,7,11,15], target = 22
+  // step1 maintain a map, in which value is stored as key and index as value.
+  // step2 check target - val is present in map1
+  // if yes break out
+  // else 
+  // store map1[nums[i]]=i;
+
+  
+
+
+};
