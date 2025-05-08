@@ -1,0 +1,242 @@
+class Solution {
+public:
+
+
+
+// Now my Approach correct but time limit Exceeded, TimeComplexity => O(Q*size), SC=> O(n). Brute Force
+//     bool checkdiff(vector<int> &nums, vector<int> & diff){
+//         int size=diff.size();
+//         bool flag=true; // if true means nums is zero
+
+//           int sum=0;
+// for(int i=0;i<size && flag;i++){
+//             sum+=diff[i];
+//             if(sum<nums[i])
+//                flag=false;
+//          }
+
+//         // error of mine here is that i don't have to modify it, bcz
+//         // let's say k=3 is required, 
+//         // and in diffarray comulative after entering all the queries
+//         // in this case i am required with the first 3 queries
+//         // but what i was doing that is just calculating commulative sum for every iteration 
+//         // which is completely wrong 
+//         // as shown this is completely wrong
+//         // for(int i=1;i<size;i++){
+//         //     diff[i]+=diff[i-1];
+//         // }
+//         // for(int i=0;i<size;i++){
+//         //     if(nums[i]-diff[i] <=0)
+//         //     {
+//         //         // do nothing
+//         //     }
+//         //     else
+//         //        flag=false;
+//         // }
+        
+//         return flag;
+//     }
+//     int minZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+//         int k=0;
+//         bool flag=false;
+//         int size=nums.size();
+//         vector<int> diffArr(size,0);
+//         flag=checkdiff(nums,diffArr);
+
+//         if(flag==false){
+//         for(auto & query:queries){
+//             int st=query[0];
+//             int end=query[1];
+//             int x=query[2];
+//             diffArr[st]+=x;
+//             if(end+1 < size)
+//                diffArr[end+1]-=x;
+            
+//             flag=checkdiff(nums,diffArr);
+//               k++;
+             
+//             if(flag){
+//              break;
+//             }
+          
+          
+//         }
+//         }
+
+//         return flag==true ? k: -1;
+
+       
+//     }
+
+bool resultFounded(vector<int> & nums,vector<vector<int>> &q , int & k){
+    int comuSum=0;
+ int size=nums.size();
+    vector<int> diffArr(size,0);
+    for(int i=0;i<=k;i++){
+             int l=q[i][0];
+             int r=q[i][1];
+             int x=q[i][2];
+
+             diffArr[l]+=x;
+             if(r+1 < size)
+             diffArr[r+1]-=x;
+    }
+
+    for(int i=0; i<size;i++){
+        comuSum+=diffArr[i];
+        diffArr[i]=comuSum;
+
+        if(nums[i] - diffArr[i]>0)
+           return false;
+    }
+
+    return true;
+}
+
+  int minZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+
+    int size=nums.size();
+    vector<int> diffArr(size,0);
+    int Q=queries.size()-1;
+    int k=-1;
+
+    // new thing how to check if all elements of an array is a specific element in stl
+    auto lambda=[](int x){
+        return x == 0;
+    };
+    if (all_of(begin(nums),end(nums),lambda)){
+        return 0;// no query is required bcz nums is already zero.
+    }
+
+
+   // timeLimit again will be exceeded bcz it is going linearly , so let's more optimize
+    // for(int i=0; i< Q;i++){ // at worst max queries can be upto O(Q) and in it k be
+    //     if(resultFounded(nums,queries,i))
+    //        {
+    //         k=i+1;
+    //         break;
+    //        }
+    // }
+   
+
+  // add a default check to see that zeroArr can be performed or not
+  if(!(resultFounded(nums,queries,Q))){
+      return k;
+  }
+
+   // now i will use binary search
+   int st=0;
+   int end=Q;
+
+   
+
+   while(st<=end){
+    int mid=st+(end-st)/2;
+     
+     if(resultFounded(nums,queries,mid)){
+        end=mid-1; // if it is founded then reduce it to check for minimum queries
+     }
+     else{
+        st=mid+1; // go for more queries 
+     }
+
+   }
+   k=st+1;
+   return k;
+
+
+  }
+
+};
+
+
+// by leetcode solutions need to understand it
+/*
+
+Approach 2: Line Sweep
+Intuition
+In our previous approach, we used binary search to determine how many queries were needed to turn nums into a zero array. This allowed us to efficiently process a subset of queries, applying them to a difference array, and then checking if nums had become all zeros. While this was an improvement over a naive approach, there was still an inefficiency: we were iterating over queries twice: once for binary search and again while applying updates.
+
+To optimize further, we can change our perspective on how we traverse the data. Instead of iterating through queries, we can iterate directly through nums, using it as the main loop. This means that as we process each element in nums, we dynamically apply only the necessary queries at the right moment. The key challenge, then, is finding an efficient way to apply queries while moving through nums.
+
+This is where a line sweep approach comes into play. Line sweeping is a technique that processes an array incrementally, maintaining only the relevant updates at each step. Instead of processing all queries upfront, we maintain an active set of queries and update nums only when necessary. Here, the difference array helps us track how nums is being modified, while queries provide the updates at specific points.
+
+We start at index 0 of nums and check if it can be turned into 0 with the queries we have processed so far. If it cannot be zeroed out, we process additional queries to apply their effects. The key observation is that at any index i in nums, a query [left, right, val] can fall into three possible cases:
+
+If i < left, the query affects a later part of nums, so we store it for later processing.
+If left ≤ i ≤ right, the query is immediately relevant and should be applied.
+If right < i, the query is no longer useful for the current index and can be ignored.
+For example, if we're at index 4 in nums and the current query accesses the range [0,2], we do not need to process that query and can simply move on to the next query.
+
+Otherwise, we continue to the next element of nums. We repeat this process until we reach the end of either nums or queries, where we then return either k or -1, respectively.
+
+Through this process, we only have to iterate through both nums and queries at most once each while skipping over unnecessary queries.
+
+Algorithm
+Initialize:
+n to the size of nums.
+sum to 0 to track the cumulative sum of updates applied up to a given index
+k to 0 to represent the number of queries used.
+differenceArray as a vector of integers set to size n + 1 to apply range updates.
+Iterate through nums. For each index:
+If sum + differenceArray[index] is less than nums[index], meaning more operations need to be applied at the current index:
+Increase k by 1.
+If k is greater than the size of queries, return -1, since we processed all the queries without reaching a zero array.
+Initialize left, right, and val to the respective values of the current query.
+If right is greater than or equal to index:
+Increment differenceArray[max(left, index)] by val to update the start of the range.
+Decrement differenceArray[right + 1] by val to update the end of the range.
+Increment sum by differenceArray[index].
+Return k.
+
+
+class Solution {
+public:
+    int minZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+        int n = nums.size(), sum = 0, k = 0;
+        vector<int> differenceArray(n + 1);
+
+        // Iterate through nums
+        for (int index = 0; index < n; index++) {
+            // Iterate through queries while current index of nums cannot equal
+            // zero
+            while (sum + differenceArray[index] < nums[index]) {
+                k++;
+
+                // Zero array isn't formed after all queries are processed
+                if (k > queries.size()) {
+                    return -1;
+                }
+                int left = queries[k - 1][0], right = queries[k - 1][1],
+                    val = queries[k - 1][2];
+
+                // Process start and end of range
+                if (right >= index) {
+                    differenceArray[max(left, index)] += val;
+                    differenceArray[right + 1] -= val;
+                }
+            }
+            // Update prefix sum at current index
+            sum += differenceArray[index];
+        }
+        return k;
+    }
+};
+
+
+Complexity Analysis
+Let N be the size of nums and M be the size of queries.
+
+Time Complexity: O(N+M)
+
+We iterate through each element of nums at most once. Within this loop, we loop through each element of queries at most once.
+
+The program returns a value and ends when we reach the end of either of these arrays. In the worst case, we iterate through each element in nums and queries once before returning a value. As a result, this leads to a time complexity of O(N+M).
+
+Space Complexity: O(N)
+
+The space complexity is based on the array differenceArray. Here, differenceArray is set to hold elements from the range [0, N + 1] to track all the changes in nums. As a result, this creates a space complexity of O(N+1), which can be simplified to O(N).
+
+
+
+*/
