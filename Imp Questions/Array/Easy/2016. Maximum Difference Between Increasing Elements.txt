@@ -1,0 +1,73 @@
+class Solution {
+public:
+
+    int maximumDifference(vector<int>& nums) {  // TC => O(n), SC=> O(1).
+        // 1st approach done by me
+        // hint: we have to get the minimum element (always less than nums[j]) to get the answer required.
+        // just do the dry run from the given example in the questions and you will understand more clearly.
+        
+        int size=nums.size();
+        int min1=INT_MAX;
+        int res=INT_MIN;
+        int i=0;
+        int j=1;
+        while(i<j && j<size){
+            
+
+          if(min1 > nums[i] && nums[i] < nums[j])
+              min1=nums[i];
+
+            
+            if(min1 < nums[j])
+               if(res < nums[j]-min1)
+               res=nums[j]-min1;
+        
+         j++;
+         i++;
+        }
+          if(min1 == INT_MAX)
+             return -1;
+        return res;
+    }
+
+
+    /*
+    Sparsh Chaudary solution:
+   Brute Force Approach
+   int maximumDifference(vector<int>& nums) {  TC=> O(n^2) SC =>  O(1)
+        int ans = -1;
+        for (int i = 0; i < nums.size() - 1; ++i) {
+            for (int j = i + 1; j < nums.size(); ++j) {
+                if (nums[i] < nums[j]) {
+                    ans = max(ans, nums[j] - nums[i]);
+                }
+            }
+        }
+        return ans;
+    }
+
+
+
+
+
+
+    Optimized Apporach , also sir mik approach is same like this.
+     int maximumDifference(vector<int>& nums) {TC=> O(n) SC =>  O(1)
+        int minVal = nums[0];
+        int maxDiff = -1;
+
+        for (int i = 1; i < nums.size(); ++i) {
+            if (nums[i] > minVal) {
+                maxDiff = max(maxDiff, nums[i] - minVal);
+            } else {
+                minVal = nums[i];
+            }
+        }
+
+        return maxDiff;
+    }
+
+
+    */
+
+};
