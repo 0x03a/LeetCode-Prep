@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+
+        // Binary Search + Math
+       // (Code in One) approach, TC=> O(logn), SC=> O(1).
+
+       // if is x=4
+       // then output was 2
+
+       // Ex
+       // 1,2,3,4
+       // st    end
+       // now we have place two conditions
+       // 1- if mid * mid <= x, then store res=mid, and st=mid+1
+       // 2- else end=mid-1;
+
+       int st=1;
+       int end=x;
+       int res=0;
+
+      while(st <= end){
+        int mid=st+(end-st)/2;
+
+        // if(mid * mid <=x){ // here mid * mid will be overflowed if mid == INT_MAX, so we can 
+        // // also write it as mid <= x/mid
+        if(mid <=x/mid){ 
+            res=mid;
+            st=mid+1;
+        }
+        else{
+            end=mid-1;
+        }
+      }
+
+      return res;
+
+    }
+
+};
