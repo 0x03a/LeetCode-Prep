@@ -1,0 +1,182 @@
+class Solution {
+public:
+//    string intToRoman(int num) { // time complexity O(1), bcz we are looping upto a specific number 
+//    // max num is shown in the constraint: 1 <= num <= 3999
+//     // by simple approach done by me in 1 hour 10 mins
+
+
+
+// /// now let's first understand the question completely
+// /*
+
+// we have to convert Integer to roman
+// Symbol	Value
+// I	1
+// V	5
+// X	10
+// L	50
+// C	100
+// D	500
+// M	1000
+
+
+// -> for the values greater or equal to symbol simply subtract them if them if they are not 4,9
+// -> if the values are 4,9 -> like for example for the first condition
+//    num >=1 && num < 5
+//     - if it is 4
+//        simply add in string IV
+//     else 
+//        subtract -1
+
+// -> Only the following subtractive forms are used: 4 (IV), 9 (IX), 40 (XL), 90 (XC), 400 (CD) and 900 (CM).
+
+// */
+
+
+
+
+
+
+
+
+
+
+
+//     string res = "";
+//     string temp = to_string(num);
+//     while (num != 0) {
+//         if (num >= 1 && num <5) {
+
+//              if (temp[0] == '4') {
+//                 // temp.erase(0, 1); // 1st para is index,  and next para tells that how many char you want to remove onward from this index, if it is 1 means only curr index.
+//                 res += "IV";
+//                 num -= 4;
+//                  temp = to_string(num);
+            
+//             }
+//             else {
+//             res += "I";
+//             num -= 1;
+//             temp = to_string(num);
+
+//             }
+//         }
+//         else if (num >= 5 && num < 10) {
+
+//             if (temp[0] == '9')
+//             {        
+//                 res += "IX";
+//                 num -= 9;
+//                  temp = to_string(num);
+//             }
+//             else {
+//                 res += "V";
+//                 num -= 5;
+
+//                 temp = to_string(num);
+//             }
+
+
+//         }
+//         else if (num >=10 &&  num < 50 ) {
+       
+//                     if (temp[0] == '4') {
+             
+//                 res += "XL";
+//                 num -= 40;
+//                  temp = to_string(num);
+//             }
+//             else{
+//                 res += "X";
+//                 num -= 10;
+//                 temp = to_string(num);
+//             }
+            
+
+//         }
+//         else if (num >= 50  && num < 100) {
+
+//             if (temp[0] == '9')
+//             {
+               
+//                 res += "XC";
+//                 num -=90 ;
+//                  temp = to_string(num);
+//             }
+//             else {
+//                 res += "L";
+//                 num -= 50;
+
+//                 temp = to_string(num);
+//             }
+
+
+
+//         }
+//         else if (num >= 100 && num < 500) {
+
+//             if(temp[0] == '4'){
+                
+//                 res += "CD";
+//                 num -=400 ;
+//                  temp = to_string(num);
+//             }
+//             else {
+//                 res += "C";
+//                 num -= 100;
+
+//                 temp = to_string(num);
+//             }
+
+//         }
+//         else if (num >= 500 && num < 1000) {
+
+//              if (temp[0] == '9')
+//             {
+//                 temp.erase(0, 1);
+//                 res += "CM";
+//                 num -= 900;
+//                  temp = to_string(num);
+//             }
+//             else {
+//                 res += "D";
+//                 num -= 500;
+
+//                 temp = to_string(num);
+//             }
+
+//         }
+//         else if (num >= 1000) {      
+//             res += "M";
+//             num -= 1000;
+//             temp = to_string(num);
+
+//         }
+       
+//     }
+//     return res;
+// }
+
+
+// Awesome logic by sir niits
+string intToRoman(int num) {
+        const vector<pair<int, string>> valueSymbols{
+            {1000, "M"}, {900, "CM"}, {500, "D"}, {400, "CD"}, {100, "C"},
+            {90, "XC"},  {50, "L"},   {40, "XL"}, {10, "X"},   {9, "IX"},
+            {5, "V"},    {4, "IV"},   {1, "I"}};
+
+        string res;
+
+        for (const auto& [value, symbol] : valueSymbols) {
+            if (num == 0)
+                break;
+
+            while (num >= value) {
+                res += symbol;
+                num -= value;
+            }
+        }
+
+        return res;        
+    }
+};
