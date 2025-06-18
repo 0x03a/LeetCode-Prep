@@ -1,0 +1,84 @@
+class Solution {
+public:
+// code done by me, and almost intuition was mine.
+    // but little help from sir mik 
+    // note: after sorting
+    //  if the nums[2] - nums[0] means the diff btw the third and 1st element in the arr
+    // is less than or eq to k, then automatically the diff of element in btw them will also be
+    // less than or eq to k
+
+    //note: my mistake
+    // the mistake what i was doing was that i was just comparing the 1st and 2nd element
+    // if they satisfy then put them in the arr which was completely wrong.
+
+
+//     vector<vector<int>> divideArray(vector<int>& nums, int k) { // TC=> O(nlogn) , SC=> O(n)
+//         // first make a 2D arr
+//         //we also have to divide the arr into n/3
+
+
+//         /*
+//            simple first understand ques:
+//            given arr of size n, where n multiple of 3, also k given
+//            divide arr into n/3 arrs of size 3, satisfying the cond:
+//             - diff btw any two elements in one arr is less than or eq to k.
+//            note:
+//               if either of the one arr does not satisfy the cond: return empty arr
+
+//               btw you can easily understand the follow code.
+//         
+        
+
+//   //    
+
+//         vector<vector<int>> res;
+
+//         sort(nums.begin(),nums.end()); // O(nlogn)
+//        int size=nums.size();
+
+//       int num=-1;
+
+      
+//        for(int i=0;i<size;i++){// O(n)
+//             if(nums[i+2]-nums[i] <=k)
+//                {
+//                    if(i+2 < size)
+//                    res.push_back({nums[i],nums[i+1],nums[i+2]});
+//                    i+=2;
+//                }
+//                else
+//                  {
+//                     num=0;
+//                     break;
+//                    // return {}; // a way of returning empty 2D arr.
+//                  }
+//        }
+//    // note:  C++ does not allow intializer list in ternary operator
+//       // return num == 0 ? {}: res ;
+
+//       if(num==0)
+//         return {};
+
+//         return res;
+//     }
+
+// sir mik code
+ vector<vector<int>> divideArray(vector<int>& nums, int k) { // TC=> O(nlogn) , SC=> O(n)
+    int n=nums.size();
+
+    vector<vector<int>> res;
+   sort(begin(nums),end(nums));
+    for(int i=0;i<n;i+=3){
+        // i,i+1, i+2
+
+        if(nums[i+2] - nums[i] > k)
+           return {};
+
+
+       res.push_back({nums[i],nums[i+1],nums[i+2]});
+       
+    }
+    return res;
+ }
+    
+};
