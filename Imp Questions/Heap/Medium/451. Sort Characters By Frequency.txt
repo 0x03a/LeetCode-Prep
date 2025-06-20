@@ -1,0 +1,43 @@
+class Solution {
+public:
+    string frequencySort(string s) { // done by me, TC => O(n)
+       // first make a hash map to count the frequency of char
+       // then count their frequency
+       // then make a piority queue and add the map values in the form of pair
+       // in pq pair values are sorted based on lexographical order
+       // for example if (1,a), (2,b)
+       // now first it compares 1,2 if 2 is greater then 2nd pair comes 
+       // if both pair first values are equal then it will compare 2nd, and behalf of it arrange
+
+       // after entering m1 like key and char both in pq
+       // make a res variable of type string
+       // after that until pq is empty store the count of vaiable and until that count is zero
+       // add that the char into res.
+
+       // see the code for more understanding.
+       unordered_map<char,int> m1;
+         int size=s.length();
+       for(size_t i=0;i<size;i++ ){
+        m1[s[i]]++;
+       }  
+       
+       priority_queue<pair<int,char>> pq;
+      for(const auto & c: m1)
+           pq.push({c.second,c.first});
+          
+          string res="\0";
+          pair<int,char> p;
+       while(!pq.empty()){
+           p=pq.top();
+
+           while(p.first!=0){
+            res+=p.second;
+            p.first--;
+           }
+           pq.pop();
+
+       }
+
+       return res;
+    }
+};
