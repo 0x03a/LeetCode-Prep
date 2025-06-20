@@ -1,0 +1,157 @@
+class Solution {
+public:
+
+    // int manhattanDistance(pair<int,int> & p){
+    //    return abs(0-p.first)+abs(0-p.second);
+    // }
+    int maxDistance(string s, int k) {
+
+
+      /*
+       
+  +---+---+---+
+  |0,0|   |   |  
+  +---+---+---+
+  |   |   |   |
+  +---+---+---+
+  |   |   |   |
+  +---+---+---+
+  intially we are at (0,0) 
+                      x, y
+
+if we see our first Ex it is "NWSE"
+
+so if we move up it becomes (0,1) => manhattan distance from origin is 1
+now from their if we move west it becomes (-1,1)  => manhattan distance from origin is 2
+now from if moves South it becomes (-1,0) => manhattan distance from origin is 1
+now from if it moves East it becomes (0,0) => => manhattan distance from origin is 0
+
+Note: in question we have to maximize the manhattan distance by changing the atmost k characters.
+
+
+      */ 
+
+      // first Brute force Approach, tried but not solved by me
+
+    //   pair<int,int> p(0,0); 
+     
+    //  int size=s.length();
+    //  int tempK=k;
+    //  int res=INT_MIN;
+    //  map<int,char> m1{
+    //     {0,'N'},
+    //     {1,'S'},
+    //     {2,'E'},
+    //     {3,'W'}
+    //  };
+   
+    //  string tempS=s;
+     
+    
+
+    //     for(int j=0; j< size; j++){
+               
+    //            if(k <=0 )
+    //               {
+                   
+    //                  if(tempS[j] == 'N')
+    //                  {
+    //                     p.second+=1;
+    //                  }
+    //                  else if(tempS[j]=='S')
+    //                  {
+    //                     p.second-=1;
+    //                  }
+    //                  else if(tempS[j]=='E')
+    //                  {
+    //                     p.first+=1;
+    //                  }
+    //                  else
+    //                  {
+    //                     p.first-=1;
+    //                  }
+    //               }
+    //               else{
+                          
+    //                      if(tempS[j] == 'S')
+    //                      {
+    //                               tempS[j]='N';
+    //                           k--;
+    //                      }
+    //                       else if (tempS[j] == 'W' ){
+    //                                  tempS[j]='E';
+    //                           k--;
+    //                       }
+                          
+                      
+                     
+                      
+                 
+    //                  if(tempS[j] == 'N')
+    //                  {
+    //                     p.second+=1;
+    //                  }
+    //                  else if(tempS[j]=='S')
+    //                  {
+    //                     p.second-=1;
+    //                  }
+    //                  else if(tempS[j]=='E')
+    //                  {
+    //                     p.first+=1;
+
+    //                  }
+    //                  else
+    //                  {
+    //                     p.first-=1;
+    //                  }
+
+    //               }
+
+        
+    //                 int mD=manhattanDistance(p);
+    //       if(res < mD)
+    //       {
+    //         res=mD;
+    //       }
+           
+    //     }
+         
+       
+     
+    //    return res;
+
+
+// code and approach by sir mik , time complexity -> O(n), SC=> O(1)
+// see sir mik video for more clarification.
+    int maxmD=0;
+    int east=0;
+    int west=0;
+    int north=0;
+    int south=0;
+ int n=s.length();
+    for(int i=0; i< n ;i++){
+         if(s[i] == 'E') east++;
+         else if(s[i] == 'W') west++;
+         else if(s[i] == 'N') north++;
+         else if(s[i] == 'S') south++;
+
+
+         int currmD=abs(east-west)+abs(north-south);
+
+         int steps=(i+1);
+         int wastedSteps=steps-currmD;
+
+         int extra=0;
+
+         if (wastedSteps != 0){ // not ideal case, wasted steps
+                   extra=min(2*k,wastedSteps);
+         }
+
+         int finalcurrmD=currmD+extra;
+
+         maxmD=max(maxmD,finalcurrmD);
+    }
+   return maxmD;
+
+    }
+};
