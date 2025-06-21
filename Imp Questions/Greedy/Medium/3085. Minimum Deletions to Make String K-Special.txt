@@ -1,0 +1,81 @@
+class Solution {
+public:
+    // int minimumDeletions(string word, int k) {  // TC -> O(n), SC is also O(1), bcz space was constant.
+    //    // 1
+    //    // 1+k => 0
+    // //    x-(x-k)
+
+    // int size=word.length();
+
+    // int result=INT_MAX;
+
+    // // first store frequencies of each character 
+
+    // vector<int> freq(26,0);
+  
+    // for(int i=0 ; i<size;i++){ // O(n) in populating the freq arr
+    //        freq[(word[i]-'a')]++;
+    // }
+
+    // int del=0;
+    // for(int i=0; i<26;i++){  // O(1)
+    //     int x=freq[i];
+    //     int y=0;
+    //     for(int j=0; j< 26;j++){ // O(1)
+
+    //         if(i==j)continue;
+            
+    //         y=freq[j];
+    //         if(x > y ){  // should be in the range [x,x+k], na zada na kam , kam ka case mn sara character del krin ga
+    //          del+=y;
+    //         }
+    //         else if(abs(x-y) > k){  // greater than x+k case.
+    //             del+=abs(y-x-k);
+    //         }
+    //     }
+
+        
+    //     result=min(result,del);
+    //     del=0;
+    // }
+
+    // return result;
+   
+  
+  
+
+
+    // }
+
+     int minimumDeletions(string word, int k) { // Approach # 2, some cases are pruned and and SC and TC remains but we can say TC slightly optimized due to pruned cases.
+
+vector<int> fre(26,0);
+
+for(auto & c:word){
+    fre[c-'a']++;
+}
+
+sort(begin(fre),end(fre));
+
+int result=word.length();
+int comulative_del=0;
+
+
+for(int i=0; i<26;i++){
+    int del= comulative_del; // jitna picha del ho gai unko idhr store krin
+    for(int j=25; j>=0 ; j--){
+        if(fre[j] - fre[i] <=k)
+        break;
+
+        del+=fre[j]-fre[i]-k;  // greater than x+k case.
+    }
+      result=min(result,del);
+      comulative_del+=fre[i];
+}
+ return result;
+
+     }
+
+    
+
+};
