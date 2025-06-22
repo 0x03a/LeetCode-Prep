@@ -1,0 +1,68 @@
+class Solution {
+public:
+// My approach
+//     vector<string> divideString(string s, int k, char fill) { // TC -> O(n), SC => O(1)        
+//      vector<string> result;
+//          int size=s.length();
+//          int count=0;
+//          string temp="\0";
+//         for(size_t i=0; i< size;i++){
+//           if(count <=k )
+//              {
+//                 temp+=s[i];
+//                 count++;
+
+//              }
+//              if(temp.length() == k)
+//                { result.push_back(temp);
+//                temp="";
+//                count=0;
+//                }
+
+//         }
+
+//         if(temp.length() >=1 && temp.length() < k){
+//             while(temp.length() < k)
+//                  temp+=fill;
+// result.push_back(temp);
+
+//         }
+
+//         return result;
+//     }
+
+// sir mik approach , TC=> O((n/k) * k) => k cancels so O(n), SC=> O(k)
+
+ vector<string> divideString(string s, int k, char fill) {
+    vector<string> result;
+
+    int n=s.length();
+
+    int i=0;
+    while(i< n){
+        int j=(i+k-1 >=n) ? n-1: i+k-1;
+
+        string temp=s.substr(i, j-i+1); // O(k)
+
+        if(j-i+1 < k){
+            int remain= k-(j-i+1);
+            temp+= string(remain, fill);
+        }
+
+        result.push_back(temp);
+
+        i+=k;  // O(n/k)
+
+    } 
+
+
+/*
+Note:
+string s = "hello";
+string result = s.substr(0, 3);  // result = "hel"
+
+*/
+
+    return result;
+ }
+};
