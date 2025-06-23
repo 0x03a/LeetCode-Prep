@@ -46,7 +46,7 @@ Example:
     // }
 
     // string longestPalindrome(string s) {
-    //     //  Brute Force Approach by me O(n^3), 
+    //     //   Approach by me O(n^3), 
     //    int size=s.length();
     //     int i=0;
     //     int j=size-1;
@@ -95,7 +95,7 @@ Example:
     // }
 
 
-    // sir Mik Approach
+    // sir Mik Approach,     //   O(n^3), 
     // with Recursion + Memorization
 
     int t[1001][1001];
