@@ -129,4 +129,39 @@ public:
 
      }
 
+     /*
+
+     TC and SC
+
+     K-mirror number hmra pass -> N ha -> or iss mn digits -> logbase10N ha.
+     D=logbase10N // idhr D sa mura digits hn.
+
+     half=(D+1)/2;
+
+     iss ka bd hum min_num , max_num nikalta
+     or ab for loop kitni bar chla ga? 
+     -> min-num => 10^(half-1)
+     -> max-num => 10^(half)-1
+
+     => so we can generalize  for loop TC=> )10^D/2) iterations
+
+     // in these iterations we were generating palindrome
+     // or palindrome generation mn digit 'D' hota tha
+     // or uska dohrn hum baseK mn conversion bhi krta tha
+     // baseK -> TC is logbasek(num).
+
+     // ab iterations hamri 10^(D/2) or uss mn hum palindrome bana rahai tha,
+
+     so simplified TC will be=> O(10^(D/2) * D) // sir na logbasek(num) issko ignore kr dia
+     // as it was too small as compared to D.
+
+      TC will be=> O(10^(D/2) * D), or D ki gaga hum kia put krin ga? D=logbase10(N).
+
+      // SC 
+      // hum palindrome hi to bana rahai tha, or uska length kitna rkh rahai tha total number of digits D. means logbase10(N)
+
+      // approximately kr ka hum issko O(D) bhi kah sakta hn.
+
+      Note: TC and SC bht appoximate lia just for the sake of simplicity.
+
 };
