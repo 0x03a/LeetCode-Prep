@@ -1,0 +1,132 @@
+class Solution {
+public:
+// My brute Force Approach, TLE
+
+//     bool checkPalindrome(string & s){
+//            int i=0;
+//            int j=s.length()-1;
+
+//            while(i<=j){
+//             if(s[i]==s[j])
+//             {
+//                 i++;
+//                 j--;
+//             }
+//             else 
+//             {return false;}
+
+//            }
+ 
+//            return true;
+//     }
+
+//     bool checkbase(long long & num,int &base){
+//          string res="";
+//          long long temp=num;
+//         while(temp!=0){
+//              res+=temp%base;
+//              temp/=base;
+//         }
+
+
+//         return checkPalindrome(res);
+//     }
+
+//     long long kMirror(int k, int n) {
+       
+// long long res=0;
+       
+
+//         long long size=pow(2,k+n);
+//          string temp="";
+//         for(long long  i=1; i<= LLONG_MAX && n!=0 ;i++){
+          
+//             temp=to_string(i);
+           
+//             if( checkPalindrome(temp) ){
+               
+//                 if(checkbase(i,k)){
+//                res+=i;
+//                 n--;
+//                 }
+//             }
+            
+//         }
+
+//         return res;
+//     }
+
+    
+  bool checkPalindrome(string & s){
+           int i=0;
+           int j=s.length()-1;
+
+           while(i<=j){
+            if(s[i]==s[j])
+            {
+                i++;
+                j--;
+            }
+            else 
+            {return false;}
+
+           }
+ 
+           return true;
+    }
+
+      string convertToBaseK(long long & num,int &base){
+         string res="";
+         long long temp=num;
+        while(temp!=0){
+             res+=temp%base;
+             temp/=base;
+        }
+
+
+        return res;
+    }
+
+
+    // Sir mik Approach (End Level Approach)
+     long long kMirror(int k, int n) {
+          long long sum=0;
+          int L=1; // create L length palindrome
+
+          while(n>0){
+            int half_len=(L+1)/2;
+
+            long long min_num=pow(10,half_len-1);
+            long long max_num=pow(10,half_len)-1;
+
+            for(int num=min_num;num<=max_num;num++){
+
+                string first_half=to_string(num);
+                string second_half=first_half;
+                reverse(second_half.begin(),second_half.end());
+                string pal="";
+                if(L%2==0){
+                   pal=first_half+second_half;
+                }
+                else{
+                   pal=first_half+second_half.substr(1); // second_half.substr(1) , here '1' means starting from index '1' skipping index 0.
+                }
+
+                long long pal_num=stoll(pal);
+                string baseK=convertToBaseK(pal_num,k);
+                if(checkPalindrome(baseK)){
+                    sum+=pal_num; // found one k-mirror number
+                    n--;
+                    if(n==0)
+                       break;
+                }
+
+
+            }
+            L++;
+          }
+          return sum;
+
+     }
+
+};
