@@ -1,0 +1,143 @@
+class Solution {
+public:
+
+// note:
+// hope your concepts will be more clear after seeing this note.
+/*
+
+s.substr(start,length)
+
+if string is "hello"
+
+s.substr(0,3);
+
+index 0 is also included in the length so, output is: "hel" => we required 3 characters in length and it gives us correct result.
+
+now=> j-i+1, gives us the number of characters from index i to index j
+Example:
+
+ string s = "abcdef";
+
+    int i = 2; // start index ('c')
+    int j = 5; // end index ('f')
+
+    // We want substring from index 2 to index 5 inclusive
+    string result = s.substr(i, j - i + 1);  // substr(2, 5 - 2 + 1) = substr(2, 4)
+
+
+*/
+
+    // bool palindromCal(string &s,int i, int j){ // Accepted
+    //     int size=s.length();
+      
+      
+    //     while(i<=j){
+    //         if(s[i] == s[j]){
+    //            i++;
+    //             j--; 
+    //         }
+    //         else {
+    //            return false;
+    //         }
+    //     }
+   
+            
+    //     return true;
+    // }
+
+    // string longestPalindrome(string s) {
+    //     //  Brute Force Approach by me O(n^3), 
+    //    int size=s.length();
+    //     int i=0;
+    //     int j=size-1;
+    
+    //     int maxLen=INT_MIN;
+    //     int sp=0;
+    //  bool flag=false;
+    //     while(i< size)
+    //     {
+    //         j=size-1;
+           
+    //         while(i<=j){
+            
+    //         flag=palindromCal(s,i,j);
+            
+  
+    //          if(flag){
+
+                 
+    //             if(maxLen < j-i+1)
+    //                 {maxLen=j-i+1;
+    //                 sp=i;// starting point
+                    
+    //                 }
+    //             break; // here i have pruned some cases means 
+    //             // for example aabaa
+    //             // possible combinatoions are
+    //             // aabaa
+    //             // aaba
+    //             // aab
+    //             // aa
+    //             // a
+    //             // so what i am saying that when i get the first palindrome 
+    //             // i just break because it is always the largest palindrome
+    //             // in my example aabaa i found it , i break and come out of loop
+
+    //          }
+
+    //          j--;
+
+    //         }
+    //         i++;
+    //     } 
+
+    //     return s.substr(sp,maxLen);
+    // }
+
+
+    // sir Mik Approach
+    // with Recursion + Memorization
+
+    int t[1001][1001];
+    bool solve(string &s,int i, int j){
+
+      if(i>=j){
+        return 1;
+
+      }
+
+
+        if(t[i][j]!=-1)
+           return t[i][j];
+         
+        if(s[i]==s[j])
+         return t[i][j]=solve(s,i+1,j-1);
+
+
+         return t[i][j]=0;
+
+    }
+string longestPalindrome(string s) {
+int n=s.length();
+int maxlen=INT_MIN;;
+int sp=0;
+memset(t,-1,sizeof(t));
+
+
+for(int i=0; i<n;i++){
+    for(int j=i; j<n ;j++){
+        if(solve(s,i,j)){
+            if(maxlen < j-i+1){
+            maxlen=j-i+1;
+            sp=i;
+            }
+        }
+    }
+}
+
+return s.substr(sp,maxlen);
+}
+
+
+
+};
