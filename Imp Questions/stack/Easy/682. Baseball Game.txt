@@ -1,0 +1,76 @@
+// C++ implementation.
+class Solution {
+public:
+
+// O(n), SC=> O(1), done by me
+    int calPoints(vector<string>& operations) {
+        stack<int>s;
+
+        int size=operations.size();
+        int prev1=0;
+        int prev2=0;
+        
+     int res=0;
+        for(int i=0;i<size;i++){
+            if(operations[i]=="C"){
+                 s.pop();
+            }
+            else if(operations[i]=="D"){
+                prev1=s.top();// top element here will be prev1
+               s.push(2*prev1);// bcz another element here is being pushed which will then be prev2.
+              
+            }
+             else if(operations[i]=="+" ){
+                             
+                prev2=s.top();
+                s.pop();
+                prev1=s.top();
+                s.pop();
+              
+                
+              s.push(prev1);
+              s.push(prev2);
+              s.push(prev1+prev2);
+
+            }
+            else if(operations[i]!="+" )
+            {
+              if(! s.empty()) // if stack is not empty then prev1=top element, then add next element, which will be the prev2 element.
+                    prev1=s.top();
+
+                   s.push(stoi(operations[i]));
+               
+             
+            
+            }
+        } 
+
+        while(!s.empty()){
+          
+            res+=s.top();
+            s.pop();
+        }
+
+       
+        return res;
+    }
+};
+
+
+class Solution:
+    # By sir neetcode
+    def calPoints(self, operations: List[str]) -> int:
+        stack=[] # will behave as stack
+
+        for op in operations:
+            if(op == "+"):
+                stack.append(stack[-1]+stack[-2])
+            elif(op=="D"):
+                stack.append(2*stack[-1])
+            elif(op=="C"):
+                stack.pop() # list by default also delete the last element enter which can be said sa top element
+            else:
+                stack.append(int(op))
+            
+        return sum(stack)
+        
