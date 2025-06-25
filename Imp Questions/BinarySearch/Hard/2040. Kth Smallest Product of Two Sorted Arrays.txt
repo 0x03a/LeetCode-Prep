@@ -1,0 +1,218 @@
+class Solution {
+public:
+// it was a Brute Force Approach on which TC was exceeded., 
+// TC => O(n^2*(nlogn))
+    // long long kthSmallestProduct(vector<int>& nums1, vector<int>& nums2, long long k) {
+    //     int size1=nums1.size();
+    //     int size2=nums2.size();
+    //     vector<long long> res;
+    //     long long temp1=0;
+    //     long long temp2=0;
+    //     for(int i=0; i< size1;i++){
+    //         for(int j=0; j< size2;j++){
+    //             temp1=nums1[i];
+    //             temp2=nums2[j];
+    //             res.push_back(temp1*temp2);
+    //         }
+    //     }
+    //     sort(res.begin(),res.end()); // nlogn
+    //     long long res1=res[k-1];
+    //     return res1;
+    //         }
+
+
+// tried but failed. let's see sir mik approach
+//      long long kthSmallestProduct(vector<int>& nums1, vector<int>& nums2, long long k) {
+
+//          int size1=nums1.size();
+//          int size2=nums2.size();
+//          long long temp1=0;
+//          long long temp2=0;
+//          long long temp=k;
+// vector<long long> res;
+
+
+//          if(nums1[0] >= 0 && nums2[0] >= 0){
+//             // +,+
+//             for(int i=0; i< size1 && k > 0;i++){
+//                 temp1=nums1[i];
+//             for(int j=0;j<size2 && k > 0;j++){
+
+//                   temp2=nums2[j];
+//                   res.push_back(temp1*temp2);
+//                   k--;
+//             }
+//             }
+//          }
+//          else if(nums1[0] <= 0 && nums2[0] >= 0){
+//             // -,+
+//                for(int i=0; i< size1 && k > 0;i++){
+//                 temp1=nums1[i];
+//             for(int j=size2-1;j>=0 && k > 0;j--){
+
+//                   temp2=nums2[j];
+//                   res.push_back(temp1*temp2);
+//                   k--;
+//             }
+//             }
+//          }
+//          else if(nums1[0] >= 0 && nums2[0] <= 0){
+//             // +,-
+//                for(int i=0; i< size2 && k > 0;i++){
+//                 temp1=nums2[i];
+//             for(int j=size1-1;j>=0 && k > 0;j--){
+
+//                   temp2=nums1[j];
+//                   res.push_back(temp1*temp2);
+//                   k--;
+//             }
+//             }
+//          }
+//          else{
+//             // -,-
+
+//             // failed here
+
+//                     // +,-
+//                  for(int i=0; i< size2 ;i++){
+//                 temp1=nums2[i];
+              
+//             for(int j=size1-1;j>=0 && k > 0;j--){
+
+//                   temp2=nums1[j];
+//                   res.push_back(temp1*temp2);
+//                   k--;
+//             }
+//             }
+
+//               k=temp;
+//                     // -,+
+//                 for(int i=0; i< size1;i++){
+//                 temp1=nums1[i];
+               
+//             for(int j=size2-1;j>=0 && k > 0;j--){
+
+//                   temp2=nums2[j];
+//                   res.push_back(temp1*temp2);
+//                   k--;
+//             }
+//             }
+
+
+//          }
+       
+//  sort(res.begin(),res.end()); // nlogn
+//         long long res1=res[temp-1];
+//         return res1;
+
+
+
+// }
+
+long long findCountSmallest(vector<int> & nums1,vector<int>& nums2, long long & midProduct){
+    long long productsCount=0;
+    int n=nums2.size();
+    int sizeOfnums1=nums1.size();
+
+    for(size_t i=0; i< sizeOfnums1;i++){ // n * log(m), name num2 size as m , nums1 as n
+
+        // nums1[i] ko fix kia 
+
+        if(nums1[i] >=0){
+            // normal case
+              int l=0;
+              int r=n-1;
+              int m=-1; // ya hmra mid index store kra ga, plus intially it contains invalid index or left hand size 
+              // idhr lower bound bhi likh skta tha, likn sir mik ko apna BNS
+             // zada asn laga
+              while(l<=r){
+                    int mid=l+(r-l)/2;
+
+                    long long prod=1LL * nums1[i] * nums2[mid];
+
+                    if(prod <= midProduct){
+                        m=mid;
+                        l=mid+1;
+                    }
+                    else{
+                        r=mid-1;
+                    }
+              }
+
+              productsCount+=m+1; // covered by nums1[i]
+
+        }
+        else{
+            // corner case (which was in case of negative values)
+            // product will be negative, so right hand side will contain smaller products
+            // left hand side will contain larger products
+
+
+            int l=0;
+              int r=n-1;
+              int m=n; // left hand side pr hum na invalid index -1 lia tha, likn right hand side pr hum invalid index 'n' ko lin due to negative values, kuin ky smaller right side pr ha or larger left hand side pr hn.
+
+
+              while(l<=r){
+                    int mid=l+(r-l)/2;
+
+                    long long prod=1LL * nums1[i] * nums2[mid];
+
+                    if(prod <= midProduct){
+                        m=mid;
+                        r=mid-1; // bcz larger values are on left side
+                    }
+                    else{
+                        l=mid+1;// bcz smaller values are on right side
+                    }
+              }
+                 // ab ya hmra minus wala case 
+   //                        m
+                 //{-10,-15,-20,-30}, remember larger was on left and smaller on right
+                 // so total size was n, so n-m
+              productsCount+=(n-m); // covered by nums1[i]
+
+        }
+    }
+    return  productsCount;
+}
+// sir mik approach
+             long long kthSmallestProduct(vector<int>& nums1, vector<int>& nums2, long long k) {
+             long long result=0;
+             // binary search on product
+             // note: in programming 10^10 is denoted sa e10
+             // now as constraint was -10^5 <= nums1[i], nums2[j] <= 10^5
+             // so mini value can be -10^5 * 10^5 => -10^10 equals to -1e10
+             // and max value can be 1e10
+
+             long long l=-1e10; 
+             long long r=1e10;
+
+              // range = (r-l)
+             
+             while(l<=r){ // log(r-l)
+                long long midProduct=l+(r-l)/2;
+
+                // check if this kth smallest or not
+                long long countSmallest=findCountSmallest(nums1,nums2,midProduct);//  n * log(m)
+
+                if(countSmallest>= k){
+                    result=midProduct;
+                    r= midProduct-1; // go towards left side if k is greater or equal
+                    // when equal and go left more again to find the minimum porduct which
+                    // is equal to k.
+                }
+                else
+                {
+                    // if smallest go right
+                    l= midProduct+1;
+                }
+             }
+
+             return result;
+             }
+              // TC =>  log(r-l) *  n * log(m).
+              // SC => O(1).
+
+              
+};
