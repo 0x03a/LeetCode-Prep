@@ -1,0 +1,162 @@
+class Solution {
+public:
+// note: In other words, left-shifting an integer "a" with an integer "b" denoted as '(a<<b)' is equivalent to multiplying a with 2^b (2 raised to power b). 
+
+// Brute Force my Approach
+// issue: overFlow due to bit range
+// Approach: i was just making the longest subseqence from R to L, LSB to MSB,
+// and it will always be less than or eq to k
+// let's understand it with an example
+
+// ex 1001010, k=5
+// starting from i=size-1;
+// first 0 in decimal 0 <=5 true
+// add next char
+// 10 in decimal 2 <=5 true
+// 010 in decimal 2 <=5 true
+// 1010 in decimal 10 <=5 false
+// don't add 1, move to the next character, just add all the zero's
+// bcz if '1' comes it will definitely becomes larger than k.
+// so just add the zero's found on the left.
+
+
+// so, final string becomes => 00010 (2), <= k, and is maximum larger subsequence with length=5;
+
+
+
+
+
+// long long binaryToDecimal(string &s){
+//     int size=s.length();
+  
+//     int j=size-1;
+//     long long res=0;
+//     int i=0;
+   
+//     while(i<size){
+//       if(i>=64){
+//         continue;
+//       }
+
+// res+= ( (s[j]-'0'))*((1LL<<i));
+// // Note:
+// // 1 << 32 on int	Use 1LL << 32 to make it long long
+// // Shift over 31 on int	Causes undefined behavior
+
+
+// i++;
+// j--;
+//     }
+   
+// return res;
+// }
+
+// // Approach by me
+// // I fixed the error after seeing 1 thing from code in the comments.
+// // all because of sir mik video, i was able to see that 1 thing from the comment section.
+// // Al hamdu lilah
+
+// // TC=> O(n^2), SC=> O(1)
+//     int longestSubsequence(string s, int k) {
+//         // 
+//         int size=s.length();
+//         string tempVar="";
+//         int j=1;
+
+//           string res="";
+//         for(int i=size-1;i >= 0; i--){
+           
+//          tempVar+=s[i];
+            
+//          reverse(tempVar.begin(),tempVar.end());
+//             if(binaryToDecimal(tempVar) <= k ){
+                   
+//                    res=tempVar;
+//                      reverse(tempVar.begin(),tempVar.end());
+//             }
+//             else{
+
+//                   while(i>=0){
+//                     if(s[i] =='0'){
+//                         res+=s[i];
+//                     }
+//                     i--;
+//                   }
+//                   break;
+//             }
+//         }
+
+//         return res.length();
+//     }
+
+// // sir mik approach, code by a person named, "AbhishekShorts20" in the comment section of
+// sir mik, it was home work but i could not solve it, but In shah Allah i will   be able to solve after some days. 
+
+// int solve(string s, int k, int i,int n  ){
+//     if( i < 0) return 0;
+
+//     int bit=s[i]-'0';
+//     int power=(n-i-1); // ex if n=5,i=size-1=>4,5-4-1=> 0.
+
+//     int val=0;
+//     if(bit == 1){
+//         if(power >= 31){
+//             return solve(s,k,i-1,n);
+//         }
+//         val=1<<power;
+//     }
+
+//     if(val <=k){
+//         return 1+solve(s,k-val,i-1,n);
+//     }
+//     else{
+//          return solve(s,k,i-1,n);
+//     }
+
+
+// }
+//  int longestSubsequence(string s, int k) {
+//     int size=s.length();
+//     return solve(s,k,size-1,size);
+//  }
+
+// sir mik optimal approach, TC=> O(n), SC=>O(1)
+
+// Ex 
+/*
+
+ s = "00101001", k = 1
+             i
+
+  binary= 1*2^0 => 1, k=k-(1*2^0)
+    2^1
+
+    steps required:
+    => if 0 then it had not affect on 'k', simply just plus the length.
+    => if 1 then length++ , after that k=k-powerValue, and update the power value
+
+
+*/
+int longestSubsequence(string s, int k) {
+ int length=0;
+ long long powerValue=1; // 2^0
+
+ int size=s.length();
+ for(int i=size-1;i>=0; i--){
+     if(s[i]=='0'){ // Greedily adding '0's
+        length++;
+     }
+     else if(1 * powerValue<=k){
+        length++;
+        k=k-powerValue;
+     }
+
+     if(powerValue<=k){
+        powerValue*=2;
+     }
+ }
+
+ return length;
+ }
+
+};
