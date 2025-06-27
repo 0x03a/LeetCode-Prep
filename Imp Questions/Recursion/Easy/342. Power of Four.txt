@@ -1,0 +1,37 @@
+class Solution {
+public:
+   
+   // with recursion Ologn both => space, TC, My approach
+// bool isPowerOfFour(int n) {
+
+// if(n==1){
+//     return true; // bcz 4^0 == 1
+// }
+//     if (n % 4 == 0) {
+//         if (n == 4) {
+//             return true;
+//         }
+//         else if (n > 0) {
+//           return   isPowerOfFour(n/4);
+//         }
+//     }
+//     return false;
+
+// }
+
+
+// TC => logn + logx
+// SC => O(1)
+bool isPowerOfFour(int n) {
+    if(n <=0)
+       return 0;
+  int mathLogformula= log(n)/log(4); // this gives us the power, TC is Lgn
+int result=1;
+  while( mathLogformula--)
+         result=result << 2;
+     
+         return result == n;
+
+}
+
+};
