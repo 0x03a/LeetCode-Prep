@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Tree{   
+    public:
+    Tree * left;
+    Tree * right;
+    char value;
+  Tree(){
+    left=nullptr;
+    right=nullptr;
+    value='\0';
+  }
+     Tree(char val){
+        value=val;
+        left=right=nullptr;
+     }
+
+    
+   
+   
+};
+
+ void inOrderTravsersal(Tree * root,string & bin){
+        if(root == nullptr)
+          return ;
+inOrderTravsersal(root->left,bin);
+bin+=root->value;
+inOrderTravsersal(root->right,bin);
+
+     }
+
+int main(){
+
+    long long input;
+    cin>>input;
+      string binary="\0";
+      // converting into binary
+      while(input!=0){
+        binary+=to_string(input%2);
+        input/=2;
+      }
+      reverse(binary.begin(),binary.end());
+
+
+int size=binary.length();
+int i=1;
+Tree * root=new Tree(binary[0]);
+Tree * curr=root;
+
+while (i < size) {
+    if (binary[i] == '1') {
+        curr->right = new Tree('1');
+        curr = curr->right;
+    } else {
+        curr->left = new Tree('0');
+        curr = curr->left;
+    }
+    i++;
+}
+
+    string res="\0";
+
+    inOrderTravsersal(root,res);
+   
+
+    // decimal to binary
+   long long k=0;
+   int j=size-1;
+   long long result=0;
+    while(j>=0 && k<64){
+        
+      result+=(res[j]-'0')*1LL << k;
+      k++;
+      j--;
+    }
+
+    cout<<result;
+
+
+}

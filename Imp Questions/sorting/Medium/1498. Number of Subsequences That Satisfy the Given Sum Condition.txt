@@ -1,0 +1,37 @@
+class Solution {
+public:
+int mod=1e9 + 7;
+    int numSubseq(vector<int>& nums, int target) {
+        // brute force 
+        
+        int size=nums.size();
+        int ans=0;
+
+        // O(nlogn)
+        sort(nums.begin(), nums.end());
+         int i=0;
+         int j=size-1;
+ // power precomputation
+ vector<int> power(size,1);
+
+          for(int i=1; i< size;i++){
+            power[i]=(power[i-1]*2)%mod;
+          }
+
+      // O(n)
+         while(i<=j){
+           
+            if(nums[i]+nums[j] <= target){
+               // int diff=j-i;
+               
+                ans= ((ans % mod) + power[j-i]) % mod;
+                // ans= ((ans% mod) + ((1LL << diff) % mod)) % mod; answer cominng to due ot large range
+                i++;
+            }
+            else 
+                j--;
+         }
+
+        return ans; // TC=> O(nlogn), SC=>O(n)
+    }
+};
