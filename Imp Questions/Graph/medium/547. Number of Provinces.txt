@@ -1,0 +1,69 @@
+class Solution {
+public:
+// done with both approaches 
+// Al hamdu lilah
+// credit goes to sir MIK
+// TC => O(n^2), SC-> O(n)
+void DFS(unordered_map<int, vector<int>> & adj,int & src,vector<bool> & vis ){
+    if(vis[src] == true)
+       return;
+
+       vis[src]=true;
+
+       for(auto & val: adj[src]){
+        if(!vis[val]){
+            DFS(adj,val,vis);
+        }
+       }
+}
+
+
+void BFS(unordered_map<int, vector<int>> & adj, int & src, vector<bool> & vis){
+    queue<int> q;
+    q.push(src);
+    vis[src]=true;
+
+    while(!q.empty()){
+        int front=q.front();
+        q.pop();
+
+        for(auto & val: adj[front]){
+            if(!vis[val]){
+               q.push(val);
+               vis[val]=true;
+            }
+        }
+    }
+}
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        // first make adjacency list
+        unordered_map<int,vector<int>> adj;
+        int count=0;
+        int n=isConnected.size();
+        vector<bool> visited(n,false);
+
+        // making graph, through adj list
+   for(int i=0; i<n;i++ ){
+    for(int j=0; j< n ; j++){
+        if(isConnected[i][j] == 1){
+            adj[i].push_back(j);
+            adj[j].push_back(i);
+        }
+    }
+
+
+   }
+int provinces=0;
+   for(int i=0; i<n; i++){
+    if(!visited[i]){
+// DFS(adj, i, visited);
+BFS(adj,i,visited);
+provinces++;
+    }
+   }
+
+
+        return provinces;
+        
+    }
+};
