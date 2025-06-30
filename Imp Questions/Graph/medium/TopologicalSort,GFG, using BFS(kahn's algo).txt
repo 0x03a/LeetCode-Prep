@@ -125,3 +125,99 @@ int main() {
     return 0;
 }
 // } Driver Code Ends
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// sir mik:
+
+// class Solution {
+//   public:
+   
+
+// bool bfstopologicalSort(unordered_map<int,vector<int>> &adj,int & V){
+//     vector<int> indegree(V,0); // size is V, intializes all it with 0
+//     queue<int> q;
+//     int count=0;
+//     // step1 , get indegree of all the edges
+//     for(int i=0; i< V;i++){
+//     for(auto & val:adj[i]){
+//         indegree[val]++;
+        
+//     }
+    
+//     }
+    
+//     // step2: push into queue which vertex has indegree 0.
+    
+//     for(int i=0; i< V;i++){
+//         if(indegree[i]==0)
+//           { q.push(i);
+//           count++;
+//           }
+//     }
+    
+//     // now topological sort porcess
+    
+//     while(!q.empty()){
+        
+//         int temp=q.front();
+//              q.pop();
+             
+//              for(auto & val: adj[temp]){
+                 
+//                  indegree[val]--;
+                 
+//                  if(indegree[val]==0)
+//                   { q.push(val);
+//                   count++;
+//                   }
+//              }
+        
+//     }
+    
+//     // ya bhi sae ha
+//     // for(int i=0;i<V;i++){
+//     //     if(indegree[i] > 0)
+//     //       return true;
+//     // }
+    
+    
+//     // ya count variable wala sir mik ka way ha.
+//     if(count==V)
+//       return false;// no cycle
+    
+    
+    
+//     return true;// cycle 
+    
+    
+// }
+// bool isCyclic(int V, vector<vector<int>> adj) {
+//   unordered_map<int,vector<int>> adj1;
+//   for(auto & val: adj){
+//       int u=val[0];
+//       int v=val[1];
+       
+//       adj1[u].push_back(v);
+//   }
+   
+   
+   
+   
+//     return  bfstopologicalSort(adj1,V);
+    
+// }
+// };
