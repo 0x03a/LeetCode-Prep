@@ -1,0 +1,147 @@
+class Solution {
+public:
+// Al hamdulilah 3 approaches by me, 3rd is the improved version of approach 2.
+// mine brute Force Approach, O(n^2)
+    // int findLHS(vector<int>& nums) {
+    //     int i=0; 
+    //     int n=nums.size();
+    //     int j=n-1;
+    //     int result=0;
+    //     sort(nums.begin(), nums.end());
+    //     while(i<n){
+    //         j=n-1;
+    //         while(j>=i){
+    //               if(nums[j]-nums[i] == 1){
+    //                 result=max(result,j-i+1);
+    //               }
+    //               j--;
+    //         }
+
+    //         i++;
+    //     }
+
+    // return result;
+    // }
+
+
+     // Optimized TC-> O(nlogn), SC => O(n)
+     // approach mine
+     /*
+     let's understand it with a small example
+          Input: nums = [1,2,3,4]
+          Output: 2
+          
+          1- sort the arrary
+          2- simple calculate frequency of each element in ordered map
+          3- simple now check in a loop that if nums[i+1] - nums[i] == 1
+          then simple plus the frequncies of those two numbers
+
+
+          dry run:
+          nums = [1,2,3,4]
+
+          number : Occurences
+          1          1
+          2          1
+          3          1
+          4          1
+
+
+          now just moving i pointer
+          nums[i+1] - nums[i] ==> 1 ,
+          so plus the freq of 1,2 and store 2 in res
+          same for others.
+
+
+     */
+    //  int findLHS(vector<int>& nums) {
+    //        map<int,int> m1;
+
+    //        int n=nums.size();
+    //        sort(nums.begin(), nums.end());
+    //     for(size_t i=0; i< n; i++){
+    //         m1[nums[i]]++;
+    //     }
+    //     int result=0;
+
+    //     for(int i=0; i< n; i++){
+    //        if(i+1 < n &&  nums[i+1] == nums[i])
+    //            continue;
+
+    //         if(i+1 < n && nums[i+1] - nums[i] == 1){
+    //             // result=max(result,m1[nums[i+1]]+m1[nums[i]]);
+    //             if(result < m1[nums[i+1]]+m1[nums[i]] ) // same getting max element, no difference btw max function and this 
+    //               result=m1[nums[i+1]]+m1[nums[i]];
+    //         }
+
+    //     }
+
+    //     return result;
+
+
+    //  }
+
+
+     // pruned test cases , that if result + i >=n then break
+     // means that let's assume we get the result=5, means max subseq of length 5, and and i is at 6 ,  and n=9
+     // so max subseq if we can get from here is 3, altough we have result =5 which is max then it, so no need to go further
+
+// TC-> O(nlogn), SC => O(n), remains but a little bit improvement, done by me
+//    int findLHS(vector<int>& nums) {
+//            map<int,int> m1;
+
+//            int n=nums.size();
+//            sort(nums.begin(), nums.end());
+//         for(size_t i=0; i< n; i++){
+//             m1[nums[i]]++;
+//         }
+//         int result=0;
+
+//         for(int i=0; i< n; i++){
+//            if(i+1 < n &&  nums[i+1] == nums[i])
+//                continue;
+
+//             if(i+1 < n && nums[i+1] - nums[i] == 1){
+//                 // result=max(result,m1[nums[i+1]]+m1[nums[i]]);
+//                 if(result < m1[nums[i+1]]+m1[nums[i]] ) // same getting max element, no difference btw max function and this 
+//                   result=m1[nums[i+1]]+m1[nums[i]];
+              
+
+//             }
+              
+//                  if(result+ i >=n) // in some testcases some values which does not required to be check are pruned.
+//                      break;
+
+//         }
+
+//         return result;
+
+
+//      }
+
+
+     // sir mik approach O(n). SC=> O(n)
+ int findLHS(vector<int>& nums) {
+unordered_map<int,int> mp;
+int res=0;
+for(auto & num: nums)
+{
+    mp[num]++;
+}
+
+for(auto & num: nums){
+    int minnum=num;
+    int maxnum=num+1;
+
+    if(mp.count(maxnum)){
+        res=max(res,mp[minnum]+mp[maxnum]);
+    }
+}
+
+return res;
+
+
+ }
+
+
+};
