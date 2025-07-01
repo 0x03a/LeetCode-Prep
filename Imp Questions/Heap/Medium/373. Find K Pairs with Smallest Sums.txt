@@ -1,0 +1,108 @@
+class Solution {
+public:
+// My Brute Force Approach done by me. // Accepted
+//     vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+//         int size1=nums1.size();
+//         int size2=nums2.size();
+//         vector<vector<int>> res;
+//         priority_queue<pair<int,pair<int,int>>> p; // max heap, stores sum + stores pairs
+   
+
+//         int i=0;
+//         int j=0;
+//         int sum1=0;
+//         int sum2=0;
+
+//         // Brute Force, TC=> O(size1 * size2 * log(k))
+//         while(i<size1){
+//             j=0;
+
+//             // if the next ith element has greater sum then the top of pq then break
+//             if(p.size()==k){
+//                 sum1=nums1[i]+nums2[j];
+//                        sum2= p.top().second.first +  p.top().second.second;
+    
+//                       if(sum1 > sum2){
+//                        break;
+//                       }
+//             }
+//             while(j <size2 ){
+
+                
+//                 if(p.size() < k){
+                   
+//                     p.push({nums1[i]+nums2[j],{nums1[i],nums2[j]}});
+//                 }
+//                 else if( p.size() >=k){
+//   sum1=nums1[i]+nums2[j];
+
+//                       sum2= p.top().second.first +  p.top().second.second;
+//                       if(sum2 > sum1){  // if the incoming sum is less than the top sum of pq
+//                         p.pop();
+//                         p.push({sum1,{nums1[i],nums2[j]}});
+//                       }
+//                       else  // if the incoming sum is greater than the top sum of pq, then break
+//                          break;
+//                 }
+
+//                       j++;
+//             }
+
+          
+// i++;
+//         }
+
+//         while(!p.empty()){
+//             res.push_back({p.top().second.first, p.top().second.second});
+//             p.pop();
+//         }
+
+// return res;
+//     }
+
+
+// Optimal Approach sir mik
+// TC worst case O(k * log(m*n)), k mtlb sara elements , m*n push kr rahai pq mn, when k == 0, SC => O(m*n)
+// TC good when  k > 0, but pq is empty , O(k * log(k)), SC => O(k)
+typedef pair<int,pair<int,int>> p;
+  vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
+    priority_queue<p, vector<p>, greater<p>> pq;
+    int m=nums1.size();
+    int n=nums2.size();
+
+
+    int sum=nums1[0]+nums2[0];
+set<pair<int,int>> visited;
+    pq.push({sum,{0,0}}); // always minimum
+  visited.insert({0,0});
+    vector<vector<int>> res;
+
+    while( k-- && !pq.empty()){
+        auto temp=pq.top();
+        pq.pop();
+
+        int i=temp.second.first;
+        int j=temp.second.second;
+
+        res.push_back({nums1[i],nums2[j]});
+
+        // i, j
+
+        // push (i,j+1) if possible
+        if(j+1 < n && visited.find({i,j+1})== visited.end()){
+            pq.push({nums1[i]+nums2[j+1], {i,j+1}});
+            visited.insert({i,j+1});
+        }
+
+         // push (i+1,j) if possible
+        if(i+1 < m && visited.find({i+1,j})== visited.end()){
+            pq.push({nums1[i+1]+nums2[j], {i+1,j}});
+               visited.insert({i+1,j});
+        }
+
+    }
+    return res;
+
+  }
+
+};

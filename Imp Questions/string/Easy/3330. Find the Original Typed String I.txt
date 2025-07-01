@@ -1,0 +1,65 @@
+class Solution {
+public:
+
+// // TC =? O(n). SC=> O(n)
+//  int possibleStringCount(string word) {
+
+//     char prev = '/0';
+
+//     int i = 0;
+  
+//     int cnt2 = 1;// bydefault string cnt is 1
+//     vector<int> v;
+//     int cnt1 = 0;
+       
+     
+//         for (int j = 0;j < word.length();)
+//         {
+//             char temp = word[j];
+//             while (temp == word[j])
+//             {
+//                 cnt1++;
+//                 j++;
+//             }
+//             v.push_back(cnt1);
+//             cnt1 = 0;
+//             temp = '\0';
+
+//         }
+//         cnt1 = 0;
+//         for (int i = 0;i < v.size();i++) {
+//             cnt1 = v[i];
+//             while (cnt1 > 1)
+//             {
+//                 cnt1--;
+//                 cnt2++;
+//             }
+//         }
+      
+      
+
+   
+//        return cnt2;
+// }
+
+
+// more optimized done by me , TC=> O(n), SC(O(1))
+ int possibleStringCount(string word) {
+     int cnt=1;
+     int wordSize=word.size();
+
+    int j=0;
+    while(j< wordSize-1){
+        if(word[j]==word[j+1]){
+        while( j < wordSize-1 && word[j]==word[j+1]){
+            cnt++;
+            j++;
+        }
+        }
+        else 
+         j++;
+ 
+    }
+ return cnt;
+ }
+};
