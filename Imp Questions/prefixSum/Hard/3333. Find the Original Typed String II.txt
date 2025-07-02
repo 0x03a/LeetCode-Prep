@@ -1,0 +1,283 @@
+class Solution {
+public:
+// int M=1e9+7;
+
+
+// // without memmorization time limit exceeded
+// int solve(int i, int cnt, vector<int> freq, int k){
+//     if(i>=freq.size()){
+//         if(cnt < k)
+//            return 1;
+//         else 
+//           return 0;
+//     }
+//   long long result=0;
+//     for(int take=1; take<=freq[i]; take++){
+//         if(take+cnt < k){
+// result+= solve(i+1,take+cnt, freq,k) % M;;
+//         }
+//         else 
+//         break;
+//     }
+
+//     return result;
+// }
+// // Approach 1 sir mik recursion + memorization
+//     int possibleStringCount(string word, int k) {
+       
+//        if( k > word.length()) // bcz we have to give all possible combinations >=k , but if the str is less than k, then its is not possible.
+//           return 0;
+
+//         vector<int> freq;
+//         int cnt=1;
+//         int len=word.length();
+//         for(int i=1;i<len; i++){
+//             if(word[i-1]==word[i]){
+//                 cnt++;
+//             }
+//             else{
+//                 freq.push_back(cnt);
+//                 cnt=1;
+//             }
+//         }
+//         freq.push_back(cnt); // pushing last element bcz it was not pushed.
+
+//         int P=1;
+//         for(int & f: freq){
+//             P=(P* f) % M;
+//         }
+
+//         if(freq.size() >= k){ // means "aabbcc" ka case mn freq mn 3 elements hon with each having freq of 2. but total char are three so, if the unqChar are >=k, so means that all possible combinations greater then it will also be valid so return P.
+//             return P;
+//         }
+
+//         // now we have to count the frq of inv strings.
+
+//         long long invcnt=solve(0,0,freq,k);
+
+//         return P-invcnt;
+//     }
+
+// with memorization
+
+
+// int M=1e9+7;
+// vector<vector<int>> t; // mem arr
+
+// // with memorization
+// int solve(int i, int cnt, vector<int> freq, int k){
+//     if(i>=freq.size()){
+//         if(cnt < k)
+//            return 1;
+//         else 
+//           return 0;
+//     }
+
+//    if(t[i][cnt] != -1)
+//       return t[i][cnt];
+
+//   long long result=0;
+//     for(int take=1; take<=freq[i]; take++){
+//         if(take+cnt < k){
+// result= (result+solve(i+1,take+cnt, freq,k)) % M;;
+//         }
+//         else 
+//         break;
+//     }
+
+//     return t[i][cnt]=result;
+// }
+// //
+//     int possibleStringCount(string word, int k) {
+       
+//        if( k > word.length()) // bcz we have to give all possible combinations >=k , but if the str is less than k, then its is not possible.
+//           return 0;
+
+//         vector<int> freq;
+//         int cnt=1;
+//         int len=word.length();
+//         for(int i=1;i<len; i++){
+//             if(word[i-1]==word[i]){
+//                 cnt++;
+//             }
+//             else{
+//                 freq.push_back(cnt);
+//                 cnt=1;
+//             }
+//         }
+//         freq.push_back(cnt); // pushing last element bcz it was not pushed.
+
+//         long long P=1;
+//         for(int & f: freq){
+//             P= (P* f) % M;
+//         }
+
+//         if(freq.size() >= k){ // means "aabbcc" ka case mn freq mn 3 elements hon with each having freq of 2. but total char are three so, if the unqChar are >=k, so means that all possible combinations greater then it will also be valid so return P.
+//             return P;
+//         }
+
+// int n=freq.size();
+// // n+1 iss lia kia kuin ky ik index or dosra cnt ka
+// t.assign(n+1,vector<int>(k+1,-1)); // invalid krne ka lia cnt should be less than k, to iss lia K=1 lia humny.
+
+
+//         // now we have to count the frq of inv strings.
+//         long long invcnt=solve(0,0,freq,k);
+
+// // agr hum opr dekhin to hum sari cal modulu mn kr rahai hn, to result mn hmra negative bhi aa skta to
+// // uss sa bachna ka lia add Modulu plus again mod modulo
+//         return ((P-invcnt+M)%M);
+//     }
+
+
+  // Now bottom up , remove recursion wala code bcz it also gives TLE
+ 
+//  int M=1e9+7;
+
+
+
+
+// // Approach 1 sir mik recursion + memorization
+//     int possibleStringCount(string word, int k) {
+       
+//        if( k > word.length()) // bcz we have to give all possible combinations >=k , but if the str is less than k, then its is not possible.
+//           return 0;
+
+//         vector<int> freq;
+//         int cnt=1;
+//         int len=word.length();
+//         for(int i=1;i<len; i++){
+//             if(word[i-1]==word[i]){
+//                 cnt++;
+//             }
+//             else{
+//                 freq.push_back(cnt);
+//                 cnt=1;
+//             }
+//         }
+//         freq.push_back(cnt); // pushing last element bcz it was not pushed.
+
+//         long long P=1;
+//         for(int & f: freq){
+//             P= (P* f) % M;
+//         }
+
+//         if(freq.size() >= k){ // means "aabbcc" ka case mn freq mn 3 elements hon with each having freq of 2. but total char are three so, if the unqChar are >=k, so means that all possible combinations greater then it will also be valid so return P.
+//             return P;
+//         }
+
+// int n=freq.size();
+
+
+// vector<vector<int>> t(n+1, vector(k+1,0));
+// for(int count=k-1; count>=0 ; count--){
+//     t[n][count]=1;
+// }
+
+// // problem comes here, let's see how to escape a triple for loop
+// for(int i=n-1; i>=0; i--){
+//     for(int count=k-1; count >=0; count--){
+//         long long res=0;
+//         for(int take=1; take<=freq[i]; take++){
+//             if(count+take < k){
+//                 res =(res+t[i+1][count+take]) % M;
+//             }
+//             else break;
+//         }
+//         t[i][count]=res;
+//     }
+// }
+
+// long long invCnt=t[0][0];
+
+
+
+// // agr hum opr dekhin to hum sari cal modulu mn kr rahai hn, to result mn hmra negative bhi aa skta to
+// // uss sa bachna ka lia add Modulu plus again mod modulo
+//         return ((P-invCnt+M)%M);
+//     }
+
+
+// less optimized bottom up, just  optimized the triple for loop
+
+ int M=1e9+7;
+
+
+
+
+// Approach 1 sir mik recursion + memorization
+    int possibleStringCount(string word, int k) {
+       
+       if( k > word.length()) // bcz we have to give all possible combinations >=k , but if the str is less than k, then its is not possible.
+          return 0;
+
+        vector<int> freq;
+        int cnt=1;
+        int len=word.length();
+        for(int i=1;i<len; i++){
+            if(word[i-1]==word[i]){
+                cnt++;
+            }
+            else{
+                freq.push_back(cnt);
+                cnt=1;
+            }
+        }
+        freq.push_back(cnt); // pushing last element bcz it was not pushed.
+
+        long long P=1;
+        for(int & f: freq){
+            P= (P* f) % M;
+        }
+
+        if(freq.size() >= k){ // means "aabbcc" ka case mn freq mn 3 elements hon with each having freq of 2. but total char are three so, if the unqChar are >=k, so means that all possible combinations greater then it will also be valid so return P.
+            return P;
+        }
+
+int n=freq.size();
+
+
+vector<vector<int>> t(n+1, vector(k+1,0));
+for(int count=k-1; count>=0 ; count--){
+    t[n][count]=1;
+}
+
+// problem comes here, let's see how to escape a triple for loop
+for(int i=n-1; i>=0; i--){
+    vector<int> prefix(k+1,0);
+
+    for(int h=1;h<=k; h++){
+   prefix[h]=(prefix[h-1] + t[i+1][h-1]) % M;
+    }
+    for(int count=k-1; count >=0; count--){
+     int l= count +1;
+     int r=count+freq[i];
+   if(r+1 > k){
+    r=k-1;
+   }
+     if(l<=r){
+        
+
+// agr hum opr dekhin to hum sari cal modulu mn kr rahai hn, to result mn hmra negative bhi aa skta to
+// uss sa bachna ka lia add Modulu plus again mod modulo
+        t[i][count]=(prefix[r+1]-prefix[l]+M) % M;
+     }
+      
+    }
+}
+
+long long invCnt=t[0][0];
+
+
+
+// agr hum opr dekhin to hum sari cal modulu mn kr rahai hn, to result mn hmra negative bhi aa skta to
+// uss sa bachna ka lia add Modulu plus again mod modulo
+        return ((P-invCnt+M)%M);
+    }
+
+
+
+};
+
+
+
