@@ -1,0 +1,91 @@
+class MyCircularQueue {
+public:
+int * circularQueue;
+int qSize;
+int qCnt;
+    MyCircularQueue(int k) {
+       
+        circularQueue = new int[k](-1);
+        qSize=k;
+        qCnt=0;
+    }
+    
+    bool enQueue(int value) {
+    
+       
+     if(isFull()){
+              return false;
+        }
+
+circularQueue[qCnt]=value;
+          qCnt++;
+
+
+        return true;
+           
+    }
+    
+    bool deQueue() {
+        
+        if(isEmpty())
+        {
+          return false;
+        }
+     
+           circularQueue[0]=-1;
+           qCnt--;
+           int i=1;
+           while(i<qSize){ // shifting all elements behind after deletion
+            circularQueue[i-1]=circularQueue[i];
+            i++;
+           }
+       
+
+        return true;
+    }
+    
+    int Front() {
+           
+        if(isEmpty())
+           return -1;
+
+        
+        return circularQueue[0];
+    }
+    
+    int Rear() {
+        
+        if(isEmpty())
+           return -1;
+
+     return circularQueue[qCnt-1];
+
+    }
+    
+    bool isEmpty() {
+        if(qCnt ==0)
+           return 1;
+
+       return 0;
+        
+    }
+    
+    bool isFull() {
+        if(qSize==qCnt)
+           return 1;
+        
+        return 0;
+           
+    }
+};
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue* obj = new MyCircularQueue(k);
+ * bool param_1 = obj->enQueue(value);
+ * bool param_2 = obj->deQueue();
+ * int param_3 = obj->Front();
+ * int param_4 = obj->Rear();
+ * bool param_5 = obj->isEmpty();
+ * bool param_6 = obj->isFull();
+ */

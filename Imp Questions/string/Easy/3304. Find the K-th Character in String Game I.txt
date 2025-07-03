@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+// done by me
+//     char kthCharacter(int k) { // TC => O(k), SC=> O(1)
+//         // simple iterative approach
+//        string word="a";
+// string temp="\0";
+//        while(word.length() <=k){
+//            temp=word;
+//            for(int i=0; i< temp.length();i++){
+             
+//             if(temp[i] == 'z'){
+//                temp[i]='a';
+//            }
+//            else
+//              temp[i]+=1;
+           
+//            }
+//            word+=temp;
+
+//        }
+//        return word[k-1];
+//     }
+
+ 
+
+
+// in solutions i got this solution,
+// The number of times the character at position k has been shifted = number of 1s in binary of k - 1, so the answer is 'a' + (number of 1s)
+ char kthCharacter(int k) { 
+           char res = 'a' + __builtin_popcount(k - 1); // __builtin_popcount(num), is used to give the count 
+           return res;
+
+ }
+};
