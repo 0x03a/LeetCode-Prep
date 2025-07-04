@@ -1,0 +1,228 @@
+class Solution {
+public:
+// simple approach if a cycle is detected then return false
+// i have to do another approach for it but first i am doing this 
+// this approach is also correct but time limit exceeded.
+/*
+ bool DFS(unordered_map<int,vector<int>> &adj, int u, vector<bool> &visited,vector<bool> inR){
+    visited[u]=true;
+    inR[u]=true;
+    for(const auto & v:adj[u]){
+        if(inR[v])
+          return true;
+        
+        if(DFS(adj,v,visited,inR))
+           return true;
+    }
+    return false;
+ }
+ 
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        unordered_map<int,vector<int>>adj;
+        for(const auto & val:prerequisites){
+            int u=val[0];
+            int v=val[1];
+            adj[u].push_back(v);// as it is directed graph
+        }
+       vector<bool> visited(numCourses,false);
+       vector<bool> inR(numCourses,false);
+       bool flag=true;
+        for(int i=0;i<numCourses;i++){
+            if(!visited[i])
+             if( DFS(adj,i,visited,inR))
+                return false;
+        }
+
+        return true;
+    }
+
+    */
+
+//       bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
+//       { // Hint:  For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1,
+//        // this tell us that this a DAC in which khan's algo of BFS needs to be implemented.
+//         // bfs topological sort
+        
+//         if(prerequisites.size()==0)
+//            return true;
+
+
+//          unordered_map<int, vector<int>> adj;
+
+//          for(auto & val: prerequisites){
+//              int v=val[1];
+//              int u=val[0];
+
+//              adj[u].push_back(v);
+//          }
+
+//           // BFS implementation of Khan's Algo
+
+//           vector<int> indeg(numCourses,0); // size numCourses-1, initialized with 0
+
+
+// // indeg calculated.
+//           for(size_t i=0; i< numCourses; i++){
+              
+//               for(auto & val: adj[i]){
+//                 indeg[val]++;
+//               }
+//           }
+// int cnt=0;
+//           queue<int> q;
+//           for(size_t i=0; i< numCourses; i++){
+//             if(indeg[i]==0)
+//             { q.push(i);
+//              cnt++;
+//             }
+//           }
+ 
+//           while(!q.empty()){
+//             int front=q.front();
+//             q.pop();
+
+//               for(auto & val: adj[front]){
+//                    if(indeg[val] > 0)
+//                indeg[val]--;
+      
+//                 if(indeg[val]==0)
+//                    { q.push(val); 
+//                    cnt++;
+//                    }
+                
+//                             }
+//           }
+
+
+//           if(cnt== numCourses)
+//               return true ; // no cycle
+
+//               return false; // cycle
+
+
+
+
+        
+    
+    
+    
+    
+
+    
+    
+// }
+
+// sir mik code efficent but approach same, this question also be done with the help of using DFS
+//       bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
+//       { 
+        
+//         if(prerequisites.size()==0)
+//            return true;
+
+
+//          unordered_map<int, vector<int>> adj;
+         
+//           vector<int> indeg(numCourses,0); // size numCourses-1, initialized with 0
+
+//          for(auto & val: prerequisites){
+//              int v=val[1];
+//              int u=val[0];
+
+//              adj[u].push_back(v);
+//              indeg[v]++;
+//          }
+
+//           // BFS implementation of Khan's Algo
+
+
+
+// // indeg calculated.
+        
+// int cnt=0;
+//           queue<int> q;
+//           for(size_t i=0; i< numCourses; i++){
+//             if(indeg[i]==0)
+//             { q.push(i);
+//              cnt++;
+//             }
+//           }
+ 
+//           while(!q.empty()){
+//             int front=q.front();
+//             q.pop();
+
+//               for(auto & val: adj[front]){
+                   
+//                indeg[val]--;
+      
+//                 if(indeg[val]==0)
+//                    { q.push(val); 
+//                    cnt++;
+//                    }
+                
+//                             }
+//           }
+
+
+//           if(cnt== numCourses)
+//               return true ; // no cycle
+
+//               return false; // cycle
+
+    
+// }
+
+
+// DFS implementaion of this question , in which a cycle is detected in directed graph.
+  bool DFS(int &src,unordered_map<int,vector<int>> &adj, vector<bool> & v, vector<bool> R){
+    if(v[src] == true)
+       return false;
+
+       v[src]=true;
+       R[src]=true;
+
+       for(auto & val:adj[src]){
+        if(R[val])
+           return true;
+
+       if(!v[val]){
+          if( DFS(val,adj,v,R))
+              return true;
+       }
+       }
+
+    return false;
+  }
+
+   bool canFinish(int numCourses, vector<vector<int>>& prerequisites) 
+      { 
+        
+        if(prerequisites.size()==0)
+           return true;
+
+
+         unordered_map<int, vector<int>> adj;
+       
+
+         for(auto & val: prerequisites){
+             int v=val[1];
+             int u=val[0];
+
+             adj[u].push_back(v);
+           
+         }
+
+        vector<bool> visited(numCourses,false);
+        vector<bool> inRec(numCourses,false);
+        for(int i=0; i < numCourses; i++){
+            if(!visited[i]){
+                if(DFS(i,adj, visited, inRec))
+                     return false; // cycle
+            }
+        }
+
+        return true; // no cycle
+    
+}
+      
+};
