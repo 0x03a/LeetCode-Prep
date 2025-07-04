@@ -1,0 +1,68 @@
+class Solution {
+public:
+    char kthCharacter(long long k, vector<int>& operations) {
+        // // brute force , TLE, done by me.
+        // string word="a";
+        //  int size=operations.size();
+        //  string temp="\0";
+        //  for(size_t i=0; i< size; i++){
+
+        //     if(operations[i] == 0){
+        //       word+=word;
+        //     }
+        //     else{
+        //         temp=word;
+        //         for(size_t i=0; i<temp.length();i++ ){
+        //             if(temp[i] == 'z')
+        //               {
+        //                 temp[i]='a';
+        //               }
+        //               else{
+        //                 temp[i]+=1;
+        //               }
+        //         }
+
+        //         word+=temp;
+        //     }
+
+
+        //  }
+
+        //  return word[k-1];
+
+
+        // sir mik awesome approach
+
+        if(k==1)
+           return 'a';
+
+        int size=operations.size();
+        long long len=1;
+        long long newk=-1;
+        int opttype=-1;
+        for(size_t i=0; i<size;i++){ // ab ya for loop bhi log(k) times chl rhi, kuin hum len*=2, kr rhai or jesa hi ya >=2 hoa hum break kr gai
+            len*=2; 
+
+            if(len >=k){
+                opttype=operations[i];
+                newk=k-len/2;
+                break;
+            }
+        }
+
+        char ch=kthCharacter(newk,operations); // or yahn pr hum space bhi log(k) hi la rahain recursion stack mn.
+
+        if(opttype==0)
+           return ch;
+       
+            if(ch=='z')
+             return 'a';
+
+
+             return ch+1;
+              
+          
+
+        
+    }
+};
