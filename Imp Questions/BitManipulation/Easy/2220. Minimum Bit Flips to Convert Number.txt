@@ -1,0 +1,81 @@
+class Solution {
+public:
+
+
+        /*
+Brute Force by dev_dot_com 
+- simple dono numbers ka xor nikalo
+- or phr jitni bits set hn , unko count kr lo.
+
+int minBitFlips(int start, int goal) {
+    int bits = start ^ goal, res = 0;
+    while (bits > 0) {
+        int rem = bits % 2;
+        bits /= 2;
+        if (rem == 1) {
+            res++;
+        }
+    }
+    return res;
+}
+
+        */
+
+// my solution TC=> O(1), SC-> O(1).
+//     int minBitFlips(int start, int goal) {
+//         // to check if a kth bit is set or not
+//         /*
+//          formula: x & (1 << k)
+
+// int x = 10;  // binary: 1010
+// int k = 1;
+// Now evaluate:
+
+
+// x & (1 << k) = 10 & (1 << 1)
+//              = 10 & 2
+//              = 1010 & 0010
+//              = 0010 => 2 (non-zero)
+//  So, the 1st bit (bit at index 1) of x is set (1).
+
+
+//         */
+
+
+// int bitsDiff=0; // jitni bhi bits diff ha humin  unko flip krna ho ga apna goal banana ka lia
+
+//         for(size_t i=0; i<32 ; i++){
+//               if((start & (1 << i)) && (goal & (1 << i)))
+//                  {
+//                     // no need to flip
+//                  }
+//                  else if((start & (1 << i)) == 0 && (goal & (1 << i)) == 0)
+//                  {
+//                      // no need to flip
+//                  }
+//                  else 
+//                     bitsDiff++;
+                
+//         }
+
+//         return bitsDiff;
+//     }
+
+ int minBitFlips(int start, int goal) {
+int bits=start ^ goal;
+// int ans=0;
+//    while(bits > 0){
+//        int rem=bits%2;
+//        bits/=2;
+
+//        if(rem==1)
+//        ans++;
+          
+//    }
+
+//    return ans;
+
+   return __builtin_popcount(bits);
+
+ }
+};
