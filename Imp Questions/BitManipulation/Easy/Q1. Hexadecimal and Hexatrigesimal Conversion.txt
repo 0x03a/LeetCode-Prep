@@ -1,0 +1,59 @@
+class Solution {
+public
+    string concatHex36(int n) {
+            unordered_mapint, char m1;
+
+    for (int i = 0; i  26; ++i) {
+        m1[10 + i] = 'A' + i;
+    }
+
+      string res=;
+
+         hexa conv
+        int hex=pow(n,2);
+
+        while(hex  0){
+            int rem=hex % 16;
+           coutrem remendl;
+            if(rem = 10 && rem =15){
+                res+=m1[rem];
+               
+            }
+            else{
+                res+=(rem+'0');
+            }
+            
+            hex=16;
+                  
+        }
+
+        reverse(res.begin(),res.end());
+
+        string res2=;
+
+         hexatrigesimal 
+        int hexg=pow(n,3);
+
+          while(hexg  0){
+            int rem=hexg % 36;
+
+            if(rem = 10 && rem =35){
+                res2+=m1[rem];
+               
+            }
+            else{
+                res2+=(rem+'0');
+            }
+            hexg=36;
+                  
+        }
+
+          reverse(res2.begin(),res2.end());
+
+        
+
+        
+        return res+res2;
+
+    }
+};©leetcode
