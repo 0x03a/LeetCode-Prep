@@ -1,0 +1,176 @@
+class FindSumPairs {
+public:
+
+
+/// Brute Force , TLE at testCase # 19
+
+// vector<int> num1;
+// vector<int> num2;
+//     FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
+//          num1=nums1;
+//          num2=nums2;
+//     }
+    
+//     void add(int index, int val) {
+//         num2[index]+=val;
+//     }
+    
+//     int count(int tot) {
+//          int count=0;
+//         for(int i=0; i< num1.size();i++){
+//             for(int j=0; j< num2.size();j++){
+//                 if(num1[i]+num2[j] == tot)
+//                     count++;
+//             }
+//         }
+
+//         return count;
+        
+//     }
+
+
+
+// vector<int> num1;
+// vector<int> num2;
+
+
+// // 2nd approach of mine was a little bit optimized but still TLE at 24th case
+// /*
+// [1, 1, 2, 2, 2, 3], [1, 4, 5, 2, 5, 4]]
+
+// dono array ki frequencies count kr lin
+
+// phr uska bd na let's say count == 7 ha
+
+// to iss ka answer 8 tha
+
+
+// -> ab 3 + 4 = 7 hota.
+// =>  2 + 5 = 7 hota. 
+
+// == ab phla mn ya kr raha tha single index ab index sb ko compare kr raha tha or jo equal to val ho raha tha usko count kr rha 
+// tha
+
+// ==> ab iss approach mn na simple thora bht wesa hi kia pr iss bri mn na sb ki frequencies cnt kr lin.
+
+// or phr esa solve kia.
+
+// jesa iss case mn:
+// -> ab 3 + 4 = 7 hota. ( count+= (jitni 3 ki occurences ha * jitni 4 ki occurences ha)) == (1 * 2)
+// =>  2 + 5 = 7 hota.  ( count+= (jitni 2 ki occurences ha * jitni 5 ki occurences ha))  count+= (3 * 2)-> becomes 8 (total)
+// means their are 8 pairs having this sum eq to tot.
+
+
+
+
+
+
+
+    // FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
+    //      num1=nums1;
+    //      num2=nums2;
+    // }
+    
+    // void add(int index, int val) {
+    //     num2[index]+=val;
+    // }
+    
+    // int count(int tot) {
+    //      int count=0;
+
+    //      unordered_map<int,int>  n1;
+    //      unordered_map<int,int> n2;
+
+    //      for(auto & val: num1){
+    //         n1[val]++;
+    //      }
+
+    //      for(auto & val:num2)
+    //      {
+    //         n2[val]++;
+    //      }
+
+
+    //      for(auto & [key1,val]: n1){
+    //         for(auto & [key2,val2]: n2){
+
+    //             if(key1+key2 == tot)
+    //                  {   
+                     
+    //                         count+=n1[key1]*n2[key2];
+    //                         break;
+      
+    //                  }
+    //         }
+    //      }
+      
+
+    //     return count;
+        
+    // }
+
+
+
+vector<int> num1;
+vector<int> num2;
+  
+         unordered_map<int,int> n2;
+    // TC => O(n+m)
+    FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
+         num1=nums1;  // O(m)
+         num2=nums2;  // O(n)
+
+         
+         for(auto & val:num2) // O(n)
+         {
+            n2[val]++;
+         }
+
+    }
+    
+
+    // O(1)
+    void add(int index, int val) {
+         n2[ num2[index]]--;
+        num2[index]+=val;
+        n2[ num2[index]]++;
+    }
+    
+
+
+    int count(int tot) {
+         int count=0;
+
+    
+        
+            for(int i=0; i< num1.size();i++){ // size of max1 is max 1000, so O(n)
+                int x=tot-num1[i];
+
+                if(n2.count(x)){
+                    count+= n2[x];
+                   
+                }
+            }
+
+            
+        return count;
+         }
+      
+
+        
+    
+
+    
+
+
+
+
+
+};
+
+/**
+ * Your FindSumPairs object will be instantiated and called as such:
+ * FindSumPairs* obj = new FindSumPairs(nums1, nums2);
+ * obj->add(index,val);
+ * int param_2 = obj->count(tot);
+ */
