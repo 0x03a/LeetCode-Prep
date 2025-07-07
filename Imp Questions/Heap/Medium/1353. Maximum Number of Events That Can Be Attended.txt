@@ -1,0 +1,88 @@
+class Solution {
+public:
+
+// TC => nlogn 
+    int maxEvents(vector<vector<int>>& events) {
+
+        // I tried but could not understand the  question
+//         int maxDay=INT_MIN;
+//         for(auto & val:events){
+//             if(maxDay < val[1])
+//                 maxDay=val[1];
+//         }
+
+//         int size=events.size();
+    
+        
+// int ans=maxDay; // if agr maxDay kam hn no of events sa, to simmple yahi answer ho ga,
+
+// // if agr maxDay zada hn no of events sa to
+// if(maxDay > size)
+//    {
+//     int temp=maxDay-size;
+//     ans=maxDay-temp;
+//    }
+
+   
+
+        
+
+        
+
+
+
+//     return ans;
+
+
+// sir mik approach
+
+int n=events.size();
+sort(begin(events),end(events));
+ // events[(5,10), (15,20)]
+ // pq={}
+ // day=6, 7
+int day=events[0][0]; // 5
+int i=0;
+
+int count=0; // result no of events attended
+
+
+   priority_queue<int, vector<int>, greater<int>> pq; // min heap for the ending times of events
+
+
+// hum na opteraion kr rahai push pop
+// or heap mn isko hum log(n) kah skta
+// or n events tha so it will be nlogn.
+   while(!pq.empty() || i < n){   // 
+   
+   // hum na days ki iteration bhi to waste nhi krni na // events[(5,10), (15,20)], to iss ex ka lahz sa hum na so starting event tha usmn jo no of days ki free ki jo computations tha uss sa to bach gai tha likn baqiun ki sa kesa bachin
+   // ab uss mn ya scenario tha ky jb hmra phla event khtm ho gai , or pq empty ho to br br day search krna ki bagai
+   // then ap direct uss event wala starting day sa start kr lo
+
+   if(pq.empty())
+      day=events[i][0];
+
+
+    while(i < n && events[i][0] == day){
+        pq.push(events[i][1]);
+        i++;
+    }
+
+if(!pq.empty()){
+    pq.pop(); // 1 event attended on this day
+    count++; // counting the result
+   }
+
+   day++;
+
+   // skip those events whose endDay < day
+   while(!pq.empty() && pq.top() < day){
+    pq.pop();
+
+   }
+   }
+
+   return count;
+
+    }
+};
