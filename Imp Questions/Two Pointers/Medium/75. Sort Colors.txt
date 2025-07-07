@@ -1,0 +1,69 @@
+class Solution {
+public:
+   //  TC => O(n), mine, SC(O(1))
+    void sortColors(vector<int>& nums) {
+        // 1st approach, without two pointers, a kind of we can say i have used count sort
+/*
+        // 3 count variables
+        int count0=0;
+        int count1=0;
+        int count2=0;
+
+        for(int i=0;i< nums.size();i++){
+            if(nums[i]==0)
+              count0++;
+            else if(nums[i] == 1)
+              count1++;
+            else
+              count2++;
+        }
+
+        int i=0;
+        while(count0 > 0){
+            nums[i]=0;
+            count0--;
+            i++;
+        }
+
+            while(count1 > 0){
+            nums[i]=1;
+            count1--;
+            i++;
+        }
+
+            while(count2 > 0){
+            nums[i]=2;
+            count2--;
+            i++;
+        }
+
+        */
+// another appraoach but by sir mik, Two Pointers Approach
+
+int n =nums.size();
+int k=n-1; // ya 2 ka lia
+int i=0; // ya 0 ka lia
+int j=0; // ya 1 ka lia
+
+
+while(j <= k){
+    if(nums[j]==1)
+       j++;
+    else if(nums[j]==2)
+    {
+        swap(nums[j],nums[k]);
+        k--;
+    }
+    else { // nums[j] == 0
+         swap(nums[j],nums[i]);
+          i++;
+          j++;
+
+          // dono ko plus iss lia kia kuin ky dono same position sa start ho rahai.
+    }
+  
+}
+
+
+    }
+};
