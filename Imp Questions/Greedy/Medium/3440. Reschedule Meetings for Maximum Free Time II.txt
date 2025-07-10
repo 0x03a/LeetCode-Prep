@@ -1,0 +1,143 @@
+class Solution {
+public:
+    int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
+//         vector<int> freeArr; // store durations of free gap
+//    freeArr.push_back(startTime[0]); // before first event
+//     //Calculate gaps between events
+
+//         for (int i = 1; i < startTime.size(); i++) {
+//             freeArr.push_back( startTime[i] - endTime[i - 1]);
+//         }
+     
+//         freeArr.push_back( eventTime - endTime[startTime.size() - 1]); // after last event
+
+// // Khandani Sliding Window
+
+// int n=freeArr.size();
+// // first find smallest event, so that it can be fixed easily
+// int smallestEvent=INT_MAX;
+// for(int i=0; i< startTime.size();i++){
+//     smallestEvent=min(smallestEvent,endTime[i]-startTime[i]);
+// } 
+// cout<<smallestEvent<<endl;
+
+// int val=INT_MAX;
+// int smallestGapIndex=INT_MAX;
+// // now fixing at each gap to see 
+// for(int i=0;i<n;i++){
+//    if(freeArr[i] > 0 && freeArr[i] < val){
+//          smallestGapIndex=i;
+//          val=freeArr[i];
+//    }
+    
+// }
+
+// if(smallestGapIndex == INT_MAX) // no smallest gap founded
+//    return 0;
+
+// cout<<"\n jo: ";
+// for(auto & val: freeArr){
+//     cout<<val<<" , ";
+// }
+// cout<<endl;
+// cout<<smallestGapIndex<<endl;
+
+// cout<<freeArr[smallestGapIndex]<<endl;
+
+// freeArr[smallestGapIndex]-=smallestEvent;
+
+
+
+// cout<<endl;
+
+// int j=0;
+// int i=0;
+
+// int currSum=0;
+// int maxSum=0;
+// bool flag=false;
+// int count=0;
+// while( j < n){
+//     if(j!=smallestGapIndex && j-i+1 == 1)
+//    { currSum+=freeArr[j]+1;
+//    flag=true;
+//    }
+//     else
+//       currSum+=freeArr[j];
+
+    
+
+//     if(i< n && j-i+1 > 2){ // 2 bcz 1 merge gives 2 free space
+//     if(flag==false)
+//       currSum-=freeArr[i];
+//       else
+//       {
+//          currSum-=freeArr[i];
+//          currSum-=1;
+//          flag=false;
+//       }
+    
+//       i++;
+//         maxSum=max(maxSum,currSum);
+//     j++;
+//     }
+//     else{
+//     maxSum=max(maxSum,currSum);
+//     j++;
+  
+//     }
+// }
+
+
+
+
+// return maxSum;
+
+// sir mik Approach
+  vector<int> freeArr; // store durations of free gap
+   freeArr.push_back(startTime[0]); // before first event
+    //Calculate gaps between events
+
+        for (int i = 1; i < startTime.size(); i++) {
+            freeArr.push_back( startTime[i] - endTime[i - 1]);
+        }
+     
+        freeArr.push_back( eventTime - endTime[startTime.size() - 1]); // after last event
+
+
+        int n=freeArr.size();
+
+        vector<int> maxRightfree(n,0);
+        vector<int> maxLeftfree(n,0);
+
+        for(int i=n-2;  i >= 0 ; i--) 
+        {
+            maxRightfree[i]=max(maxRightfree[i+1],freeArr[i+1]);
+        }
+
+           for(int i=1;  i < n ; i++) 
+        {
+            maxLeftfree[i]=max(maxLeftfree[i-1],freeArr[i-1]);
+        }
+
+        int result=0;
+// iterating on the free Array
+        for(int i=1; i<n; i++){
+            int currEventtime=endTime[i-1] - startTime[i-1]; // duration of event d
+
+            // Case1: moving completely out
+            if(currEventtime <= max( maxLeftfree[i-1], maxRightfree[i])){
+result=max(result,freeArr[i-1]+currEventtime+ freeArr[i]);
+            }
+
+            
+// case2: shift left or shift right
+
+               result=max(result,freeArr[i-1]+freeArr[i]);
+        }
+
+        return result;
+
+            }
+    
+};
