@@ -1,0 +1,100 @@
+class Solution {
+public:
+  vector<int> nextGreaterElements(vector<int>& nums) {
+    // using monotonic decreasing stack
+
+    /*  my approach failed
+    stack<int> s;
+
+    int i = 0;
+    int maxIterate = nums.size() - 1; // maximum a nums[i] can check this much number in the arr
+    vector<int> res(nums.size(), -1);
+    int counter = 0;
+    while (i < nums.size()) {
+
+        int j = i;
+       
+        s.push(nums[i]);
+
+        j += 1;
+        if (j % nums.size() == 0)
+            j = 0;
+
+
+        while (!s.empty() && counter <= maxIterate) {
+
+            if (nums[j] < s.top()) {
+                s.push(nums[j]);
+              
+               
+            }
+            else if (nums[j] > s.top()) {
+                while (!s.empty() && nums[j] > s.top()) {
+                    s.pop();
+                }
+
+                if (!s.empty() && nums[j] == s.top())
+                {
+                    res[i] = -1;
+                    break;
+                }
+                else if (!s.empty()) { // in case of 2 elements, like agr 2 elements ha | 3, 4| top pr 3, then 4, and nums[j]==1 (or any smaller element than top ele of stack)
+                    int ele = 0;
+                    while (!s.empty())
+                    {
+                        ele = s.top();
+                        s.pop();
+                    }
+
+
+                    if (ele < nums[j])
+                        res[i] = nums[j];
+
+                    s.push(ele);
+
+                }
+                else
+                    res[i] = nums[j];
+
+                
+            }
+            
+            j++;
+            if (j == nums.size())
+                j = 0;
+
+            counter++;
+        }
+        while (!s.empty())
+            s.pop();
+
+        counter = 0;
+        i++;
+
+
+    }
+
+    return res;
+
+    */
+
+    // Shraddah didi approach
+
+    int  n=nums.size();
+    vector<int> res(n,-1);
+
+    stack<int> s;
+
+    for(int i=2*n-1; i>=0; i--){
+        while(s.size() > 0 && nums[s.top()] <= nums[i%n]){
+            s.pop();
+        }
+
+        res[i%n]= s.empty() ? -1 : nums[s.top()];
+        s.push(i%n);
+    }
+
+    return res;
+
+}
+};

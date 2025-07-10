@@ -1,0 +1,193 @@
+class Solution {
+public:
+ 
+//     int maxFreeTime(int eventTime, int k, vector<int>& startTime, vector<int>& endTime) {my approach failed
+//         // typedef startTime st;
+//     //     //  typedef endTime st;
+        
+//     //     int n=startTime.size();
+//     //      int free=0;
+//     //      int timeFull=0;
+//     //      int prevMeeting=-1;
+
+//     //      // first reshecdule meeting
+//     //     for(int i=0, t=0; t <= eventTime && i < n;){
+//     //         if(startTime[i]==t)
+//     //         {
+
+//     //             if(prevMeeting >=0 && prevMeeting < startTime[i] && k > 0){
+//     //                 int dist=startTime[i]-prevMeeting;
+//     //                 startTime[i]=prevMeeting;
+//     //                 endTime[i]-=dist;
+//     //                 prevMeeting=endTime[i];
+//     //                 k--;
+//     //             }
+//     //             else{
+//     //                 prevMeeting=endTime[i];
+//     //                 t=endTime[i];
+//     //             }
+            
+//     //             i++;
+//     //         }
+//     //         else{
+//     //          if(prevMeeting==-1)
+//     //              prevMeeting=t;
+//     //             t++;
+//     //         }
+//     //     }
+
+//     //     // getMax free Time
+//     //     int maxTime=0;
+//     //     int res=-1;
+//     //        // first reshecdule meeting
+
+
+
+//     //     for(int i=0;i < n;i++){
+//     //         cout<< startTime[i] << " , "<<endTime[i]<<endl;
+
+//     //     }
+
+
+        
+        
+
+//     //     for(int i=0, t=0; t < eventTime || i < n;){
+//     //         if(i < n && startTime[i]==t)
+//     //         {
+//     //              res=max(res,maxTime);
+//     //              maxTime=0;
+//     //              t=endTime[i];
+//     //              i++;
+//     //         }
+//     //         else if( i == n){
+             
+//     //             maxTime++;
+//     //              t++;
+//     //      res=max(res,maxTime);
+
+                 
+//     //         }
+//     //         else{
+             
+//     //             t++;
+//     //             maxTime++;
+//     //         }
+//     //     }
+
+      
+          
+
+
+
+
+//     //     return res;
+//     // }
+
+
+
+/*
+Approach by Apoorv Jain
+🧠 Intuition
+You're given the total duration of an event and multiple smaller events with their respective start and end times. The goal is to determine the maximum total free time that can be obtained by selecting k + 1 non-overlapping gaps between the events.
+
+✅ Approach
+First, compute the gaps between the events:
+
+Gap before the first event: startTime[0]
+Gaps between events: startTime[i] - endTime[i - 1]
+Gap after the last event: eventTime - endTime[n - 1]
+We store these gaps in a vector gap of size n + 1.
+
+Then, apply a sliding window of size k + 1 to find the maximum sum of any k + 1 contiguous gaps.
+
+📊 Complexity
+Time complexity: O(n)
+We traverse the gap array only once using the sliding window approach.
+
+Space complexity: O(n)
+We use extra space for the gap array.
+
+
+
+
+
+*/
+
+
+
+
+
+
+//        int maxFreeTime(int eventTime, int k, vector<int>& startTime, vector<int>& endTime) {
+//         int n = startTime.size();
+//         vector<int> gap(n + 1);
+
+//         // Calculate gaps between events
+//         for (int i = 1; i < n; i++) {
+//             gap[i] = startTime[i] - endTime[i - 1];
+//         }
+//         gap[0] = startTime[0]; // before first event
+//         gap[n] = eventTime - endTime[n - 1]; // after last event
+
+//         // Sliding window of size k + 1
+//     int i = 0, j = k; // Yahan par j = k ka matlab hai ke hum pehli window le rahe hain jismein k+1 gaps honge.
+// // Jab hum k meetings ko reschedule karte hain, to hum unke aas-paas ke gaps (free time) ko merge kar sakte hain.
+// // Iska matlab hai ke hum k+1 consecutive gaps ko join kar ke aik bara continuous free time bana sakte hain.
+// // Example: agar k = 1 ho, to hum 1 meeting reschedule kar sakte hain,
+// // aur isse 2 gaps (us meeting se pehle aur baad wale) merge ho jaate hain — yani total 2 (k+1) gaps.
+// // Isiliye hum gap array mein sliding window of size k+1 chala rahe hain taake maximum free time mil sake.
+
+//         int maxa = 0, sum = 0;
+
+//         // Initial window sum
+//         for (int w = i; w <= n && w <= j; w++) {
+//             sum += gap[w];
+//         }
+//         maxa = max(maxa, sum);
+
+//         // Slide the window
+//        while (j < n) {
+//     sum -= gap[i++];       // remove the gap that just moved out of the window
+//     sum += gap[++j];       // add the new gap that just came into the window
+//     maxa = max(maxa, sum); // update the max if this window is better
+// }
+
+
+    //     return maxa;
+    // }
+
+// sir mik approach
+// Tc  => O(n), SC=>O(n)
+            int maxFreeTime(int eventTime, int k, vector<int>& startTime, vector<int>& endTime) {
+vector<int> freeArr; // store durations of free gap
+   freeArr.push_back(startTime[0]); // before first event
+    //Calculate gaps between events
+
+        for (int i = 1; i < startTime.size(); i++) {
+            freeArr.push_back( startTime[i] - endTime[i - 1]);
+        }
+     
+        freeArr.push_back( eventTime - endTime[startTime.size() - 1]); // after last event
+
+// Khandani Sliding Window
+
+int i=0;
+int j=0;
+int maxSum=0;
+int currSum=0;
+int n= freeArr.size();
+while(j<n){
+    currSum+=freeArr[j];
+
+    if(i< n && j-i+1 > k+1){
+        currSum-=freeArr[i];
+        i++;
+    }
+    maxSum=max(maxSum,currSum);
+    j++;
+}
+
+return maxSum;
+            }
+};
