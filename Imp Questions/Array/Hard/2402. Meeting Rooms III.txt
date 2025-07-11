@@ -1,0 +1,245 @@
+class Solution {
+public:
+// half-closed time interval [starti, endi)
+// A half-closed (or half-open) time interval is an interval where one endpoint is included and the other is excluded.
+// In notation:
+//[start, end) → The interval includes the start time but excludes the end time.
+//(start, end] → The interval excludes the start time but includes the end time
+
+
+
+// almost ponch gia bs pr nhi hoa errors , mistake dry run not proper done.
+// typedef pair<int, int> p;
+// int mostBooked(int n, vector<vector<int>>& meetings) {
+//     // 1- sort
+
+//     sort(meetings.begin(), meetings.end());
+
+//     // 2- total time taken by meetings
+//     int totalt = 0;
+//     for (auto& val : meetings) {
+//         int b = val[1];
+//         int a = val[0];
+
+//         totalt += b - a;
+//     }
+
+//     // 3- t = meetings[0][0]
+
+//     int t = meetings[0][0];
+
+//     // 4-  2 min heap , 1 for room , 1 for delay
+
+//     priority_queue<p, vector<p>, greater<p>> roomheap;
+//     priority_queue<p, vector<p>, greater<p>> delay;
+
+//     // a cnt variable for tracking parallel execution of meeting
+//     int cnt = 0;
+
+//     int j = 0; // for iterating on meeting
+
+//     // tracking if a room is free or not
+//     vector<bool> status(n, false);
+//     // result
+//     vector<int> result(n, 0);
+//     for (; t < totalt; t++) {
+
+//         if (roomheap.size() < n) {
+//             if (j < meetings.size()) {
+//                 for (int i = 0; i < n;i++) {
+//                     if (status[i] == false)
+//                     {
+//                         result[i]++;
+//                         status[i] = true;
+//                         roomheap.push({ meetings[j][1] - meetings[j][0],i });
+//                         cnt = 0;
+//                         j++;
+//                         break; // meeting is scheduled so no need to check more room
+//                     }
+
+//                 }
+//             }
+//             else { // check delay
+//                 if (!delay.empty()) {
+//                     pair<int, int> temp = delay.top();
+//                     delay.pop();
+//                     for (int i = 0; i < n;i++) {
+//                         if (status[i] == false)
+//                         {
+
+//                             result[i]++;
+//                             status[i] = true;
+//                             roomheap.push({ temp.second - temp.first,i });
+//                             cnt = 0;
+//                             break; // meeting is scheduled so no need to check more room
+//                         }
+
+//                     }
+
+//                 }
+
+//             }
+//         }
+//         else {
+//             if (j < meetings.size())
+//             {
+//                 delay.push({ meetings[j][0],meetings[j][1] });
+//                 j++;
+//             }
+//         }
+       
+//         if (!roomheap.empty()) {
+//             auto top = roomheap.top();  // Get a copy of the top element
+//             roomheap.pop();             // Remove it from the heap
+//             top.first -= 1;            // Modify it
+//             roomheap.push(top);         // Push it back into the heap
+//         }
+
+//         cnt++;
+
+//         if (!roomheap.empty() && roomheap.top().first== 0) {
+//             cout << roomheap.top().second << endl;
+//             status[roomheap.top().second] = false;
+//             roomheap.pop();
+//             if (!roomheap.empty()) {
+//               auto  top = roomheap.top();  // Get a copy of the top element
+//                 roomheap.pop();             // Remove it from the heap
+//                 top.first-= cnt;            // Modify it
+//                 roomheap.push(top);
+//                 cnt = 0;
+//             }
+//         }
+//     }
+
+//     int maxres = INT_MIN;
+//     int room = -1;
+//     for (int i = 0; i < n;i++) {
+//         if (maxres < result[i])
+//         {
+//             maxres = result[i];
+//             room = i;
+     
+//         }
+
+//     }
+
+//     return room;
+
+// }
+
+//Approach-1 (Brute Force - Do as said)
+//T.C : O(mlogm +m*n) , where Let n = number of rooms, m =  number of meetings
+//S.C : O(n)
+//  int mostBooked(int n, vector<vector<int>>& meetings) {
+//         int m = meetings.size();
+
+//         sort(begin(meetings), end(meetings)); //sort by starting time of meetings
+
+//         vector<int> roomsUsedCount(n, 0); //Each room is used 0 times in the beginning
+//         vector<long long> lastAvailableAt(n, 0); //Each room will be last available at
+        
+
+//         for(vector<int>& meet : meetings) {
+//             int start  = meet[0];
+//             int end    = meet[1];
+//             bool found = false;
+
+//             long long EarlyEndRoomTime = LLONG_MAX;
+//             int EarlyEndRoom     = 0;
+
+//             //Find the first available meeting room
+//             for(int room = 0; room < n; room++) {
+//                 if(lastAvailableAt[room] <= start) {
+//                     found = true;
+//                     lastAvailableAt[room] = end;
+//                     roomsUsedCount[room]++;
+//                     break;
+//                 }
+
+//                 if(lastAvailableAt[room] < EarlyEndRoomTime) {
+//                     EarlyEndRoom = room;
+//                     EarlyEndRoomTime = lastAvailableAt[room];
+//                 }
+//             }
+
+//             if(!found) {
+//                 lastAvailableAt[EarlyEndRoom] += (end - start);
+//                 roomsUsedCount[EarlyEndRoom]++;
+//             }
+
+//         }
+
+//         int resultRoom = -1;
+//         int maxUse     = 0;  
+//         for(int room = 0; room < n; room++) {
+//             if(roomsUsedCount[room] > maxUse) {
+//                 maxUse = roomsUsedCount[room];
+//                 resultRoom = room;
+//             }
+//         }
+
+//         return resultRoom;
+//     }
+
+//Approach-2 (Use priority Queue to find the first available meeting room)
+//T.C : O(mlogm + m*log(n)) , where Let n = number of rooms, m =  number of meetings
+//S.C : O(n)
+
+    typedef pair<long long, int> P;
+
+    int mostBooked(int n, vector<vector<int>>& meetings) {
+        int m = meetings.size();
+
+        sort(begin(meetings), end(meetings)); //sort by starting time of meetings
+
+        vector<int> roomsUsedCount(n, 0); //Each room is used 0 times in the beginning
+
+        priority_queue<P, vector<P>, greater<P>> usedRooms;
+        //To store {earliest room empty time, room No.}
+        
+        priority_queue<int, vector<int>, greater<int>> unusedRooms;
+        //To store rooms that are used
+        for(int room = 0; room < n; room++) {
+            unusedRooms.push(room); //All rooms are unused in the beginning
+        }
+
+        for(vector<int>& meet : meetings) {
+            int start  = meet[0];
+            int end    = meet[1];
+
+            //First see, by this time, which rooms can be empty now
+            //And move them to unusedRooms
+            while(!usedRooms.empty() && usedRooms.top().first <= start) {
+                int room = usedRooms.top().second;
+                usedRooms.pop();
+                unusedRooms.push(room);
+            }
+
+            if(!unusedRooms.empty()) {
+                int room = unusedRooms.top();
+                unusedRooms.pop();
+                usedRooms.push({end, room});
+                roomsUsedCount[room]++;
+            } else { //We don't have any room available now. Pick earliest end room
+                int room          = usedRooms.top().second;
+                long long endTime = usedRooms.top().first;
+                usedRooms.pop();
+                usedRooms.push({endTime + (end-start), room});
+                roomsUsedCount[room]++;
+            }
+
+        }
+
+        int resultRoom = -1;
+        int maxUse     = 0;  
+        for(int room = 0; room < n; room++) {
+            if(roomsUsedCount[room] > maxUse) {
+                maxUse = roomsUsedCount[room];
+                resultRoom = room;
+            }
+        }
+
+        return resultRoom;
+    }
+
+};
