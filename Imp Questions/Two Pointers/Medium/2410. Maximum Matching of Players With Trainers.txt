@@ -1,0 +1,65 @@
+class Solution {
+public:
+
+    // int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+    //     // Brute Force of mine
+
+    //     // 1 sort both
+    //     sort(players.begin(),players.end()); // nlogn
+    //     sort(trainers.begin(),trainers.end());
+
+    //     // 2. just compare 
+    //     // for any player i , a trainer is found simply shift trainer by 1 to the left
+    //      int count=0;
+    //      //  TC => n^2
+    //     for(int i=players.size()-1; i >=0 ; i-- )
+    //       {
+    //         for(int j=trainers.size()-1-count; j>=0; j--)
+    //           {
+    //                if(trainers[j] >= players[i] )
+    //                          {
+    //                             count++;
+    //                             break;
+    //                          }
+    //           }
+    //       }
+
+
+
+    //       return count;
+    // }
+
+    // 2nd approach of mine
+      int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+        // Brute Force
+
+        // 1 sort both
+        sort(players.begin(),players.end()); // nlogn
+        sort(trainers.begin(),trainers.end());
+
+        // 2. just compare, using two pointers
+
+        int i=players.size()-1;
+        int j=trainers.size()-1;
+   int count=0;
+         // O(n)
+        while(i>=0 && j>=0){
+
+                if(players[i] > trainers[j])
+                   i--;
+                else 
+                   {
+                    
+                    i--;
+                    j--;
+                    count++;
+                   }
+                      
+            
+        }
+
+     
+
+          return count;
+    }
+};
