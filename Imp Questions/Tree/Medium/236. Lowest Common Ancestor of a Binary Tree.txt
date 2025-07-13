@@ -1,0 +1,100 @@
+
+  Definition for a binary tree node.
+  struct TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode(int x)  val(x), left(NULL), right(NULL) {}
+  };
+ 
+class Solution {
+public
+int par=INT_MIN;
+  PostOrder,  Tc= O(n)
+       void fillArr(TreeNode  root, vectorTreeNode &arr, int &val){
+
+           if(root== NULL)
+             return;
+             fillArr(root-left,arr,val);
+             fillArr(root-right,arr,val);
+
+           
+
+                        if((root- left != nullptr && root- left - val == par)  (root- right != nullptr && root - right-val== par)){
+                 arr.push_back(root);
+                 par=root-val;
+             }
+             if(root != nullptr && root-val == val)
+             {
+                 par=root-val;
+                 arr.push_back(root);
+                 return ;
+                
+             }
+
+       
+         
+
+       }
+  just a kind of Brute Force but timeComplexity still O(N^2), SC= O(n)
+     TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+         vectorTreeNode pArr;
+         vectorTreeNode qArr;
+
+         fillArr(root,pArr,p-val); 
+         par=INT_MIN;
+         fillArr(root,qArr,q-val);
+         TreeNode  ans=nullptr;
+
+
+              taking O(n^2)
+         for(int i=0; i pArr.size()  ; i++){
+             
+             for(int j=0; j qArr.size()  ; j++){
+           
+                       if(pArr[i] == qArr[j])
+                          {
+                             ans=pArr[i];
+                             break;
+                          }
+
+             }
+                  if(ans != nullptr)
+                       break; 
+               
+     }
+    
+
+    
+        
+
+             return ans;
+
+              
+     }
+
+ sir mik optimal approach TC= O(n), SC= O(1)
+  TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root== NULL)
+         return root;
+
+         if(root==p  root == q)
+          return root;
+        
+
+        TreeNode  leftN= lowestCommonAncestor(root-left,p,q);
+        TreeNode  rightN=  lowestCommonAncestor(root-right,p,q);
+
+        if(leftN != NULL && rightN != NULL)
+             return root;
+
+        if(leftN != NULL)
+             return leftN;
+
+
+         if(rightN != NULL)
+
+           return rightN;
+
+  }
+};
