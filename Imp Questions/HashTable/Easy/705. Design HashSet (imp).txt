@@ -1,0 +1,127 @@
+class MyHashSet {
+public:
+// Brute Force  by me
+// Take a large array of size 10^6 + 1
+// perform opt in this 
+// accepted
+// int * arr;
+//     MyHashSet() {
+//         arr=new int[1000001]{0};
+//     }
+    
+//     void add(int key) {
+//          if(arr[key]== 0)
+//              arr[key]++;
+          
+//     }
+    
+//     void remove(int key) {
+//       if(arr[key]==1)
+//         arr[key]--;
+      
+        
+//     }
+    
+//     bool contains(int key) {
+//         if(arr[key] >= 1)
+//            return true;
+
+//        return false;
+         
+        
+//     }
+
+// sir mik Brute Force 
+// accepted
+
+    // vector<bool> arr;
+    // MyHashSet() {
+    //  arr.resize(1000001,false);
+    // }
+    
+    // void add(int key) {
+    //   arr[key]=true;
+          
+    // }
+    
+    // void remove(int key) {
+    //  arr[key]=false;
+      
+        
+    // }
+    
+    // bool contains(int key) {
+     
+    //   return arr[key] == true;
+         
+        
+    // }
+
+    // sir mik optimal approach 
+    // separate chaining
+
+
+    
+    vector<list<int>> arr;
+    int M; // number of buckets
+
+    int getIndex(int key){
+        return key % M;
+    }
+    MyHashSet() {
+         M=15000;
+         arr=vector<list<int>>(M,list<int>{});
+    }
+    
+    void add(int key) {
+      int index=getIndex(key);
+
+      auto itr= find(arr[index].begin(),arr[index].end(),key);
+
+      if(itr == arr[index].end())
+        {
+            // means the current element is not present
+            arr[index].push_back(key);
+        }
+          
+    }
+    
+    void remove(int key) {
+     int index=getIndex(key);
+
+      auto itr= find(arr[index].begin(),arr[index].end(),key);
+
+      if(itr != arr[index].end())
+        {
+            // means the current element is present
+            arr[index].erase(itr); // itr pointing at key
+        }
+      
+        
+    }
+    
+    bool contains(int key) {
+      int index=getIndex(key);
+
+      auto itr= find(arr[index].begin(),arr[index].end(),key);
+
+      if(itr != arr[index].end())
+        {
+            return true;
+        }
+      
+
+      return false;
+      
+        
+    }
+
+};
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet* obj = new MyHashSet();
+ * obj->add(key);
+ * obj->remove(key);
+ * bool param_3 = obj->contains(key);
+ */
