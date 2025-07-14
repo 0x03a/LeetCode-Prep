@@ -1,0 +1,82 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+//   int i=0;
+//   // TC -> O(n), SC=> O(n), bcz of recursion stack
+//      void reverse(ListNode * curr,int &res)
+//      {
+//         if(curr== nullptr)
+//             return ;
+
+//         reverse(curr->next,res);
+        
+//       res+=(curr->val * pow(2, i));
+//       i++;
+      
+//      }
+
+//     int getDecimalValue(ListNode* head) {
+//         ListNode * curr=head;
+//         int res=0;
+//         int i=0;
+//         reverse(curr,res);
+//         return res;
+//     }
+
+// sir mik reverse linkedlist code
+ListNode * reverse(ListNode* head){
+    if(head== NULL || head -> next == NULL)
+      return head;
+
+      ListNode * last=reverse(head->next);
+      head->next->next=head;
+      head->next=NULL;
+      return last;
+}
+
+     int getDecimalValue(ListNode* head) {
+     
+        int res=0;
+       head= reverse(head);
+        int power=0;
+           ListNode * curr=head;
+             while(head){
+                if(head->val==1)
+                   res+= pow(2,power);
+
+                power++;
+                head=head->next;
+             }
+        return res;
+    }
+
+
+
+
+
+
+// sir mik more optimal approach no extra space, TC=> O(n), SC(1)
+    // int getDecimalValue(ListNode* head) {
+    //     ListNode * curr=head;
+    //     int res=0; // binary 000
+    //     // ex to understand it
+
+    //     // 101 in linked list
+    //     // res=0
+    //     // dry run this you will understand it  res= (res << 1) | (curr->val);
+    //   while(curr){
+    //     res= (res << 1) | (curr->val);
+    //     curr=curr->next;
+    //   }
+    //     return res;
+    // }
+};
