@@ -1,0 +1,61 @@
+class Solution {
+public:
+
+// My approach TC=> O(n), SC=? O(1) 
+    // bool isValid(string word) {
+    //     bool vowel=false;
+    //     bool consonant=false;
+    //     if(word.length()>=3)
+    //     {
+    //           for(size_t i=0; i< word.length();i++)
+    //           {
+    //             if(tolower(word[i])=='a' ||tolower(word[i])=='e' || tolower(word[i])=='i'|| tolower(word[i])=='o' || tolower(word[i])=='u'  ){
+    //                // vowels
+                 
+    //                vowel=true;
+
+    //             }
+    //             else if ((word[i] >= '0' && word[i] <='9')  )
+    //             {
+    //              //  digits        
+    //             }
+    //             else if((tolower(word[i]) >= 'a' && tolower(word[i]) <='z')){
+    //          // consonant 
+    //             consonant=true;
+              
+    //             }
+    //             else
+    //                return false;
+
+    //           }
+    //           if(vowel && consonant)
+    //           return true;
+    //     }
+
+    //     return false;
+        
+    // }
+
+    // Leetcode Approach same TC, SC as me, Plus sir mik same approach as leetcode
+    
+    bool isValid(string word) {
+        if (word.size() < 3) {
+            return false;
+        }
+        bool has_vowel = false;
+        bool has_consonant = false;
+        for (auto c : word) {
+            if (isalpha(c)) {
+                c = tolower(c);
+                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                    has_vowel = true;
+                } else {
+                    has_consonant = true;
+                }
+            } else if (!isdigit(c)) {
+                return false;
+            }
+        }
+        return has_vowel && has_consonant;
+    }
+};
