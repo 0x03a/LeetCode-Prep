@@ -1,0 +1,52 @@
+class Solution {
+public:
+// TC => O((n+k)logn), SC => O(n)
+    // int minStoneSum(vector<int>& piles, int k) {
+    //   priority_queue<int> maxheap;
+
+    //   for(auto & val: piles) // nlogn
+    //       maxheap.push(val);  
+
+    //  while( k > 0){ // klogn
+    //         auto top=maxheap.top();
+    //         maxheap.pop();
+    //         top-=ceil(top/2);
+    //         maxheap.push(top);
+    //        k--;
+    //       }
+    //  int sum=0;
+    //    while(!maxheap.empty()){ // nlogn
+    //         sum+=maxheap.top();
+    //         maxheap.pop();
+    //    }
+
+    //    return sum;
+    // }
+
+    // sir mik with also same TC+ O(n)
+        int minStoneSum(vector<int>& piles, int k) {
+    //   priority_queue<int> maxheap;
+       priority_queue<int> maxheap(begin(piles),end(piles)); // another way of directly intializing the heap //nlogn
+      
+  int sum=0;
+      for(auto & val: piles) // n
+          {
+          sum+=val;}  
+ int remove=0;
+ int top=0;
+     while( k > 0){ // klogn
+             top=maxheap.top();
+            maxheap.pop();
+             remove=ceil(top/2);
+               sum-=remove;
+               top-=remove;          
+            maxheap.push(top);
+           k--;
+          }
+   
+   
+
+       return sum;
+    }
+    
+};
