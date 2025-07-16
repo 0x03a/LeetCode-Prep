@@ -1,0 +1,88 @@
+class Solution {
+public
+
+ int res = 0;
+ int recursive(vectorint& nums,int pEle, int index, int p, int count) {
+     if (index == nums.size())
+         return res;
+
+
+     for (; index  nums.size();index++) {
+         if (p == -1) {
+             p = ((nums[index - 1] + nums[index]) % 2); 
+             count++;
+             res = max(res, count);
+             
+             recursive(nums,nums[index],index + 1, p, count);
+         }
+         else  if (p == ((pEle + nums[index]) % 2))
+         {
+             count++;
+             res = max(res, count);
+             recursive(nums,nums[index], index + 1, p, count);
+                index-count;
+
+         }
+         else
+         { 
+             if(count==2)
+              recursive(nums,nums[index-count], index , p, count-1);
+                else
+             recursive(nums,pEle, index + 1, p, count);
+         }
+         p = -1;
+         count = 1;
+     }
+     return res;
+
+ }
+ int maximumLength(vectorint& nums) {
+     int prev = -1;
+     int count = 1;
+    
+     return recursive(nums,0, 1, prev, count);
+ }
+
+
+
+ sir mik approach TC= O(n), SC= O(1)
+
+ case 1 all even-even numbers, gives rem 0.
+ case 2 all odd-odd numbers, gives rem 0.
+ case 3 even-odd or odd-even, both gives rem 1.
+
+int maximumLength(vectorint& nums) {
+    int parity = nums[0]%2;  0,1
+int countEv=0;
+int countOd=0;
+int countAlternatives=1;
+
+if(parity==0)
+   countEv++;
+else
+   countOd++;
+     case 1
+
+    for(int i=1; inums.size();i++ ){
+           if(nums[i]%2 == 0)
+            {
+                countEv++;
+            }
+            else if(nums[i] % 2!=0){
+                  countOd++;
+            }
+
+            if(parity != (nums[i]%2)){
+                 parity=nums[i]%2;
+                 countAlternatives++;
+            }
+                
+            
+    }
+    return max({countEv,countOd,countAlternatives});
+}
+
+
+
+
+};
