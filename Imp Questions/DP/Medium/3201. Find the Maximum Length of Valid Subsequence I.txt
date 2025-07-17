@@ -1,0 +1,186 @@
+class Solution {
+public:
+
+// int res = 0;
+// int recursive(vector<int>& nums,int pEle, int index, int p, int count) {
+//     if (index == nums.size())
+//         return res;
+
+
+//     for (; index < nums.size();index++) {
+//         if (p == -1) {
+//             p = ((nums[index - 1] + nums[index]) % 2); 
+//             count++;
+//             res = max(res, count);
+             
+//             recursive(nums,nums[index],index + 1, p, count);
+//         }
+//         else  if (p == ((pEle + nums[index]) % 2))
+//         {
+//             count++;
+//             res = max(res, count);
+//             recursive(nums,nums[index], index + 1, p, count);
+//                index-count;
+
+//         }
+//         else
+//         { 
+//             if(count==2)
+//              recursive(nums,nums[index-count], index , p, count-1);
+//                else
+//             recursive(nums,pEle, index + 1, p, count);
+//         }
+//         p = -1;
+//         count = 1;
+//     }
+//     return res;
+
+// }
+// int maximumLength(vector<int>& nums) {
+//     int prev = -1;
+//     int count = 1;
+    
+//     return recursive(nums,0, 1, prev, count);
+// }
+
+
+
+// sir mik approach TC=> O(n), SC=> O(1)
+
+// case 1: all even-even numbers, gives rem 0.
+// case 2: all odd-odd numbers, gives rem 0.
+// case 3: even-odd or odd-even, both gives rem 1.
+
+// int maximumLength(vector<int>& nums) {
+//     int parity = nums[0]%2; // 0,1
+// int countEv=0;
+// int countOd=0;
+// int countAlternatives=1;
+
+// if(parity==0)
+//    countEv++;
+// else
+//    countOd++;
+//     // case 1
+
+//     for(int i=1; i<nums.size();i++ ){
+//            if(nums[i]%2 == 0)
+//             {
+//                 countEv++;
+//             }
+//             else if(nums[i] % 2!=0){
+//                   countOd++;
+//             }
+
+//             if(parity != (nums[i]%2)){
+//                  parity=nums[i]%2;
+//                  countAlternatives++;
+//             }
+                
+            
+//     }
+//     return max({countEv,countOd,countAlternatives});
+// }
+
+// using DP
+
+// int LIS(vector<int>& nums, int i, int prev, int mod){ // TLE , // if memorize, then t[10^5+1][10^5+1] // thne memory limit exceeded.
+
+//       if(i>= nums.size())
+//           return 0;
+
+//     int take=0;
+//     int skip=0;
+
+//     //take 
+//     if(prev == -1 || ((nums[prev] + nums[i])%2) == mod){
+//               take=1+LIS(nums,i+1,i,mod);
+//     }
+
+//     // skip
+//     skip= LIS(nums,i+1,prev,mod );
+
+//     return max(take,skip);
+// }
+//  int maximumLength(vector<int>& nums) {
+//    int n=nums.size();
+//    int maxSublen=0;
+
+//    maxSublen=max(maxSublen,LIS(nums,0,-1,0)); // %2==0
+//    maxSublen=max(maxSublen,LIS(nums,0,-1,1)); // %2==1
+
+//    return maxSublen;
+// }
+
+// now bottom up approach, still TLE
+ int maximumLength(vector<int>& nums) {
+  int n=nums.size();
+  
+
+// mod 1
+vector<int> dp1(n,1);
+// mod 0
+vector<int> dp0(n,1);
+
+// 2 vector lia, ik lia dp0{}, or ik lia dp1[]
+// take a 2D vector instead of it 
+//  {
+//    {} 0th row for mod 0
+//    {} 1th row for mod 1
+// }
+
+vector<vector<int>>dp(2,vector<int>(n,1)); // 2 rows, n col
+
+
+int maxSub=1;
+
+for(int i=1; i< n; i++){
+    for(int j=0; j< i; j++){
+        int mod=(nums[j]+nums[i])%2;
+
+
+        // mod = 0, 0th row, %2 wala case ka result
+        // mod = 1, 1th row, %2 wala case ka result
+        
+        dp[mod][i]=max(dp[mod][i], 1+ dp[mod][j]);
+        maxSub=max(maxSub,dp[mod][i]);
+
+        // if(mod == 1){
+        //  dp[i]=max(dp1[i],1+dp1[j]);
+        //  maxSub=max(maxSub, dp1[i]);
+        // }
+        // else // mode == 0 ka lia yahn likh do
+        // {
+       
+        //  dp[i]=max(dp0[i],1+dp0[j]);
+        //    maxSub=max(maxSub, dp0[i]);
+        // }
+    }
+}
+
+// // mod 0 
+// vector<int> dp0(n,1);
+
+// for(int i=1; i< n; i++){
+//     for(int j=0; j< i; j++){
+//         int mod=(nums[j]+nums[i])%2;
+//         if(mod == 0){
+//          dp0[i]=max(dp0[i],1+dp0[j]);
+//            maxSub=max(maxSub, dp0[i]);
+//         }
+//     }
+// }
+
+return   maxSub;
+
+
+
+
+
+ }
+
+
+
+
+
+};
