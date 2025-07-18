@@ -1,0 +1,106 @@
+class Solution {
+public:
+    // vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+    //     if(numCourses == 1)
+    //        return {0};
+
+    //        // simple topological sort using BFS
+    //        vector<int> res;
+    //      unordered_map<int,vector<int>> adj;
+    //         vector<int> indeg(numCourses,0);
+    //      for(auto & val: prerequisites){
+    //              int u=val[1];
+    //              int v=val[0];
+
+    //              adj[u].push_back(v);
+    //               indeg[v]++;
+    //      }
+
+     
+    //    int count=0;
+
+    //     queue<int> q;
+    //     for(int i=0; i< numCourses;i++){
+    //         if(indeg[i]==0)
+    //          {q.push(i);
+    //          count++;
+    //          }
+    //     }
+
+    //     while(!q.empty()){
+    //        int front=q.front();
+    //        q.pop();
+    //        res.push_back(front);
+
+    //        for(auto & val: adj[front]){
+    //         indeg[val]--;
+    //         if(indeg[val] == 0)
+    //           {q.push(val);
+    //           count++;}
+              
+    //        }
+    //     }
+    //       if(count == numCourses)
+    //          return res;  
+            
+
+    //     return {};
+    // }
+         
+
+         // DFS topo sort
+         void DFS(int src, unordered_map<int,vector<int>> &adj, stack<int> & s, vector<bool> &v, vector<bool> inRec){
+
+            if(v[src] == true){
+                return ;
+            }
+            v[src]= true;
+            inRec[src]=true;
+           
+            for(auto & val: adj[src])
+            {
+                if(!inRec[val])
+                  DFS(val,adj, s,v,inRec);
+                else 
+                   return;
+
+               
+
+            }
+          
+                s.push(src); // topological sort
+
+            
+         }
+
+      vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+               unordered_map<int,vector<int>> adj;
+               stack<int> s;
+               vector<bool> v(numCourses,false);         
+         for(auto & val: prerequisites){
+                 int u=val[1];
+                 int v=val[0];
+
+                 adj[u].push_back(v);
+              
+         }
+         vector<bool> inRec(numCourses,false);
+     for(int i=0; i< numCourses ; i++){
+           if(!v[i])
+             DFS(i,adj,s,v,inRec);
+            
+            
+     }
+         vector<int> res;
+       while(!s.empty()){
+         res.push_back(s.top());
+         s.pop();
+       }
+
+       if(res.size()==numCourses)
+          return res;
+
+
+          return {};
+      }
+};
