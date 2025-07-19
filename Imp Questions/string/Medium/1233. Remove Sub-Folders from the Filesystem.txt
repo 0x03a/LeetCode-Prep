@@ -1,0 +1,75 @@
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) { // done but time limit exceed, Brute Force
+        // // 1- make vector array to simply store all the /a, up to /z
+
+        // vector<int> folders(26,0);
+        // vector<string> res;
+        // for(int i=0; i< folder.size();i++){
+        //        if(folder[i].length() == 2)
+        //            folders[folder[i][1]-'a']++;
+        // }
+
+        // for(int i=0; i< folder.size();i++){
+        //    if((folder[i][1]-'a')+1 == folders[i] && folder[i].size() > 2)
+        //    {
+        //           // don't add them
+        //    }
+        //    else
+        //       res.push_back(folders[i]);
+        // }
+
+        // return res
+        
+
+        // Brute Force Approach by me starting 
+    //        vector<string> res;
+    //  sort(folder.begin(),folder.end());
+    //   for(int i=0; i< folder.size();i++){
+    //     for(int j=i+1; j< folder.size();j++){
+    //             if(folder[j].find(folder[i]) != string::npos && folder[j][folder[i].length()]=='/')
+    //             {
+    //                  folder.erase(remove(folder.begin(),folder.end(),folder[j]),folder.end());
+    //                  j--;
+    //             }
+    //     }
+    //        res.push_back(folder[i]);
+    //   }
+    
+     
+
+      //  return res;
+         
+
+      // ending
+  // sir mik Approach # 1
+       unordered_set<string> st(begin(folder),end(folder));
+       vector<string> res;
+
+       for(string currFolder: folder){
+        bool isSubfolder=false;
+        string tempFolder= currFolder;
+
+        while(!currFolder.empty()){
+            size_t pos= currFolder.find_last_of('/');
+            currFolder=currFolder.substr(0,pos);
+            if(st.find(currFolder) != st.end()){
+                // it means currFolder is a sub-folder
+                isSubfolder=true;
+                break;
+            }
+        }
+
+        if(!isSubfolder){
+            res.push_back(tempFolder);
+        }
+       }
+
+       return res;
+
+    
+      
+
+        
+    }
+};
