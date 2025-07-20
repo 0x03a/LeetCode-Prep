@@ -42,32 +42,72 @@ public:
          
 
       // ending
-  // sir mik Approach # 1
-       unordered_set<string> st(begin(folder),end(folder));
-       vector<string> res;
+  // sir mik Approach # 1,
+  // find last of ksi bhi character ka last index return krta ha
+  // ex st= "hello world".
+     // st. find_last_of('l');
+     // to ab ya mujha index 9 da ga, kuin ky akhri br jahn 'l' aai ga ya uska index return kra ga.
+    //    unordered_set<string> st(begin(folder),end(folder));
+    //    vector<string> res;
 
-       for(string currFolder: folder){
-        bool isSubfolder=false;
-        string tempFolder= currFolder;
+    //    for(string currFolder: folder){
+    //     bool isSubfolder=false;
+    //     string tempFolder= currFolder;
 
-        while(!currFolder.empty()){
-            size_t pos= currFolder.find_last_of('/');
-            currFolder=currFolder.substr(0,pos);
-            if(st.find(currFolder) != st.end()){
-                // it means currFolder is a sub-folder
-                isSubfolder=true;
-                break;
-            }
-        }
+    //     while(!currFolder.empty()){
+    //         size_t pos= currFolder.find_last_of('/');
+    //         currFolder=currFolder.substr(0,pos);
+    //         if(st.find(currFolder) != st.end()){
+    //             // it means currFolder is a sub-folder
+    //             isSubfolder=true;
+    //             break;
+    //         }
+    //     }
 
-        if(!isSubfolder){
-            res.push_back(tempFolder);
-        }
-       }
+    //     if(!isSubfolder){
+    //         res.push_back(tempFolder);
+    //     }
+    //    }
 
-       return res;
+    //    return res;
+
+
+// another approach by sir mik
+  sort(folder.begin(),folder.end());
+  vector<string> res;
+
+  res.push_back(folder[0]); // ya kbhi bhi ksi ka subfolder nhi ho skta kuin ky start hi isa sa hota ha
+
+  for(int i=1; i< folder.size();i++){
+      string currFolder=folder[i];
+      string lastFolder= res.back(); // res.back() apko current element ka just prev element return krta ha.
+      lastFolder+='/';
+
+    //   if(!currFolder.starts_with(lastFolder)){  // starts_with , used in modren c++ 20, return 1, if found, return 0 if not found
+    //     res.push_back(folder[i]);
+    //   }
 
     
+      if(currFolder.find(lastFolder) != 0){  // means if string is not present from the very beginning.
+        res.push_back(folder[i]);
+      }
+
+  }
+
+  return res;
+    
+
+    // note:
+//     if (st.find("hello") == 0)
+// ✅ Meaning:
+// Checks if the string st starts with "hello"
+
+// Expression	True When
+// find(...) == string::npos	Substring is not found at all
+// find(...) != 0	Substring is not at the beginning, or missing
+
+
+
       
 
         
