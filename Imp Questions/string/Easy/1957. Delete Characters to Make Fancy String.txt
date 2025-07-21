@@ -1,0 +1,53 @@
+class Solution {
+public:
+// MY approach TC=>O(n), SC(O(1))
+    // string makeFancyString(string s) {
+    //     string res="\0";
+    //      int count=0;
+    //      int n=s.length();
+    //     for(size_t i=0; i< n ;i++){
+            
+    //        if(i+1 < n && s[i]== s[i+1])
+    //         {
+    //             count++;
+    //             res+=s[i];
+    //             while(count >=2 && i+1 < n && s[i] == s[i+1])
+    //                 i++;            
+    //              if (count >= 2)
+    //                count = 0;
+    //         }
+    //         else
+    //         {
+    //             res+=s[i];
+    //                count=0;
+    //         }
+    //     }
+
+    //     return res;
+    // }
+
+    // Sir mik Approach, TC=>O(n), SC(O(1))
+    string makeFancyString(string s) {
+        int n=s.length();
+        string res;
+    res.push_back(s[0]);
+    int freq=1;
+      for(size_t i=1; i< n;i++){
+          if(s[i]==res.back()){
+            freq++;
+
+            if(freq < 3){
+                  res.push_back(s[i]);
+            }
+          }
+          else
+          {
+            freq=1;
+            res.push_back(s[i]);
+          }
+      }
+
+      return res;
+    }
+
+};
