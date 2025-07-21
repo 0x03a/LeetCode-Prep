@@ -1,0 +1,94 @@
+class Solution {
+public
+ typedef pairfloat,pairint,int p;
+
+ my aproach
+     vectorint kthSmallestPrimeFraction(vectorint& arr, int k) {
+          1st simple approach
+         int n=arr.size();
+
+         int i=0;
+         int j=0;
+        priority_queuep, vectorp, greaterp minheap;
+         while(i n){  O(n^2) + O(nlogn)
+             j=n-1;
+             while(j  i){
+               minheap.push({float(arr[i])float(arr[j]),{arr[i],arr[j]}});
+               j--;
+             }
+             i++;
+         }
+ vectorint res;
+
+
+         while(k  0 && !minheap.empty()){  O(logk)
+             auto top=minheap.top();
+             minheap.pop();
+           
+             k--;
+             if(k==0){
+                    res.push_back(top.second.first);
+                    res.push_back(top.second.second);
+             }
+         }
+
+         return res;
+     }
+
+       vectorint kthSmallestPrimeFraction(vectorint& arr, int k) {
+          1st simple approach by using maxheap
+         int n=arr.size();
+
+         int i=0;
+         int j=0;
+        priority_queuep maxheap;
+         while(i n){  O(n^2) + O(nlogn)
+             j=n-1;
+             while(j  i){
+               maxheap.push({float(arr[i])float(arr[j]),{arr[i],arr[j]}});
+                 if(maxheap.size()  k)
+                    maxheap.pop();
+                   
+               j--;
+             }
+             i++;
+         }
+
+
+
+         return {maxheap.top().second.first,maxheap.top().second.second};
+     }
+
+
+
+
+     now sir mik optimal approach
+       typedef vectordouble V;
+    
+    vectorint kthSmallestPrimeFraction(vectorint& arr, int k) {
+        int n = arr.size();
+        priority_queueV, vectorV, greaterV pq;  min heap
+        
+        for(int i = 0; i  n; i++)
+            pq.push({1.0arr[i]arr.back(), (double)(i), (double)(n-1)});
+        
+        int smallest = 1;
+        
+        while(smallest  k) {
+            V vec = pq.top();
+            pq.pop();
+            
+            int i = vec[1];
+            int j = vec[2]-1;
+
+            
+            pq.push({1.0arr[i]arr[j], (double)(i), (double)(j)});
+            smallest++;
+        }
+        
+        V vec = pq.top();
+        int i = vec[1];
+        int j = vec[2];
+        return {arr[i], arr[j]};
+    }
+};
