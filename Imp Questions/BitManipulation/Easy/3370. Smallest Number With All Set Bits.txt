@@ -1,0 +1,44 @@
+class Solution {
+public:
+
+    int smallestNumber(int n) {
+    int bits = 31;
+    bool ZeroAfterOne = false;
+    int res = 1;
+    for (int i = n; i < n+n; i++)
+    {
+        while (bits >= 0 && ZeroAfterOne == false) {
+            if ((i & (1 << bits)) == 0)
+            {
+                
+                bits--;
+                continue;
+            }
+            else {
+                while (bits >= 0 && ZeroAfterOne == false)
+                {
+                    if ((i & (1 << bits)) == 0)
+                    {
+                        ZeroAfterOne = true;
+                        break;
+                    }
+                    bits--;
+                }
+            }
+            bits--;
+        }
+
+        if (ZeroAfterOne == false)
+        {
+            res = i;
+            break;
+        }
+
+        bits = 31;
+        ZeroAfterOne = false;
+    }
+
+    return res;
+
+}
+};
