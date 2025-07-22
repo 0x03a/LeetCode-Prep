@@ -1,44 +1,56 @@
 class Solution {
 public:
-
-    int smallestNumber(int n) {
-    int bits = 31;
-    bool ZeroAfterOne = false;
-    int res = 1;
-    for (int i = n; i < n+n; i++)
-    {
-        while (bits >= 0 && ZeroAfterOne == false) {
-            if ((i & (1 << bits)) == 0)
-            {
+// TC O(n), SC(O(1)), by me
+    // int smallestNumber(int n) {
+    // int bits = 31;
+    // bool ZeroAfterOne = false;
+    // int res = -1;
+    // int i=n;
+    // while(res == -1)
+    // {
+    //     while (bits >= 0 && ZeroAfterOne == false) {
+    //         if ((i & (1 << bits)) == 0)
+    //         {
                 
-                bits--;
-                continue;
-            }
-            else {
-                while (bits >= 0 && ZeroAfterOne == false)
-                {
-                    if ((i & (1 << bits)) == 0)
-                    {
-                        ZeroAfterOne = true;
-                        break;
-                    }
-                    bits--;
-                }
-            }
-            bits--;
-        }
+    //             bits--;
+    //             continue;
+    //         }
+    //         else {
+    //             while (bits >= 0 && ZeroAfterOne == false)
+    //             {
+    //                 if ((i & (1 << bits)) == 0)
+    //                 {
+    //                     ZeroAfterOne = true;
+    //                     break;
+    //                 }
+    //                 bits--;
+    //             }
+    //         }
+    //         bits--;
+    //     }
 
-        if (ZeroAfterOne == false)
-        {
-            res = i;
-            break;
-        }
+    //     if (ZeroAfterOne == false)
+    //     {
+    //         res = i;
+    //         break;
+    //     }
 
-        bits = 31;
-        ZeroAfterOne = false;
+    //     bits = 31;
+    //     ZeroAfterOne = false;
+    //     i++;
+    // }
+
+    // return res == -1 ? 1: res;
+
+// }
+
+// approach by R sai siddhu
+ int smallestNumber(int n) {
+    while(n!= pow(2,__builtin_popcount(n))-1){
+        n++;
     }
 
-    return res;
+    return n;
 
-}
+ }
 };
