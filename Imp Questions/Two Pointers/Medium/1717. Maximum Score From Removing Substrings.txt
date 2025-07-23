@@ -1,0 +1,193 @@
+class Solution {
+public:
+// approach by me
+// now in this i have deleted maximum value string first then min value string
+//Proof :
+// if interview asks mn why so that only deleting max value string first and min value string always works?
+// ab -> x points
+// ba -> y points
+
+// if x > y
+// first delete ab
+// then ba
+
+// understand it with an example
+//                                baba
+// max val then min val          |    | min val then max val
+                            //    x+y > y+y=2y
+                                
+                            //     x  > y
+
+                            //    x+y > y+y
+                            //    x+y > 2y // this shows x+y will always be greater then 2y, and always deleting maximum will be better
+// this type of proof which i have done is called proof by contradiction.
+
+
+    // int maximumGain(string s, int x, int y) {  // Brute Force Approach, TLE
+    //     int resX=0;
+    //     int resY=0;
+    //     int totRes=0;
+    //     // first search max points value
+    //     if(x > y){ // ba
+         
+        
+    //         while(s.find("ab") != string::npos ){
+    //             auto pos=s.find("ab");
+    //             s.erase(pos,2);
+    //             resX++;
+    //         }
+    //          while(s.find("ba") != string::npos ){
+    //             auto pos=s.find("ba");
+    //             s.erase(pos,2);
+    //             resY++;
+    //         }
+         
+
+    //     } 
+    //     else{ // ba
+
+    //       while(s.find("ba") != string::npos ){
+    //             auto pos=s.find("ba");
+    //             s.erase(pos,2);
+    //             resY++;
+    //         }
+
+    //         while(s.find("ab") != string::npos ){
+    //             auto pos=s.find("ab");
+    //             s.erase(pos,2);
+    //             resX++;
+    //         }
+           
+    //     }
+    //     if(resX!=0)
+    //     totRes=(x*resX);
+
+    //        if(resY!=0)
+    //     totRes+=(y*resY);
+
+
+    //     return totRes;
+    // }
+
+
+    // sir mik approach
+
+    // why stack? ksi ka man mn bhi iss trah ki problem ko dekh kr stack kuin aai ga mind mn?
+    // watch sir mik video, after that dry run 
+//     Input: s = "aabbaaxybbaabb", x = 5, y = 4
+// Output: 20
+
+
+// string  removeSubstr(string  s,string & str ){
+//   stack<char> st;
+
+//   for(auto & ch: s){
+//     if(ch == str[1] && !st.empty() && st.top() == str[0])
+//     {
+//         st.pop();
+//     }
+//     else
+//     {
+//         st.push(ch);
+//     }
+//   }
+//   string temp;
+//   while(!st.empty()){
+//    temp+=st.top();
+//     st.pop();
+//   }
+
+//   reverse(temp.begin(),temp.end());
+  
+//   return temp;
+// }
+
+// int maximumGain(string s, int x, int y) {
+// int n=s.length();
+// int score=0;
+// string maxStr= (x >= y)? "ab": "ba";
+// string minStr= (x < y)? "ab": "ba";
+
+
+// // first pass
+// string temp_first= removeSubstr(s,maxStr);
+// int L= temp_first.length();
+// int charRemoved=(n-L);
+// score+= (charRemoved/2) * max(x,y);
+
+// // 2nd pass
+
+// string temp_sec=removeSubstr(temp_first,minStr);
+// int  L2=  temp_sec.length();
+//  charRemoved=(L-L2);
+// score+= (charRemoved/2) * min(x,y);
+
+// return score;
+
+
+
+
+// }
+
+// sir mik 2nd approach without using  stack
+// with Two pointers
+// i -> writing
+// j -> reading
+// whatever j reads, it will write it on ith pointer
+// ex: "cabdaabb"
+
+
+
+
+
+// TC O(n), SC => O(1)
+string  removeSubstr(string  s,string & str ){
+    int i=0; 
+    int j=0;
+
+    while(j < s.length()){  // j is for reading character
+        s[i]=s[j]; // i is for writing character
+        j++;
+        i++;
+        if( i>=2 && s[i-2] == str[0] && s[i-1] == str[1]) // found str before i
+        {
+             i-=2;           
+        }
+            }
+
+            // s.erase(begin(s) + i,end(s) ); ya bhi ik way  ha
+             s.erase(i,s.length());
+
+  
+  return s;
+}
+
+int maximumGain(string s, int x, int y) {
+int n=s.length();
+int score=0;
+string maxStr= (x >= y)? "ab": "ba";
+string minStr= (x < y)? "ab": "ba";
+
+
+// first pass
+string temp_first= removeSubstr(s,maxStr);
+int L= temp_first.length();
+int charRemoved=(n-L);
+score+= (charRemoved/2) * max(x,y);
+
+// 2nd pass
+
+string temp_sec=removeSubstr(temp_first,minStr);
+int  L2=  temp_sec.length();
+ charRemoved=(L-L2);
+score+= (charRemoved/2) * min(x,y);
+
+return score;
+
+
+
+
+}
+
+
+};
