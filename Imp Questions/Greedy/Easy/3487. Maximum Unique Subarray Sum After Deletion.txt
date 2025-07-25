@@ -1,0 +1,87 @@
+class Solution {
+public:
+    int maxSum(vector<int>& nums) {
+
+
+    // ----- uffffff tried but could not solved  ----- 
+//         unordered_map<int,int> s;
+//         int currSum=0;
+//         int res=INT_MIN;
+//         vector<int>  preFixsum (nums.size(),0);
+//  preFixsum[0]=nums[0];
+// for(int i=1; i< nums.size();i++)
+//     preFixsum[i]= preFixsum[i-1]+ nums[i];
+
+//         // for(int i=0; i< nums.size();i++){
+//         //     if(s.count(nums[i])){
+//         //         currSum-=preFixsum[s[nums[i]]];
+//         //         s.erase(nums[i]);
+//         //     }
+
+//         //     s[nums[i]]=i;
+//         //     currSum+=nums[i];
+//         //      res=max(currSum,res);
+          
+//         // }
+
+// int i=0;
+//         while(i< nums.size()){
+//             int j=i;
+//             while( j < nums.size() ){
+//                   if(s.count(nums[j])){
+//                           i=s[nums[j]]+1;
+//                           break;
+//                   }
+//                      currSum+=nums[j];
+//                        res=max(res,currSum);
+//                        res=max(res,nums[j]);
+//                      s[nums[j]]=j;
+//                      j++;
+//             }
+              
+//             s.clear();
+          
+//             currSum=0;
+//             i++;
+//         }
+       
+//         return res;
+//     }
+// ----------------
+
+
+// problem understanding 
+/*
+Conclusion:
+You can remove any elements — including:
+* Duplicates
+* Negative numbers
+*/
+
+
+// sir mik approach
+   
+//    unordered_set<int> st; // Sc => O(n)
+vector<int> st(101,0);  // O(1) space C.
+   int n=nums.size();
+
+   int sum=0;
+   int negNum=INT_MIN;
+
+
+   for(auto & num: nums){
+    if(num <= 0 )
+      {
+        negNum=max(negNum, num);
+      }
+      else if(st[num] == 0)
+         {
+                          sum+=num;
+                       st[num]++;
+         }
+   }
+return sum == 0 ? negNum: sum;
+
+    }
+     
+};
