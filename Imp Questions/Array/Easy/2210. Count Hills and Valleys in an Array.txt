@@ -1,0 +1,58 @@
+class Solution {
+public:
+// My approach
+ int countHillValley(vector<int>& nums) {
+  
+    int count = 0;
+    int n = nums.size();
+
+    int i = 1;
+    int j = n - 1;
+  
+   // due to low constraint Time Complexity will be O(n)
+   // and SC is O(1)
+    while (i < j) {
+        if (nums[i] > nums[i - 1] && nums[i] > nums[i + 1]) {
+
+            count++; // hill
+         
+        }
+        else if (nums[i] < nums[i - 1] && nums[i] < nums[i + 1]) {
+            // valley
+            count++;       
+
+        }
+        else if (nums[i] > nums[i - 1] && nums[i] == nums[i + 1]) {
+            int k = i + 2;
+            while (k <= j && nums[i] == nums[k]) {
+                k++;
+            }
+
+            if (k <= j  && nums[i] > nums[k]) { // hill again
+                count++;
+                 
+
+            }
+            // else no
+        }
+        else if ( nums[i] < nums[i - 1] && nums[i] == nums[i + 1]) {
+            int k = i + 2;
+            while ( k <= j && nums[i] == nums[k]) {
+                k++;
+            }
+
+            if ( k <= j && nums[i] < nums[k]) { // valley again
+                count++;
+                 
+            }
+            // else no
+        }
+        
+
+        i++;
+
+    }
+    return count;
+}
+
+};
