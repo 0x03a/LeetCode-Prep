@@ -1,0 +1,82 @@
+class Solution {
+public:
+
+// TC-> O(n), SC-> O(1)
+    int longestSubarray(vector<int>& nums) {
+        // observation
+        // 1) AND of two numbers will always be less than max of two numbers of which we comparison i,e 2 & 1 => 0
+       
+
+        int n=nums.size();
+         int maxSubarrlen=0;   // maxsubArrlen 
+         int maxsubArrval=-1;  // maxsubarr value
+         int currSubarr=1;  // currsubarr len
+         int currMaxele=-1;  // currsubarr len
+         size_t i=0;  
+         while(i < n){
+
+            if(i+1 < n && nums[i]==nums[i+1]){  // if two elements are equal 
+              while(i < n && i+1 < n && nums[i]==nums[i+1]){
+                currSubarr++;
+                i++;
+              }
+              
+               currMaxele=max( currMaxele,nums[i]);
+               if(currMaxele == nums[i]){
+             
+
+
+                if(maxsubArrval < currMaxele){   
+                maxsubArrval=currMaxele;
+                maxSubarrlen=currSubarr;
+                }
+                else
+                    maxSubarrlen=max(maxSubarrlen,currSubarr);
+
+               
+                    
+               }
+               currSubarr=1;
+                  
+            }
+            else
+            {
+                if(currMaxele!=-1){
+                 currMaxele=max( currMaxele,nums[i]);  
+                  
+                 }
+                 else{
+                   if(i+1 < n )
+                   currMaxele=max( nums[i],nums[i+1]); 
+                     
+  //   if(   maxsubArrval==-1)  // if it is not set, set it
+                             maxsubArrval=currMaxele;
+                   }
+
+             
+                  
+
+                     
+                 
+                    if(maxsubArrval == currMaxele)  // if both are equal then choose then choose maximum length
+                       {
+                                 
+                             maxSubarrlen=max(maxSubarrlen, currSubarr);
+                       }
+                       else if(maxsubArrval < currMaxele) // if maxsubArrval is less
+                       {
+                                         maxsubArrval=currMaxele;
+                                           maxSubarrlen=1;
+                       }
+
+
+                       i++;
+
+               }
+            }
+
+        return maxSubarrlen;
+        }
+
+    
+};
