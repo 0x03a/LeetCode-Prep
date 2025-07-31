@@ -1,0 +1,59 @@
+class Solution {
+public:
+
+    // int subarrayBitwiseORs(vector<int>& arr) {
+    //     unordered_set<int> s; // Brute Force, TLE, O(n^2)
+    //     int i=0;
+    //     int j=0;
+    //     int n=arr.size();
+    //     int oR=0;
+    //     while(i< n){
+    //         j=i;
+    //         oR=arr[j];
+    //         s.insert(oR);
+    //         while(j < n){
+    //             if(j+1 < n)
+    //              oR|= (arr[j] | arr[j+1]);
+    //              s.insert(oR);
+                                      
+    //             j++;
+    //         }
+    //         i++;
+    //     }
+
+    //     return s.size();
+    // }
+
+    // sir mik optimized approach
+
+    int subarrayBitwiseORs(vector<int>& arr) {
+        unordered_set<int> curr;
+        unordered_set<int> prev;
+        unordered_set<int> res; 
+        
+
+        int n=arr.size();
+
+        // worst TC can be of O(n * 32), bcz in worst case one new value will come
+        // best TC can be O(n), bcz when all bits are set no new value will be added.
+
+        for(size_t i=0; i< n;i++){
+           
+           for(const auto & x: prev){
+            curr.insert(x|arr[i]);
+            res.insert(x|arr[i]);
+           }
+
+           curr.insert(arr[i]);
+           res.insert(arr[i]);
+           prev=curr;
+           curr.clear();
+
+        }
+
+
+         return res.size();
+    }
+       
+
+};
