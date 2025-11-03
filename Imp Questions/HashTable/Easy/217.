@@ -1,0 +1,62 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+
+        //----------------------------
+        // making my own hash array
+        // array size will be of 10^9, for 'e' float or double is used imn c++.
+
+        // double size = 10e9;
+        // double** arr = new double*[size]; // Allocate an array of 'size'
+        // pointers to double for (int i = 0; i < size; ++i) {
+        //     arr[i] =
+        //         new double[2]; // Allocate an array of 2 doubles for each row
+        // }
+
+        // Out of mem issues, use buit in now
+        //----------------------------
+
+        // also error here, bcz arr is not a value it's a variable.
+
+        // int arr[2]={0};
+        // unordered_map<int,arr> hashMap;
+
+        // // Corrected Approach:
+        // To use an array as the value type in an unordered_map, one must use
+        // std::array from the <array> header, which is a C++ standard library
+        // container that wraps a C-style array and provides type safety and
+        // container-like behavio
+
+        //----------------------------
+        unordered_map<int, array<int, 2>> hashMap;
+        int n = nums.size();
+        // size_t used for unsigned values
+        for (size_t i = 0; i < n; i++) {
+            if (nums[i] > 0) {
+                hashMap[nums[i]][0]++;
+                if (hashMap[abs(nums[i])][0] == 2)
+                    return true;
+            } else {
+                hashMap[abs(nums[i])][1]++;
+                if (hashMap[abs(nums[i])][1] == 2)
+                    return true;
+            }
+        }
+
+
+        return false;
+        // Approach 
+        // 1- hashMap
+        // 2- hashMap we made key with 2 values 
+        // 3- for memory efficency i have done step 2
+        // ex 1,2,-1, -1
+        // now for key = 1, i have 2 portion to handle +ive and -ive value, in 0th portion as the value is +ive so i will ++.
+        //  now same for key=2.
+        // now for key=-1, now as key can be negative here but i want efficency that's why i did this, as u can see if val was neg 
+                   - i move to else
+                   - make the key +ve
+                   - and done ++ at 1 index
+       // now for another key=-1, the same step, but this time it will be 2, and then our program will be ended.            
+
+    }
+};
