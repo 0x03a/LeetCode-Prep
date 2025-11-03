@@ -1,4 +1,4 @@
-# 💻 LeetCode Practice – Stay Consistent, Stay Sharp
+#  LeetCode Practice – Stay Consistent, Stay Sharp
 
 Welcome to my **LeetCode Practice Repository**!
 
