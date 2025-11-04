@@ -1,0 +1,231 @@
+class Solution {
+public:
+    int fillCups(vector<int>& amount) {
+        // from my understanding what i undersrtand is
+        // it is a simple approach like problem is we want
+        /// to fill up the cups in minimum seconds
+        // so for that first  fill 2 cups in a second then in the last 1 cup ,
+        // as we want to get the cups fill in minimum seconds it's better to
+        // fill 2 cups in a seconds rather than filling one cup in a second.
+        // then for example it will be done like this
+        // using max heap will be the best option i will tell oyu
+        //    // why with a example
+        //    1,4,2
+
+        //    with max heap it will become
+        //    4,2,1
+
+        //    in first iter, it becomes
+        //    2,2,1 // because 2 cups are filled
+        //    sec=1
+        //    in 2nd iter, it becomes
+        //    0,2,1 after max heap it becomes
+        //    2,1,0
+        //    sec=2
+        //    in 3rd iter
+        //    0,1,0 after max heap
+        //    1,0,0
+        //    sec=3
+        //    in 4th iter
+        //    0,0,0
+        //    sec=4
+        //    in 5th breaks out
+        // I hope you get idea ...
+
+        // time consuming approach
+        // sort(amount.begin(), amount.end(), greater<int>());
+        // int sec = 0;
+        // int countZeros = 0;
+
+        // for(int i=0; i< 3;i++){
+        //     if(amount[i] == 0)
+        //       countZeros++;
+        // }
+
+        // while (countZeros < 3) {
+
+        //     auto max_element_it = max_element(amount.begin(), amount.end());
+        //     int max_element_index = distance(
+        //         amount.begin(),
+        //         max_element_it); // Or: max_element_it - amount.begin();
+    
+        //     if (amount[max_element_index] >= 2) {
+        //         sec++;
+        //         amount[max_element_index] -= 2; // 2 cups filled in a second
+        //         if (amount[max_element_index] == 0)
+        //             countZeros++;
+        //     } else if (amount[max_element_index] == 1) {
+        //         sec++;
+        //         amount[max_element_index] -= 1; // 1 cup filled in a second
+
+        //         if (amount[max_element_index] == 0)
+        //             countZeros++;
+        //     }
+
+        //     sort(amount.begin(), amount.end(), greater<int>());
+        // }
+        // return sec;
+        // ERROR in understanding the statement..
+        // We have to work in parallel
+        // I have given example at the top
+        // so like if arr[0] =1, arr[2]=1, arr[1] =0
+        // then arr[0], arr[2] can filled at the same time in a second.
+        // Hope you understand now.
+        // taking a break will be continuing it in sha Allah in the evening 
+        // ---------------------------------------------------
+
+        // 4,2,1
+
+    //     // sort(amount.begin(),amount.end(), greater<int>());
+    //    int sec=0;
+     
+      
+
+      
+        //     while(amount[0] > 0 && amount[1] > 0)
+        //            {
+        //                 sec++;
+        //             amount[0]--;
+        //             amount[1]--;
+                
+                  
+        //            }
+
+        //            while(amount[0] > 0 && amount[2] > 0){
+        //              sec++;  
+        //             amount[0]--;
+        //             amount[2]--;
+                   
+        //              cout<<"sec"<<sec<<endl;
+        //            }
+
+        //            while(amount[0] > 0)
+        //                {
+        //                 sec++;
+        //                 amount[0]--;
+        //                }
+                
+        //            while(amount[2] > 0)
+        //               {
+        //                 sec++;
+        //                     amount[2]--;
+        //               }
+
+                    
+
+
+
+                   
+        
+        // return sec;
+
+        // again error in this code was that like i was trying to do in parallel but coding approach was not correct
+
+        // 1- sort -> desc  wise.
+        // 2- minus 1 both ith itself and adjacent sec++.
+        // 3- repeat step 1,2 until step adjacent becomes 0.
+        // 4- if adjacent is 0 then only +1.
+
+
+// Time complexity of this correct approach will be we can O(nlogn)
+// int sec=0;
+// sort(amount.begin(), amount.end(), greater<int>());
+//        while(amount[1] > 0){
+//                amount[0]--;
+//                amount[1]--;
+// sec++;
+// sort(amount.begin(), amount.end(), greater<int>());
+//        } 
+
+//        while(amount[0]--)
+//            sec++;
+
+// return sec;
+
+
+
+// ---------------------------------------
+// Now the best choice was heap because it behaves well in real time scenarios.
+
+
+    priority_queue<int> maxHeap; // max heap
+    // direct intialization can also be done
+    // priority_queue<int, vector<int>, less<int>> maxHeap ( amount.begin(), amount.end());
+    size_t i=0;
+    while( i < amount.size()){
+        if(amount[i] > 0)
+           {
+            maxHeap.push(amount[i]);
+           }
+           i++;
+    }
+    int sec=0;
+
+    while(maxHeap.size() > 1){
+
+      int val1= maxHeap.top();
+      maxHeap.pop();
+      int val2= maxHeap.top();
+      maxHeap.pop();
+
+      if(val1 > 0 && val2 > 0)
+          {
+            val1--;
+            val2--;
+            if(val1 > 0 )
+            maxHeap.push(val1);
+            if(val2 > 0)
+            maxHeap.push(val2);
+            sec++;
+          }
+
+    }
+
+    while(maxHeap.size() > 0)
+        {
+            sec++;
+            int val=maxHeap.top();
+            maxHeap.pop();
+            val--;
+            if(val > 0)
+            maxHeap.push(val);
+        }
+
+
+        return sec;
+     
+
+
+
+
+
+    }
+
+//-----------------------
+// this appraoch will work for both sorting and heap 
+
+    //  /// if i try to do dry run of it, it will be like below:
+    //  [5,4,4]
+    //  //  sort intially
+    //  remains same
+    //  it now becomes
+    //  [4,3,4]  +1
+    //  sort it becomes[4,4,3]
+    //  [3,3,3]   +2
+    //  sort it becomes [3,3,3]
+    //  [2,2,3]   +3
+    // sort it becomes [3,2,2]
+    // [2,1,2]    +4
+    // sort it becomes [2,2,1]
+    // [1,1,1]    +5
+    // sort it remains same
+    // [0,0,1]    +6
+    // sorted, but cond fails comes out of loop
+
+    // no adj so simple sec+, +7
+
+    // this is the result => 7 :)
+
+
+};
+
