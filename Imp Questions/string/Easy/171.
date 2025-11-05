@@ -1,0 +1,97 @@
+class Solution {
+public:
+// A-Z 26
+// 27 A will be added 
+// AAA => 26 + 26 + 1 => 53
+// if we move from right to left
+// if string is AAB
+// B val is 2 
+// for 'left side A' 26
+// for more 'left side A' 26
+ // total will be 54
+ // ----------------
+// this all prev ex is wrong see ex 3 in the question you will understand.
+
+
+// AB => 28
+// AZ => 52
+// BA => 53
+// ..... ZZ (Z to A => 26 * 26 => 676) + Z => 702
+// now after "ZZ" next is "AAA" => which is 703
+// let's divide "AAA"
+// As You know in small exmaple like : after 'Z'-> +1 -> 'AA' comes
+// so this is same after 'ZZ' + 1 -> 'AAA' comes.
+// last example to clear it more, which will take us to code
+// if "AA" is given
+// then see first 'A' diff from 'A' is zero ( but add 1) 
+// so do this "26 * 1(diff was 0, i added 1) " + 1 => 27
+// if "BA" is given
+// then see first 'B' diff from 'A' is 1 
+// so do this "26 * 2(if diff is 1 then add 1 == 2)" + 1 => 53
+ 
+
+ // this approach of mine is correct but some how this is a kind of difficult to implement for me.
+
+ //............ LAST APPROACH corrected ..........
+
+ // ZZ -> Z * 26 ^1 + Z * 26 * 0 -> 702
+
+
+
+// for Reference see this example 
+// "https://superuser.com/questions/1712060/excel-how-to-convert-a-column-letter-to-the-corresponding-column-number-without"
+
+    int titleToNumber(string columnTitle) {
+        // using hash Map will be efficent approach
+        unordered_map<char,int> m;
+        for(size_t i=1; i <= 26 ;i++){
+          m['A' + (i-1)]=i;
+        } 
+         int size=columnTitle.length();
+         
+         if(size == 1)
+            return m[columnTitle[0]];
+ 
+         long long res=0;
+
+         // --------------- not corrected
+        //  // 1-26, 26 * 26 
+        //  for (size_t i=0; i < size ; i++ ){
+           
+        //    if(i==size-1)
+        //        {res+= m[columnTitle[i]];
+        //        break;
+        //        }
+            
+        //     // see diff upto A
+        //     int diff = m[columnTitle[i]]- m['A'];
+        //     diff+=1;
+
+        //     // multiply it by 26
+        //     diff*=26;
+
+        //     res+=diff;
+        //     diff=0; 
+             
+        //  }
+        // -------------------- 
+
+
+// correct
+int p=0; 
+     for(int i=size-1; i >= 0 ; i--){
+ 
+    
+            res+= m[columnTitle[i]] * pow(26,p);
+        
+            p++;
+            
+        
+     }
+        
+         return res;
+    }
+};
+:wq
+
+
