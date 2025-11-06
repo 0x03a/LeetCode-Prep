@@ -1,0 +1,31 @@
+class Solution {
+public:
+// SIMPLE EASY o(N)
+    vector<string> fizzBuzz(int n) {
+      // it's simple easy question
+      // ohh man
+      vector<string> answer(n,"\0");
+      string s1="FizzBuzz";
+      string s2="Fizz";
+      string s3="Buzz";
+
+      for(int i=0; i<n; i++){
+        if((i+1) % 3 == 0 && (i+1) % 5 == 0){
+            answer[i]=s1; // FizzBuzz
+        }
+        else if((i+1) % 3 == 0){
+            answer[i]=s2;
+        }
+        else if((i+1) % 5 == 0){
+            answer[i]=s3;
+        }
+        else
+        {
+            answer[i]=to_string(i+1);
+        }
+      }
+
+      return answer;
+
+    }
+};
