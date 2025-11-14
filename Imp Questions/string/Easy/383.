@@ -1,0 +1,115 @@
+class Solution {
+public:
+    // bool canConstruct(string ransomNote, string magazine) {
+    //     // Problem :
+    //     // read it you should be understand it no need to explain it.
+    //     // Mistake by me:
+    //     // i accidently see the topics at the end of it
+
+
+    //     // solution:
+    //     // 1st sol:
+    //     // 1- simple use sort
+    //     // 2- then check one by one
+    //     // if matches true , else false
+
+    //      int size1=ransomNote.length();
+    //      int size2=magazine.length();
+        
+        
+    //      sort(ransomNote.begin(),ransomNote.end());
+    //      sort(magazine.begin(),magazine.end());
+
+    //      int count=0;
+    //     for(size_t i=0,j=0; i< size2;i++){
+    //         if(j< size1 && ransomNote[j] == magazine[i]  ){
+    //                 count++;
+    //                 j++;
+    //         }
+    //          if(count >= size1)
+    //            return  true;
+                
+    //     }
+
+       
+
+    //     return false;
+
+    //     // TC of time approach is O(nlogn)
+    // }
+
+ bool canConstruct(string ransomNote, string magazine) {
+
+// 2nd approach is using hash, 
+// like simple store magazine in hash  
+
+// store magazine in hash and place "1" as value.
+
+// map<char,int> m1;
+// map<char,int> m2;
+
+  
+//   for(auto & val: magazine){
+//      m1[val]++;
+//   }
+
+//   for(auto & val:ransomNote){
+//      m2[val]++;
+//   }
+ 
+//  auto it1= m1.begin();
+//  auto it2= m2.begin();
+
+//   while(it1 != m1.end() && it2!=m2.end())
+//   {
+
+  
+//     if(it1 -> first != it2 -> first)
+//     {
+//         return false;
+       
+//     } 
+//      if (it1-> second != it2-> second && it1-> second < it2-> second )
+//        return false;
+//      else if(it1-> second <= it2-> second )
+//         it2->second--;
+
+
+     
+//        it1++;
+//        it2++;
+
+//   }
+
+//     return 1;  i puzzle and make blunder, I have to think carefully.
+
+// optimal using own hash
+// TC O(n)
+
+vector<int> m1 (26,0);
+for(int i=0; i< magazine.length();i++)
+     {
+        m1[ magazine[i]-'a']++;
+     }
+
+     for(int i=0; i< ransomNote.length();i++)
+     {
+        m1[ransomNote[i]-'a']--;
+     }
+
+     for(int i=0; i<26;i++)
+     {
+        if(m1[i] <0)
+          return false;
+     }
+
+     return 1;
+
+
+     
+
+}
+
+
+
+};
