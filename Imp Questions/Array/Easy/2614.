@@ -1,0 +1,181 @@
+class Solution {
+public:
+
+    int diagonalPrime(vector<vector<int>>& nums) {
+        // first as we have confirmed it is a diagonal matrix.
+        // size_t i=0; // rows
+        // int j=0; // cols
+        //  int size=nums.size();
+        
+        
+                
+        //         // as we know there will be two diagonals
+        //         // always
+
+        //         // for 1st diagonal
+        //         // for row 0
+        //         int res=0; 
+        //     while( j < size  )
+        //     {
+              
+              
+        //         int temp= nums[i][j];
+        //         temp=prime(temp);
+
+        //         if(temp == 1)
+        //         res=max(res,nums[i][j]);
+
+        //         j++;
+        //         i++;
+        //      }
+        //      i= 0;
+        //      j--;
+         
+        //   /// for 2nd diagonal
+        //       while( j >= 0 )
+        //     {
+           
+                  
+        //         int temp= nums[i][j];
+        //         temp=prime(temp);
+
+        //         if(temp == 1)
+        //         res=max(res,nums[i][j]);
+
+        //         j--;
+        //         i++;
+
+        //      }
+        //     //  size_t i=0;
+        //     //  unsigned int =0; 
+
+
+        
+        // return res; // a kind of BRUTE  force, TLE
+
+        // let's optimze
+            //   int res=0; 
+            //   int j2=size-1;
+
+
+            // while( j < size && j2 >=0 )
+            // {
+              
+              
+            //     int temp1= nums[i][j];
+            //     temp1=prime(temp1);
+            //     int temp2=nums[i][j2];
+            //     temp2=prime(temp2);
+
+            //     if(temp1 && temp2)
+            //        {
+            //           temp1=nums[i][j];
+            //           temp2=nums[i][j2];
+
+            //           if(temp1 > temp2)
+            //             {
+
+            //     res=max(res,temp1);
+            //             }
+            //             else
+            //              res=max(res,temp2);
+            //        }
+            //        else if(temp1)
+            //        {
+            //          res=max(res,nums[i][j]);
+            //        }
+            //        else if(temp2)
+            //        {
+            //          res=max(res,nums[i][j2]);
+            //        }
+
+
+               
+
+            //     j++;
+            //     j2--;
+            //     i++;
+            //  }
+// return res;  Now this time i got the main issue that for a large prime it is again checking upto that number and that number can be upto "4 * 10 ^6", a very huge number.
+
+        size_t i=0; // rows
+        size_t j=0; // cols
+         const int size=nums.size();
+         
+         // so first find the max ele in diagonals
+
+         int j2=size-1;
+         int maxD=0;
+
+             while( j < size && j2 >=0 )
+             {
+              
+              maxD=max(maxD,nums[i][j]);
+              maxD=max(maxD,nums[i][j2]);
+                 j++;
+                 j2--;
+                i++;
+             }
+
+             
+
+              // after getting the max
+              // Sieve of erathosenes
+              vector<bool> E(maxD+1,true); // initially assuming all are prime.
+              E[0]=E[1]=false;
+
+              for(long long p=2 ; p*p <= maxD ; p++){
+                if(E[p]){
+                    for(long long j=p*p; j<=maxD; j+=p){
+                         E[j]=false;
+                        
+                    }
+                }
+              }
+
+
+
+                            int res=0; 
+               j2=size-1;
+                i=0;
+                j=0;
+
+            while( j < size && j2 >=0 )
+            {
+              
+              
+               
+                if(E[nums[i][j]] && E[nums[i][j2]])
+                   {
+                      
+                      if(nums[i][j] > nums[i][j2])
+                        {
+                         res=max(res,nums[i][j]);
+                        }
+                        else
+                         res=max(res,nums[i][j2]);
+                   }
+                   else if(E[nums[i][j]])
+                   {
+                     res=max(res,nums[i][j]);
+                   }
+                   else if(E[nums[i][j2]])
+                   {
+                     res=max(res,nums[i][j2]);
+                   }
+
+
+               
+
+                j++;
+                j2--;
+                i++;
+             }
+
+             return res;
+
+              
+              
+         
+    }
+};
