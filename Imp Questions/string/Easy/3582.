@@ -1,0 +1,73 @@
+class Solution {
+public:
+
+
+// Question was about mostly like learning about unexpected exceptions.
+// simulation problem.
+
+
+    string generateTag(string caption) {
+        // simple 3 steps to do, u can read it from the question let's start our
+        // approach 1- add '#' at the start.
+        // 2- remove all char that are not english letters
+
+        // 3- tuncation
+        // 4- after '#' first letter lower case rest after each word 'capital'
+
+        //----------------------------
+
+          // 1- add '#' at the start.
+        string new_Cap = "#";
+        int i = 0;
+        string temp = "";
+        int size = caption.length();
+        // truncating the space which are implemented at the start.
+        while (i < size && caption[i] == ' ')
+            i++;
+
+        while (i < size) {
+            temp += caption[i];
+            i++;
+        }
+
+        // space removed
+        caption = temp;
+
+        size = caption.length();
+        // if in string all was space then their would be no caption. so size is
+        // 0.
+        if (size > 0)
+            new_Cap += tolower(caption[0]);
+
+        // lowering all the letters
+        for (int i = 0; i < size; i++) {
+            if (isalpha(caption[i]))
+                caption[i] = tolower(caption[i]);
+        }
+
+
+  // These steps are now performed in the code below:
+        // 2- remove all char that are not english letters
+        // 3- tuncation if length exceeds 100  (note: truncation here is from the end.)
+        // 4- after '#' first letter lower case rest after each word 'capital'
+        for (int it = 1; it < size; it++) {
+
+            if (new_Cap.size() < 100) {
+
+                if (isalpha(caption[it])) {
+                    new_Cap += caption[it];
+                }
+                if (caption[it] == ' ') {
+
+                    while (caption[it] == ' ' && it < size)
+                        it++;
+
+                    if (it < size)
+                        new_Cap += toupper(caption[it]);
+                }
+            } else
+                break;
+        }
+        return new_Cap;
+    }
+};
