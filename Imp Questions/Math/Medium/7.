@@ -1,0 +1,77 @@
+class Solution {
+public:
+    int reverse(int input) {
+         
+  
+     // 123
+     // 123%10
+
+
+     // res = 0 * 10 + 3
+     // res=3
+
+     // 12
+
+     // 12 % 10
+     // res = 3 * 10 + 2
+     // res = 32
+
+     // 1%10
+     // res = 321
+
+     
+     //  -321
+     //  same logic just multiply by -1
+
+
+ 
+     int max=INT32_MAX-1;
+    
+    bool flagMinus=false;
+
+    // INT32_MAX -> 2,147,483,647
+    // INT32_MIN -> -2,147,483,648
+    // Note: Constraints  -> -2^31 <= x <= 2^31 - 1
+
+   if(input < 0)
+   {
+    if(input + INT32_MAX == -1){ // yahn pr ya ho agr input ya hoti "-2,147,483,648" to postive mn to overflow ho gata
+        // kuin ka +ive range is 2,147,483,647 to yahn pr check kr lia, agr input minus mn ha or usko INT32_MAX ka sth sum ka bd -1 ata means uss ka reverse bhi out of range gai ga.  so return 0.
+        return 0;
+   }
+    input*=-1;
+    flagMinus= true;
+   }
+       
+
+       if(input >= max)
+         return 0;
+
+   int res=0;
+  int temp=0;
+    while(input !=0 )
+    {
+         temp= input % 10;
+
+        
+if(res >= 214748365) // 1463847412, logic was INT32_MAX % 10 is eq to 214748365.
+            {
+            
+                res=0;
+               break;
+            }
+        res= (res * 10);
+         
+        res += temp;
+        input = input/10;
+    }
+
+    if ( flagMinus == true){
+            res*=-1;
+
+    }
+
+    return res !=0 ? res: 0;
+}
+};
+
