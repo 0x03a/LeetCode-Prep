@@ -1,0 +1,172 @@
+class Solution {
+public:
+    //    // My Approach, TC -> O(m*n*9), SC -> O(m*n)
+    //   int filterValues(int & index1, int & index2, vector<vector<int>> &
+    //   img,int & m, int &n)
+    //   {
+    //      int averageValue;
+
+    //      int sum=0;
+    //      int count=0;
+    //      // Filter conditions
+
+    // /// ------------------------------------
+    //      if(index1 - 1 >= 0) // going up
+    //       {
+    //         sum+=img[index1-1][index2];
+
+    //         count++;
+    //       }
+    //       if(index1 + 1 < m  )  // going down
+    //       {
+    //         sum+=img[index1+1][index2];
+
+    //         count++;
+    //       }
+
+    //        if(index2 - 1 >= 0  )  // going left
+    //       {
+    //         sum+=img[index1][index2-1];
+
+    //         count++;
+    //       }
+
+    //       if(index2 + 1 < n  )  // going right
+    //       {
+    //         sum+=img[index1][index2+1];
+
+    //         count++;
+    //       }
+
+    //         if(index1 - 1 >= 0 && index2 + 1 < n  )  // going upper right
+    //       {
+    //         sum+=img[index1-1][index2+1];
+
+    //         count++;
+    //       }
+
+    //   if(index1 - 1 >= 0 && index2 - 1 >= 0  )  // going upper left
+    //       {
+    //         sum+=img[index1-1][index2-1];
+
+    //         count++;
+    //       }
+
+    //           if(index1 + 1 < m && index2 + 1 < n  )  // going down right
+    //       {
+    //         sum+=img[index1+1][index2+1];
+
+    //         count++;
+    //       }
+
+    //            if(index1 + 1 < m && index2 - 1 >= 0  )  // going down left
+    //       {
+    //         sum+=img[index1+1][index2-1];
+
+    //         count++;
+    //       }
+    // /// --------------------------------------
+
+    //     sum+= img[index1][index2];
+
+    //     count++;
+
+    //     averageValue= floor(sum/count);
+
+    //     return averageValue;
+    //   }
+    //     vector<vector<int>> imageSmoother(vector<vector<int>>& img) {
+    // // vector<vector<int>> matrix(rows, vector<int>(cols, default_value));
+
+    //          int m=img.size();
+    //          int n=img[0].size();
+    //          vector<vector<int>> res(m, vector<int>(n,0));
+
+    //          for(int i=0; i< m;i++)
+    //          {
+    //             for(int j=0; j< n;j++)
+    //             {
+    //                 res[i][j]=filterValues(i,j,img,m,n);
+    //             }
+    //          }
+
+    //          return res;
+
+    //     }
+
+    // sir mik approach and code. (optimizing space) , TC -> O(m*n*9), SC -> O(n)
+    vector<vector<int>> imageSmoother(vector<vector<int>>& img) {
+        int m = img.size();
+        int n = img[0].size();
+
+        vector<int> temp(n, 0);
+        int prevCorner = 0;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int sum = 0;
+                int count = 0;
+
+                // Bottom corners (i+1)th row, (future row)
+                if (i + 1 < m) {
+                    if (j - 1 >= 0) // bottom left
+                    {
+                        sum += img[i + 1][j - 1];
+                        count++;
+                    }
+                    // bottom
+                    sum += img[i + 1][j];
+                    count++;
+                    // bottom right
+                    if (j + 1 < n) {
+                        sum += img[i + 1][j + 1];
+                        count++;
+                    }
+                }
+
+                // just right neighbor
+                if (j + 1 < n) {
+                    sum += img[i][j + 1];
+                    count++;
+                }
+
+                if (j - 1 >= 0) // left
+                {
+                    sum += temp[j - 1];
+                     count++;
+                }
+
+                // current cell
+                sum += img[i][j];
+                count++;
+
+                // now the  main process cames, upper left, right, upper.
+                if (i - 1 >= 0) {
+                    if (j - 1 >= 0) // top left corner
+                    {
+                        sum += prevCorner;
+                        count++;
+                    }
+
+                    if (j + 1 < n) // top right corner
+                    {
+                        sum += temp[j + 1];
+                        count++;
+                    }
+                    // top
+                    sum += temp[j];
+                    count++;
+                }
+                   // store prev value of temp
+                if (i - 1 >= 0) {
+                    prevCorner = temp[j];
+                }
+                temp[j] = img[i][j];
+               
+               img[i][j]=sum/count;
+            }
+        
+        }
+        return img;
+    }
+};
