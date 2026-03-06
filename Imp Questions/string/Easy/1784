@@ -1,0 +1,48 @@
+class Solution {
+public:
+//     bool checkOnesSegment(string s) {
+        
+// // goal -> if s contains at "most one" contiguous segment of ones. return true.
+
+//   // 1001 -> no continous segment , return false.
+//   // also what i understand is if like a break comes then again continous one comes then also return false. 
+//   // it should be like this 1000, 1100, 1110, 10,1 like only one continous block of 1's
+//    // 1 until 1, then 0, if then 1 comes return false.
+
+//    int length = s.length();
+//     bool flag1=false;
+  
+
+//     bool flag2=false;
+//     for(size_t i=0; i<length; i++ )  // TC -> O(n), SC -> O(1).
+//     {
+//         if(s[i] == '1' )
+//         {
+          
+        
+//           if(flag2 == true)
+//              return false;
+            
+//             flag1=true;
+            
+//         }
+//         else if(s[i] == '0')
+//           {
+//             if(flag1 == true)
+//                {
+//                 flag2=true;
+//                }
+        
+//           }
+//     }
+ 
+
+//     return true;
+
+//     }
+
+// sir mik
+ bool checkOnesSegment(string s) {
+   return s.find("01") == string::npos;
+ }
+};
