@@ -1,0 +1,139 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+// O(n) + O(left-right), but travsere 2 times
+    // ListNode* reverseBetween(ListNode* head, int left, int right) {
+
+    //     if(left== right)
+    //        return head;
+
+    //        ListNode * curr=head;
+
+    //        int count=0;
+    //        stack<ListNode*> s;
+    //         ListNode * nodesBeforeLeft=nullptr;
+    //        while(curr){
+    //            count++;
+    //            if(count < left)
+    //              {
+    //                 nodesBeforeLeft=curr;
+    //                 curr=curr->next;
+    //                 continue;
+    //              }
+    //              else if(count <= right)
+    //              {
+    //                 s.push(curr);
+    //                   curr=curr->next;
+
+    //              }
+    //              else
+    //                  curr=curr->next;
+
+    // }
+    // // revserse process
+    // ListNode * nodesAfterRight=nullptr;
+    // int track=0;
+    // ListNode * temp1=nullptr;
+    // ListNode * temp= nullptr; // if there are no nodes before left
+    // while(!s.empty())
+    // {
+    //     if(track == 0)
+    //      {
+
+    //         temp1=s.top();
+    //         s.pop();
+            
+    //         if(  nodesBeforeLeft != nullptr)
+    //         nodesBeforeLeft->next=temp1;
+    //         else
+    //            temp=temp1;
+          
+    //         nodesAfterRight=temp1->next;
+
+    //         temp1 -> next=nullptr;
+
+    //      }
+    //      else
+    //      {
+            
+    //           ListNode * temp2=s.top();
+    //           s.pop();
+    //           temp1->next=temp2;
+    //           temp2->next=nullptr;
+    //           temp1=temp1->next;
+              
+    //      }
+    //      track++;
+    // }
+
+    //   temp1 -> next=  nodesAfterRight;
+    
+    //     return nodesBeforeLeft == nullptr? temp: head;
+    // }
+
+
+// O(n), travsere 1 times
+        ListNode* reverseBetween(ListNode* head, int left, int right) {
+
+        if(left== right)
+           return head;
+
+           ListNode * curr=head;
+           ListNode * prev=nullptr;
+           ListNode * next=nullptr;
+           ListNode * nodebLeft=nullptr;
+           ListNode *   prevLastNode=nullptr;
+           ListNode * curr1= head;
+           int cnt=0;
+
+           while(curr)
+           {
+            cnt++;
+            if(cnt < left){
+                 nodebLeft=curr;
+                curr=curr->next;
+                continue;
+            }
+            else if(cnt <= right)
+            {
+                  prevLastNode=curr;
+                while(curr && cnt <= right)
+                {
+                  
+                    next=curr->next;
+                    curr->next=prev;
+                    prev=curr;
+                    curr=next;
+
+                    cnt++;
+                }
+               
+            }
+            if(cnt > right)  // for scenarios like 1-2-3-4-5, where l=2, r=4
+               break; 
+           }     
+           // add before nodes if there are
+           if(nodebLeft != nullptr){
+           nodebLeft->next=prev;
+
+           }
+           else
+              {
+                  prevLastNode->next=curr; // addint nodes after right
+                return prev;
+              }
+            
+        prevLastNode->next=curr; // addint nodes after right
+    
+        return curr1;
+    }
+};
