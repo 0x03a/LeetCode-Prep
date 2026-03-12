@@ -1,0 +1,195 @@
+class Solution {
+public:
+
+// TC -> O(m*n), SC -> O(m*n)
+    // vector<vector<int>> BFS(vector<vector<int>>& image, int& sr, int& sc,
+    //                         int& color, int& m, int& n) {
+
+    //     // vector<vector<int>> dir={{0,1},{0,-1},{1,0},{-1,0}};
+    //     queue<pair<int, int>> q;
+    //     set<pair<int, int>> record;
+    //     int stPix = image[sr][sc];
+    //     if (color == stPix) // if start pix is already as color.
+    //         return image;
+
+    //     q.push({sr, sc});
+    //     record.insert({sr, sc});
+
+    //     while (!q.empty()) {
+    //         pair<int, int> tem = q.front();
+    //         image[tem.first][tem.second] = color;
+
+    //         q.pop();
+
+    //         if (tem.second + 1 < n) {
+    //             if (record.find({tem.first, tem.second + 1}) == record.end())
+    //             {
+    //                 if(stPix == image[tem.first][tem.second + 1]){
+    //                 q.push({tem.first, tem.second + 1});
+    //                 record.insert({tem.first, tem.second+1});
+    //                 }
+    //             }
+    //         }
+    //         if (tem.second - 1 >= 0) {
+    //             if (record.find({tem.first, tem.second - 1}) == record.end())
+    //             {
+    //                  if(stPix == image[tem.first][tem.second -1]){
+    //                 q.push({tem.first, tem.second - 1});
+    //                 record.insert({tem.first, tem.second-1});
+    //                  }
+    //             }
+    //         }
+
+    //         if (tem.first + 1 < m) {
+    //             if (record.find({tem.first + 1, tem.second}) == record.end())
+    //             {
+    //                  if(stPix == image[tem.first+1][tem.second ]){
+    //                 q.push({tem.first + 1, tem.second });
+    //                 record.insert({tem.first+1, tem.second});
+    //                  }
+    //             }
+    //         }
+
+    //         if (tem.first - 1 >= 0) {
+    //             if (record.find({tem.first - 1, tem.second}) == record.end())
+    //             {
+    //                  if(stPix == image[tem.first-1][tem.second ]){
+    //                 q.push({tem.first - 1, tem.second});
+    //                 record.insert({tem.first-1, tem.second});
+    //                  }
+    //             }
+    //         }
+    //     }
+
+    //     return image;
+    // }
+
+
+
+    // TC -> O(m*n), SC O(1)
+    // vector<vector<int>> BFS(vector<vector<int>>& image, int& sr, int& sc,
+    //                         int& color, int& m, int& n) {
+
+    //     // vector<vector<int>> dir={{0,1},{0,-1},{1,0},{-1,0}};
+    //     queue<pair<int, int>> q;
+    //     // set<pair<int, int>> record; no use of it, bcz we have to change color from startpixel to color, so we will be adding in queue those color , whose color is equal to start pix
+    //     // so when new color is applied, it will not match with stpix, so automatically it will not be added into the queue.
+    //     int stPix = image[sr][sc];
+    //     if (color == stPix) // if start pix is already as color.
+    //         return image;
+
+    //     q.push({sr, sc});
+     
+
+    //     while (!q.empty()) {
+    //         pair<int, int> tem = q.front();
+    //         image[tem.first][tem.second] = color;
+
+    //         q.pop();
+
+           
+
+    //         if (tem.second + 1 < n) {
+            
+    //                 if(stPix == image[tem.first][tem.second + 1]){
+    //                 q.push({tem.first, tem.second + 1});
+                  
+    //                 }
+                
+    //         }
+    //         if (tem.second - 1 >= 0) {
+             
+    //                  if(stPix == image[tem.first][tem.second -1]){
+    //                 q.push({tem.first, tem.second - 1});
+                   
+    //                  }
+                
+    //         }
+
+    //         if (tem.first + 1 < m) {
+               
+    //                  if(stPix == image[tem.first+1][tem.second ]){
+    //                 q.push({tem.first + 1, tem.second });
+                   
+    //                  }
+                
+    //         }
+
+    //         if (tem.first - 1 >= 0) {
+               
+    //                  if(stPix == image[tem.first-1][tem.second ]){
+    //                 q.push({tem.first - 1, tem.second});
+                   
+    //                  }
+                
+    //         }
+
+    //     }
+
+    //     return image;
+    // }
+
+
+
+
+// clean code.TC -> O(m*n), SC O(1)
+   vector<vector<int>> BFS(vector<vector<int>>& image, int& sr, int& sc,
+                            int& color, int& m, int& n) {
+
+        vector<vector<int>> dir={{0,1},{0,-1},{1,0},{-1,0}};
+        queue<pair<int, int>> q;
+        int stPix = image[sr][sc];
+        if (color == stPix) // if start pix is already as color.
+            return image;
+
+        q.push({sr, sc});
+     
+
+        while (!q.empty()) {
+            pair<int, int> tem = q.front();
+            image[tem.first][tem.second] = color;
+
+            q.pop();
+
+
+            for (auto dirr: dir)
+            {
+                int new_r=dirr[0];
+                int new_c=dirr[1];
+                   
+                new_r+=tem.first;
+                new_c+=tem.second;
+
+            
+                if(new_r >= 0 && new_r < m && new_c >=0 && new_c < n)
+                {
+                       if(stPix == image[new_r][new_c ]){
+                     q.push({new_r , new_c});
+                    
+                     }
+                }
+            }
+           
+
+            
+
+        }
+
+        return image;
+    }
+
+
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc,
+                                  int color) {
+        // 1- Only pixels with the same color as the starting pixel are changed.
+        // 2- Perform the same process for each pixel that is directly adjacent
+        // (pixels that share a side with the original pixel, either
+        // horizontally or vertically)
+
+        int m = image.size();
+        int n = image[0].size();
+
+        return BFS(image, sr, sc, color, m, n);
+    }
+};
