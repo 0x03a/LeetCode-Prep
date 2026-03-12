@@ -17,8 +17,7 @@ This repository is my personal journey to stay consistent with LeetCode. If you'
  Focus on making a road map and practice every DSA topic after atleast 15-20 Days. 
  Build a strong foundation for coding interviews  
 
- Work on full-stack projects alongside.
- Also You will see how difficult is to be consistent.
+
 ---
 
 
