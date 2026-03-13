@@ -1,0 +1,64 @@
+class Solution {
+public:
+
+/// 2 10
+//  100,4
+// 1000,8
+// 100000,16
+// for 32 bit also 1
+// 64 bit
+// 
+
+///     time limit exceeded on this recursion
+    // int check(int  n){
+    //     if(n ==  1)
+    //      return 1;
+
+    //     int ret=0;    
+    //              if(n%2==0)
+    //                 {
+    //                    ret= check(n/2);
+    //                 }
+
+    //      return ret;
+    // }
+    // bool isPowerOfTwo(int n) {
+    //     if(check(n) == 1)
+    //       return 1;
+
+    //       return 0;
+        
+    // }
+
+    // credit goes to: "https://algo.monster/liteproblems/231"
+       bool isPowerOfTwo(int n) {
+      
+           if(n <= 0)
+           return 0;   
+        
+        return (n & (n-1)) == 0 ? 1: 0;
+                
+       }
+
+//        Let's think about what makes a number a power of two in binary representation. Powers of two have a unique pattern:
+
+// 1 = 2^0 = 0001
+// 2 = 2^1 = 0010
+// 4 = 2^2 = 0100
+// 8 = 2^3 = 1000
+// 16 = 2^4 = 10000
+// Notice that each power of two has exactly one bit set to 1, and all other bits are 0. This is the key insight.
+
+// Now, what happens when we subtract 1 from a power of two? Let's see:
+
+// 8 = 1000, and 8 - 1 = 7 = 0111
+// 16 = 10000, and 16 - 1 = 15 = 01111
+// 4 = 0100, and 4 - 1 = 3 = 0011
+// When we subtract 1 from a power of two, all the bits after the single 1 bit get flipped to 1, and the original 1 bit becomes 0.
+
+// So when we perform the bitwise AND operation n & (n-1):
+
+// For 8: 1000 & 0111 = 0000
+// For 16: 10000 & 01111 = 00000
+// For 4: 0100 & 0011 = 0000
+};
